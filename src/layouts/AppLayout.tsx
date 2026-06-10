@@ -64,10 +64,20 @@ export default function AppLayout() {
           </div>
           
           <div className="space-y-1">
-            <button className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-on-surface-variant hover:bg-surface-container w-full transition-colors">
+            <NavLink 
+              to="/settings"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium transition-colors w-full",
+                  isActive
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                )
+              }
+            >
               <Settings size={20} />
               Settings
-            </button>
+            </NavLink>
             <button className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-on-surface-variant hover:bg-surface-container w-full transition-colors">
               <HelpCircle size={20} />
               Support
