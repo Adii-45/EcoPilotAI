@@ -115,3 +115,16 @@
     @apply bg-surface/70 backdrop-blur-[20px];
   }
 }
+
+@keyframes orb-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.animate-orb-pulse {
+  animation: orb-pulse 3.5s ease-in-out infinite;
+}

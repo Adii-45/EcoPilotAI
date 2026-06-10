@@ -61,9 +61,21 @@ export default function DashboardPage() {
       <div className="bg-surface-container-highest rounded-[1.5rem] p-6 border border-surface-container-highest relative overflow-hidden">
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface/40 rounded-full blur-3xl"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center relative shadow-sm">
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-surface-container-lowest rounded-full border-2 border-surface-container-highest"></span>
+          <div className="flex items-center gap-4 mb-3">
+            <div className="relative w-12 h-12 group cursor-default">
+              {/* Outer Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#6FFBBE] via-[#4EDEA3] to-[#10B981] rounded-full blur-md opacity-40 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500"></div>
+              
+              {/* Orb Core */}
+              <div className="relative w-full h-full bg-gradient-to-br from-[#6FFBBE] via-[#4EDEA3] to-[#10B981] rounded-full shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2),0_2px_10px_rgba(16,185,129,0.4)] flex items-center justify-center animate-orb-pulse group-hover:scale-105 transition-transform duration-500">
+                {/* Inner highlight for 3D effect */}
+                <div className="absolute top-1.5 left-2 w-4 h-4 bg-white/60 rounded-full blur-[2px]"></div>
+              </div>
+
+              {/* Orbiting Particle Wrapper */}
+              <div className="absolute inset-[-6px] animate-[spin_6s_linear_infinite]">
+                <div className="absolute top-0 left-1/2 -ml-1 w-2 h-2 bg-on-surface rounded-full shadow-[0_0_5px_rgba(16,185,129,0.8)]"></div>
+              </div>
             </div>
             <h2 className="text-xl font-bold text-on-surface flex items-center gap-2">
               EcoPilot AI Insights <Badge className="bg-primary/20 text-primary uppercase text-[10px] tracking-wider">Live</Badge>
