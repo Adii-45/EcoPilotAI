@@ -1,17 +1,16 @@
-import { useState } from "react";
 import { CheckCircle2, Circle, Flame, Sparkles } from "lucide-react";
 import { ProgressRing } from "../components/ui/ProgressRing";
 import { Badge } from "../components/ui/Badge";
-import { mockWeeklyChallenges, mockActiveHabits } from "../data/mockData";
+import { mockWeeklyChallenges } from "../data/mockData";
 import { cn } from "../utils/cn";
+import { useStore } from "../store/store";
 
 export default function HabitTrackerPage() {
-  const [habits, setHabits] = useState(mockActiveHabits);
+  const habits = useStore((state) => state.habits);
+  const completeHabit = useStore((state) => state.completeHabit);
 
   const toggleHabit = (id: string) => {
-    setHabits(habits.map(h => 
-      h.id === id ? { ...h, completedToday: !h.completedToday } : h
-    ));
+    completeHabit(id);
   };
 
   const completedCount = habits.filter(h => h.completedToday).length;

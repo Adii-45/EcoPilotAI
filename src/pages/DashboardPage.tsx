@@ -4,17 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card"
 import { ProgressRing } from "../components/ui/ProgressRing";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
-import { mockUser, mockInsights, mockMission, mockDailyChallenges } from "../data/mockData";
+import { mockInsights, mockMission } from "../data/mockData";
 import { cn } from "../utils/cn";
+import { useStore } from "../store/store";
 
 export default function DashboardPage() {
-  const [challenges, setChallenges] = useState(mockDailyChallenges);
+  const user = useStore((state) => state.user);
+  const challenges = useStore((state) => state.dailyChallenges);
+  const completeHabit = useStore((state) => state.completeHabit);
+
   const totalEarned = challenges.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0);
 
   const toggleChallenge = (id: string) => {
-    setChallenges(challenges.map(c => 
-      c.id === id ? { ...c, completedToday: !c.completedToday } : c
-    ));
+    completeHabit(id);
   };
 
   return (
@@ -22,7 +24,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-display-lg font-bold text-on-surface tracking-tight">Good morning, {mockUser.name}!</h1>
+          <h1 className="text-display-lg font-bold text-on-surface tracking-tight">Good morning, {user.name}!</h1>
           <p className="text-body-lg text-on-surface-variant mt-2">Ready to make a positive impact today?</p>
         </div>
         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
@@ -65,8 +67,8 @@ export default function DashboardPage() {
             <CardTitle className="text-2xl font-bold text-center">Sustainability Score</CardTitle>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col items-center justify-center pt-4">
-            <ProgressRing progress={mockUser.sustainabilityScore} size={200} strokeWidth={16} className="mb-8">
-              <span className="text-5xl font-bold tracking-tighter text-on-surface">{mockUser.sustainabilityScore}</span>
+            <ProgressRing progress={user.sustainabilityScore} size={200} strokeWidth={16} className="mb-8">
+              <span className="text-5xl font-bold tracking-tighter text-on-surface">{user.sustainabilityScore}</span>
               <span className="text-on-surface-variant font-medium">/100</span>
             </ProgressRing>
             <div className="w-full bg-primary/10 text-primary p-4 rounded-xl flex items-center gap-3 font-medium">
@@ -83,7 +85,7 @@ export default function DashboardPage() {
               <span className="text-primary">⚑</span> Today's Eco Mission
             </CardTitle>
             <Badge className="bg-error/10 text-error gap-1 py-1">
-              {mockUser.streak} Day Streak!
+              {user.streak} Day Streak!
             </Badge>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col justify-center">

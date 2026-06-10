@@ -1,14 +1,18 @@
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
-export type Category = 'Energy' | 'Water' | 'Transport' | 'Food' | 'Waste';
+export type Category = 'Energy' | 'Water' | 'Transport' | 'Food' | 'Waste' | 'Lifestyle';
 
 export interface User {
   id: string;
   name: string;
+  email?: string;
   level: number;
   xp: number;
   nextLevelXp: number;
   streak: number;
   sustainabilityScore: number;
+  totalCarbonSaved: number;
+  totalActions: number;
+  achievementsEarned: number;
 }
 
 export interface Habit {
@@ -53,4 +57,23 @@ export interface AIChatMessage {
   role: 'user' | 'assistant';
   content: string;
   recommendations?: Habit[];
+}
+
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  xpReward: number;
+  category: Category;
+  unlocked: boolean;
+  progress: number;
+  total: number;
+  icon?: string;
+}
+
+export interface SimulationState {
+  carUsage: number; // miles/wk
+  meatConsumption: number; // days/wk
+  energyEfficiency: number; // 0 (Low) to 100 (High)
+  shoppingFrequency: number; // 0 (Minimal) to 100 (Frequent)
 }
