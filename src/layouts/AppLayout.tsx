@@ -8,7 +8,6 @@ import {
   Trophy, 
   Activity,
   Settings,
-  HelpCircle,
   Leaf,
   LogOut,
   Bell,
@@ -100,10 +99,7 @@ export default function AppLayout() {
               <Settings size={20} />
               Settings
             </NavLink>
-            <button className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-on-surface-variant hover:bg-surface-container w-full transition-colors">
-              <HelpCircle size={20} />
-              Support
-            </button>
+
             <button 
               onClick={logout}
               className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-red-600 hover:bg-red-50 hover:text-red-700 w-full transition-colors"
