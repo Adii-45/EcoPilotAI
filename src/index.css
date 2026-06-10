@@ -112,7 +112,8 @@
 
 @layer utilities {
   .glass-overlay {
-    @apply bg-surface/70 backdrop-blur-[20px];
+    background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+    @apply backdrop-blur-[20px];
   }
 }
 
