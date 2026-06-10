@@ -1,44 +1,106 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { Car, Utensils, Zap, ShoppingBag, RotateCcw, TreePine, Leaf, Coins } from 'lucide-react';
+import { 
+  Car, Utensils, Zap, ShoppingBag, RotateCcw, TreePine, 
+  Leaf, Coins, ArrowRight, Sparkles, Home, ShieldAlert,
+  Activity
+} from 'lucide-react';
 import { calculateCarbonImpact } from '../services/engine';
+import type { SimulationState } from '../types';
+
+const SCENARIOS: Record<string, SimulationState> = {
+  '🌱 Eco Beginner': { carUsage: 150, meatConsumption: 4, energyEfficiency: 50, shoppingFrequency: 50 },
+  '🚲 Car-Free': { carUsage: 0, meatConsumption: 3, energyEfficiency: 60, shoppingFrequency: 40 },
+  '🌍 Champion': { carUsage: 20, meatConsumption: 1, energyEfficiency: 90, shoppingFrequency: 20 },
+  '🏠 Remote Worker': { carUsage: 40, meatConsumption: 5, energyEfficiency: 70, shoppingFrequency: 80 }
+};
 
 export default function SimulatorPage() {
   const simulation = useStore((state) => state.simulation);
   const updateSimulation = useStore((state) => state.updateSimulation);
   
   // Local state for smooth slider interaction without constant store updates
-  const [localSim, setLocalSim] = useState(simulation);
+  const [localSim, setLocalSim] = useState<SimulationState | null>(null);
   
   useEffect(() => {
-    setLocalSim(simulation);
+    if (simulation) {
+      setLocalSim(simulation);
+    }
   }, [simulation]);
 
+  const { annualEmissions, carbonReduction, moneySaved, treesEquivalent } = useMemo(() => {
+    if (!localSim) return { annualEmissions: 0, carbonReduction: 0, moneySaved: 0, treesEquivalent: 0 };
+    return calculateCarbonImpact(localSim);
+  }, [localSim]);
+
   const handleRecalculate = () => {
-    updateSimulation(localSim);
+    if (localSim) {
+      updateSimulation(localSim);
+    }
   };
 
-  const { annualEmissions: futureEmissions, carbonReduction: totalReduction, moneySaved, treesEquivalent } = calculateCarbonImpact(localSim);
-  const baseEmissions = futureEmissions + totalReduction;
+  const applyScenario = (scenarioKey: string) => {
+    setLocalSim(SCENARIOS[scenarioKey]);
+  };
 
-  return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
-      <div>
-        <h1 className="text-3xl font-bold text-on-surface mb-2">Future Impact Simulator: Visualize Your Future</h1>
-        <p className="text-on-surface-variant max-w-2xl">
-          Adjust the parameters below to see how small lifestyle changes compound over time to reduce your carbon footprint.
+  if (!simulation || !localSim) {
+    return (
+      <div className="max-w-5xl mx-auto flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-500">
+        <div className="bg-surface-container p-6 rounded-full mb-6">
+          <ShieldAlert size={48} className="text-on-surface-variant" />
+        </div>
+        <h2 className="text-2xl font-bold text-on-surface mb-2">Simulation Data Unavailable</h2>
+        <p className="text-on-surface-variant max-w-md">
+          Please set up your initial profile or complete the onboarding to use the future impact simulator.
         </p>
       </div>
+    );
+  }
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  const baseEmissions = annualEmissions + carbonReduction;
+  const reductionPercentage = baseEmissions > 0 ? Math.round((carbonReduction / baseEmissions) * 100) : 0;
+  
+  // Dynamically calculated equivalents based on engine.ts logic
+  // 0.4 kg CO2 per mile -> miles = reduction / 0.4
+  const milesAvoided = Math.floor(carbonReduction / 0.4);
+  // ~10 kg CO2 per day of worst-case home energy -> days = reduction / 10
+  const homeEnergyDays = Math.floor(carbonReduction / 10);
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
+      {/* Header & Scenarios */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-3xl font-bold text-on-surface mb-2">Future Impact Simulator</h1>
+          <p className="text-on-surface-variant max-w-xl">
+            Forecast your environmental impact. Adjust your lifestyle parameters or try a quick scenario to see your potential reduction.
+          </p>
+        </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider block">Quick Scenarios</span>
+          <div className="flex flex-wrap gap-2">
+            {Object.keys(SCENARIOS).map((key) => (
+              <button
+                key={key}
+                onClick={() => applyScenario(key)}
+                className="px-4 py-2 bg-surface hover:bg-surface-container border border-outline-variant hover:border-primary/50 text-sm font-medium text-on-surface rounded-full transition-all duration-300"
+              >
+                {key}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Lifestyle Variables Form */}
-        <Card className="p-6 row-span-2 flex flex-col h-full border-2 border-outline-variant/50 shadow-sm">
+        {/* Left Column: Controls */}
+        <Card className="p-6 flex flex-col h-full border-2 border-outline-variant/50 shadow-sm lg:col-span-1">
           <div className="flex items-center gap-3 mb-8">
-            <div className="bg-surface-container p-2 rounded-lg text-on-surface">
-              <Zap size={20} />
+            <div className="bg-primary/10 text-primary p-2 rounded-lg">
+              <Activity size={20} />
             </div>
             <h2 className="text-xl font-bold text-on-surface">Lifestyle Variables</h2>
           </div>
@@ -141,9 +203,9 @@ export default function SimulatorPage() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 mt-8">
+          <div className="flex flex-col gap-3 mt-10">
             <Button 
-              className="w-full" 
+              className="w-full py-6" 
               variant="outline"
               onClick={handleRecalculate}
               disabled={localSim === simulation}
@@ -151,109 +213,124 @@ export default function SimulatorPage() {
               Save Simulation
             </Button>
             <Button 
-              className="w-full" 
+              className="w-full py-6 font-bold" 
               onClick={async () => {
                 await handleRecalculate();
                 await useStore.getState().applySimulation();
                 alert("Scenario Applied! Your dashboard and profile have been updated.");
               }}
             >
-              Apply Changes
+              Apply to Profile
             </Button>
           </div>
         </Card>
 
-        {/* Current & Future Results */}
-        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <Card className="p-8 relative overflow-hidden flex flex-col justify-center">
-            <RotateCcw className="absolute -right-4 -top-4 text-surface-container w-48 h-48 opacity-50" />
+        {/* Right Column: Visualization & Impact */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Comparison Experience */}
+          <Card className="p-8 bg-surface-container/30 border-none relative overflow-hidden">
+            {/* Background Bug Fix: Constrained size, z-index 0, pointer-events-none, low opacity */}
+            <Leaf className="absolute -right-8 -top-8 text-primary w-64 h-64 opacity-5 pointer-events-none z-0 object-contain" />
+            
             <div className="relative z-10">
-              <div className="flex items-center gap-2 text-on-surface-variant font-medium mb-6">
-                <div className="border border-outline p-1.5 rounded-full"><RotateCcw size={16} /></div>
-                Current Lifestyle
-              </div>
-              <p className="text-xs font-bold tracking-wider text-on-surface-variant uppercase mb-2">Annual Emissions</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-black text-on-surface tracking-tighter">{baseEmissions.toLocaleString()}</span>
-                <span className="text-lg font-medium text-on-surface-variant">kg CO₂</span>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-8 bg-primary-container/40 border-primary/20 relative overflow-hidden flex flex-col justify-center">
-            <Leaf className="absolute -right-4 -top-4 text-primary/10 w-48 h-48" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 text-primary font-bold mb-6">
-                <div className="bg-primary/20 p-1.5 rounded-full"><Leaf size={16} /></div>
-                Future Lifestyle
-              </div>
-              <p className="text-xs font-bold tracking-wider text-primary uppercase mb-2">Annual Emissions</p>
-              <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-black text-primary tracking-tighter transition-all duration-500">{futureEmissions.toLocaleString()}</span>
-                <span className="text-lg font-medium text-primary/70">kg CO₂</span>
-              </div>
+              <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-6">Emissions Comparison</h3>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-[10px] font-bold tracking-wider text-primary/70 uppercase mb-1">Potential Reduction</p>
-                  <p className="text-xl font-bold text-primary">{totalReduction.toLocaleString()} <span className="text-xs">kg CO₂</span></p>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                {/* Current State */}
+                <div className="flex-1 w-full bg-surface p-6 rounded-2xl border border-outline-variant text-center shadow-sm">
+                  <div className="text-on-surface-variant font-medium mb-3 flex items-center justify-center gap-2">
+                    <RotateCcw size={18} /> Current State
+                  </div>
+                  <div className="text-4xl font-bold text-on-surface transition-all duration-500">
+                    {baseEmissions.toLocaleString()}<span className="text-base text-on-surface-variant font-normal ml-1">kg CO₂</span>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] font-bold tracking-wider text-primary/70 uppercase mb-1">Money Saved</p>
-                  <p className="text-xl font-bold text-primary">${moneySaved} <span className="text-xs">/yr</span></p>
+
+                {/* Arrow / Reduction */}
+                <div className="flex flex-col items-center">
+                  <div className="bg-primary/20 text-primary p-4 rounded-full mb-2 shadow-sm">
+                    <ArrowRight size={28} className="rotate-90 md:rotate-0" />
+                  </div>
+                  <span className="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                    -{reductionPercentage}%
+                  </span>
                 </div>
-                <div className="col-span-2 pt-2 mt-2 border-t border-primary/20">
-                  <p className="text-[10px] font-bold tracking-wider text-primary/70 uppercase mb-1">Trees Equivalent</p>
-                  <div className="flex items-center gap-2 text-primary font-bold">
-                    <TreePine size={18} />
-                    {treesEquivalent} trees
+
+                {/* Future State */}
+                <div className="flex-1 w-full bg-primary/10 p-6 rounded-2xl border border-primary/20 text-center shadow-sm relative overflow-hidden group hover:border-primary/40 transition-colors">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+                  <div className="text-primary font-bold mb-3 flex items-center justify-center gap-2">
+                    <Sparkles size={18} /> Future State
+                  </div>
+                  <div className="text-4xl font-black text-primary transition-all duration-500">
+                    {annualEmissions.toLocaleString()}<span className="text-base text-primary/70 font-normal ml-1">kg CO₂</span>
                   </div>
                 </div>
               </div>
             </div>
           </Card>
-        </div>
 
-        {/* Aggregated Impact */}
-        <Card className="lg:col-span-2 p-8 h-full flex flex-col justify-center border-none shadow-md">
-          <h3 className="text-xl font-bold text-on-surface mb-2">If you continue these habits for one year...</h3>
-          <p className="text-on-surface-variant mb-8">Your cumulative positive impact on the environment</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-surface p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-outline-variant">
-              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
+          {/* Impact Highlights Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <Card className="p-6 flex flex-col items-center justify-center text-center shadow-sm group hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
                 <Leaf size={28} />
               </div>
-              <div className="text-4xl font-black text-on-surface mb-1">{(totalReduction / 1000).toFixed(1)}t</div>
-              <p className="text-sm font-medium text-on-surface-variant">CO₂ Prevented</p>
-              <div className="w-full bg-surface-container h-1.5 rounded-full mt-6 overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: `${Math.min(100, (totalReduction/2000)*100)}%` }}></div>
+              <div className="text-3xl font-black text-on-surface mb-1 transition-all duration-500">
+                {(carbonReduction / 1000).toFixed(1)}t
               </div>
-            </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">CO₂ Prevented</p>
+            </Card>
             
-            <div className="bg-surface p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-outline-variant">
-              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
+            <Card className="p-6 flex flex-col items-center justify-center text-center shadow-sm group hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
                 <TreePine size={28} />
               </div>
-              <div className="text-4xl font-black text-on-surface mb-1">{treesEquivalent}</div>
-              <p className="text-sm font-medium text-on-surface-variant">Trees Grown</p>
-              <div className="w-full bg-surface-container h-1.5 rounded-full mt-6 overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: `${Math.min(100, (treesEquivalent/100)*100)}%` }}></div>
+              <div className="text-3xl font-black text-on-surface mb-1 transition-all duration-500">
+                {treesEquivalent}
               </div>
-            </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Trees Grown</p>
+            </Card>
 
-            <div className="bg-surface p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-outline-variant">
-              <div className="bg-secondary/10 text-secondary p-4 rounded-full mb-4">
+            <Card className="p-6 flex flex-col items-center justify-center text-center shadow-sm group hover:shadow-md transition-shadow border border-secondary/20 bg-secondary/5">
+              <div className="bg-secondary/10 text-secondary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
                 <Coins size={28} />
               </div>
-              <div className="text-4xl font-black text-secondary mb-1">${moneySaved}</div>
-              <p className="text-sm font-medium text-on-surface-variant">Money Saved</p>
-              <div className="w-full bg-surface-container h-1.5 rounded-full mt-6 overflow-hidden">
-                <div className="bg-secondary h-full rounded-full" style={{ width: `${Math.min(100, (moneySaved/1000)*100)}%` }}></div>
+              <div className="text-3xl font-black text-secondary mb-1 transition-all duration-500">
+                ${moneySaved}
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-secondary/70">Money Saved</p>
+            </Card>
+          </div>
+
+          {/* Equivalents Section */}
+          <Card className="p-6 bg-surface-container/20 border-none shadow-sm">
+            <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-5">Real World Equivalents</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center gap-5 bg-surface p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-primary/30 transition-colors">
+                <div className="bg-primary/20 text-primary p-4 rounded-2xl"><Car size={28} /></div>
+                <div>
+                  <div className="text-3xl font-black text-on-surface transition-all duration-500">
+                    {milesAvoided.toLocaleString()}
+                  </div>
+                  <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mt-1">Miles Avoided</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-5 bg-surface p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-secondary/30 transition-colors">
+                <div className="bg-secondary/20 text-secondary p-4 rounded-2xl"><Home size={28} /></div>
+                <div>
+                  <div className="text-3xl font-black text-on-surface transition-all duration-500">
+                    {homeEnergyDays.toLocaleString()}
+                  </div>
+                  <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mt-1">Days Home Energy</div>
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+
+        </div>
       </div>
     </div>
   );
