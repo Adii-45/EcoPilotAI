@@ -1,73 +1,202 @@
-# React + TypeScript + Vite
+# 🌍 EcoPilot AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **AI-Powered Sustainability Coach**
 
-Currently, two official plugins are available:
+EcoPilot AI helps users build sustainable habits through habit tracking, AI-powered coaching, eco missions, achievements, reports, simulations, streaks, and personalized sustainability insights. The project combines gamification and AI to encourage environmentally responsible behavior, making it easier than ever to track your impact and lead a greener lifestyle.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🌟 Features
 
-## Expanding the ESLint configuration
+### Authentication
+- **User signup & login**: Secure email/password authentication
+- **Session persistence**: Stay logged in across visits
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Dashboard
+- **Sustainability score**: A clear metric of your overall impact
+- **Daily eco missions**: Bite-sized tasks to complete every day
+- **Progress tracking**: Visual charts mapping out your green journey
+- **AI insights**: Context-aware recommendations on your dashboard
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### AI Coach
+- **Sustainability guidance**: Chat with an intelligent, Gemini-powered assistant
+- **Personalized recommendations**: Advice tailored to your unique lifestyle and goals
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Habit Tracker
+- **Eco-friendly habit logging**: Track your daily sustainable choices
+- **Progress monitoring**: Maintain streaks and build lasting habits
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Impact Reports
+- **Environmental impact summaries**: Detailed breakdowns of your carbon, water, and waste savings
+
+### Achievements
+- **Gamified rewards**: Unlock badges for hitting sustainability milestones
+- **XP system**: Earn experience points for completing eco-friendly actions
+- **Progress milestones**: Visually track how close you are to the next tier
+
+### Simulator
+- **Sustainability scenario simulations**: Understand the long-term impact of your daily choices
+
+### Profile Management
+- **Editable profile**: Customize your personal details
+- **Profile image upload**: Seamless image hosting via Cloudinary integration
+
+### Theme System
+- **Light mode & Dark mode**: Full aesthetic support for both preferences
+- **Theme persistence**: Remembers your choice on your next visit
+
+---
+
+## 💻 Tech Stack
+
+| Category | Technologies |
+| :--- | :--- |
+| **Frontend** | React, TypeScript, Vite |
+| **Styling** | Tailwind CSS |
+| **Backend Services** | Firebase Authentication, Firestore Database |
+| **Storage** | Cloudinary |
+| **State Management** | Zustand |
+| **AI** | Gemini API |
+| **Deployment** | Production-ready |
+
+---
+
+## 🏗️ Project Architecture
+
+```text
+src/
+├── components/   # Reusable UI components (buttons, cards, layout elements)
+├── contexts/     # React context providers for global state (Auth)
+├── data/         # Static data and mock configurations
+├── hooks/        # Custom React hooks for shared logic
+├── layouts/      # Page layout wrappers (sidebar, navbar integration)
+├── pages/        # Main application views (Dashboard, Coach, Tracker, etc.)
+├── services/     # External API integrations (Firebase, Gemini, Cloudinary)
+├── store/        # Global state management using Zustand (Theme, App State)
+├── types/        # TypeScript type definitions and interfaces
+└── utils/        # Helper functions, formatting, and constants
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Local Setup
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Follow these steps to get the project running locally.
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/ecopilot-ai.git
+   cd ecopilot-ai
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables** (See the sections below)
+   Copy `.env.example` to `.env.local` and populate the fields.
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env.local` file in the root of your project and add the following variables:
+
+```env
+# The API Key for the Gemini AI Coach
+VITE_GEMINI_API_KEY=
+
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+
+# Cloudinary Configuration
+VITE_CLOUDINARY_CLOUD_NAME=
+VITE_CLOUDINARY_UPLOAD_PRESET=
 ```
+
+---
+
+## 🔥 Firebase Setup
+
+1. **Create Firebase project**: Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+2. **Enable Authentication**: Navigate to Build > Authentication and enable the **Email/Password** provider.
+3. **Enable Firestore**: Navigate to Build > Firestore Database and create a database.
+4. **Configure rules**: Update your Firestore rules to allow read/write access for authenticated users:
+   ```javascript
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /{document=**} {
+         allow read, write: if request.auth != null;
+       }
+     }
+   }
+   ```
+5. **Add environment variables**: Go to Project Settings > General, register a Web App, and copy the Firebase config into your `.env.local` file.
+
+---
+
+## ☁️ Cloudinary Setup
+
+1. **Create Cloudinary account**: Sign up at [Cloudinary](https://cloudinary.com/).
+2. **Create unsigned upload preset**: Go to Settings > Upload. Under "Upload presets", click "Add upload preset". Set the "Signing Mode" to **Unsigned**.
+3. **Copy cloud name**: Find your Cloud name on your main Dashboard.
+4. **Add environment variables**: Add your Cloud name and the name of the Unsigned Upload Preset to your `.env.local` file.
+
+---
+
+## 📜 Available Scripts
+
+In the project directory, you can run:
+
+### `npm run dev`
+Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+
+### `npm run build`
+Builds the app for production to the `dist` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
+
+### `npm run preview`
+Locally preview the production build that was generated by `npm run build`.
+
+---
+
+## 🗺️ Roadmap
+
+### Completed
+- [x] Authentication
+- [x] Dashboard
+- [x] AI Coach
+- [x] Dark Mode
+- [x] Profile Images
+
+### Planned
+- [ ] Mobile app (React Native / Capacitor)
+- [ ] Social challenges & community features
+- [ ] Leaderboards
+- [ ] Advanced carbon footprint analytics
+- [ ] Advanced AI recommendations
+- [ ] Multi-device real-time sync
+- [ ] Push notifications
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
