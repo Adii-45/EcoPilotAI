@@ -3,7 +3,6 @@ import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2 } from 'lucide-react';
-import { cn } from '../utils/cn';
 
 export default function SettingsPage() {
   const user = useStore((state) => state.user!);
@@ -11,7 +10,6 @@ export default function SettingsPage() {
   const updateUser = useStore((state) => state.updateUser);
   const updateSettings = useStore((state) => state.updateSettings);
   
-  const [activeTab, setActiveTab] = useState('profile');
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email || '');
   const [remindersEnabled, setRemindersEnabled] = useState(settings.remindersEnabled);
@@ -70,33 +68,7 @@ export default function SettingsPage() {
         </div>
       </Card>
 
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Navigation */}
-        <div className="w-full md:w-64 shrink-0 space-y-1">
-          {[
-            { id: 'profile', label: 'User Profile' },
-            { id: 'preferences', label: 'Preferences' },
-            { id: 'ai', label: 'AI Coaching Settings' },
-            { id: 'data', label: 'Data Settings' },
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                "w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all",
-                activeTab === tab.id 
-                  ? "bg-primary/10 text-primary" 
-                  : "text-on-surface hover:bg-surface-container"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Area */}
-        <div className="flex-1 space-y-8">
-          
+      <div className="space-y-8">
           {/* User Profile */}
           <Card className="p-8 border-none shadow-sm space-y-8">
             <h3 className="text-xl font-bold text-on-surface border-b border-outline-variant pb-4">User Profile</h3>
@@ -243,7 +215,6 @@ export default function SettingsPage() {
             </div>
           </Card>
           
-        </div>
       </div>
     </div>
   );

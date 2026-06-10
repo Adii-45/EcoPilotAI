@@ -14,7 +14,6 @@ import {
   Bell
 } from "lucide-react";
 import { cn } from "../utils/cn";
-import { Button } from "../components/ui/Button";
 import { useAuth } from "../contexts/AuthContext";
 import { useStore } from "../store/store";
 
@@ -82,11 +81,6 @@ export default function AppLayout() {
         </nav>
 
         <div className="p-4 space-y-4">
-          <div className="bg-surface p-4 rounded-2xl border border-surface-container-high">
-            <p className="text-sm text-on-surface-variant font-medium mb-3">Unlock advanced insights.</p>
-            <Button className="w-full shadow-none bg-primary text-white">Upgrade to Pro</Button>
-          </div>
-          
           <div className="space-y-1">
             <NavLink 
               to="/settings"
