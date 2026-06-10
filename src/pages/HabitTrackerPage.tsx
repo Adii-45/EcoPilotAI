@@ -52,14 +52,14 @@ export default function HabitTrackerPage() {
 
         {/* Completion Stats */}
         <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Daily Completion</p>
               <p className="text-4xl font-bold text-primary">{dailyCompletion}%</p>
             </div>
             <ProgressRing progress={dailyCompletion} size={64} strokeWidth={8} />
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Weekly Consistency</p>
               <p className="text-4xl font-bold text-primary">{weeklyCompletion}%</p>
@@ -74,7 +74,7 @@ export default function HabitTrackerPage() {
             <h2 className="text-2xl font-bold mb-4">Weekly Challenges</h2>
             <div className="grid grid-cols-2 gap-4">
               {weeklyChallenges.map(challenge => (
-                <div key={challenge.id} className="bg-white p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+                <div key={challenge.id} className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
                   <div>
                     <div className="flex justify-between items-start mb-3">
                       <div className="font-bold flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function HabitTrackerPage() {
                     "p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between",
                     habit.completedToday 
                       ? "bg-surface-container-low border-primary/20" 
-                      : "bg-white border-outline-variant hover:border-primary/50 shadow-sm"
+                      : "bg-surface-container-lowest border-outline-variant hover:border-primary/50 shadow-sm"
                   )}
                   onClick={() => toggleHabit(habit.id)}
                 >
@@ -166,12 +166,12 @@ export default function HabitTrackerPage() {
 
       {/* Right Sidebar - Ecosystem */}
       <div className="w-80">
-        <div className="bg-gradient-to-b from-white to-surface-container-highest rounded-[2rem] p-8 border border-white shadow-level-1 text-center sticky top-24">
+        <div className="bg-gradient-to-b from-white to-surface-container-highest rounded-[2rem] p-8 border border-surface-container-highest shadow-level-1 text-center sticky top-24">
           <div className="absolute top-6 right-6 text-[#ffb300]">
             <Sparkles size={24} />
           </div>
           
-          <div className="w-48 h-48 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm mb-8 border border-white relative">
+          <div className="w-48 h-48 mx-auto bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm mb-8 border border-surface-container-highest relative">
              <div className="absolute inset-0 bg-primary/5 rounded-full"></div>
              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-primary fill-primary">
                 <path d="M12 22v-9" strokeWidth="2"/>
@@ -187,7 +187,7 @@ export default function HabitTrackerPage() {
 
           {totalCount > 0 && (
             <div>
-              <div className="h-3 bg-white/50 rounded-full overflow-hidden mb-2">
+              <div className="h-3 bg-surface/50 rounded-full overflow-hidden mb-2">
                 <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: `${dailyCompletion}%` }}></div>
               </div>
               <p className="text-xs font-semibold text-on-surface-variant">

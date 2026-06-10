@@ -103,14 +103,14 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface-container-lowest p-6">
-      <div className="max-w-2xl w-full bg-white p-10 rounded-3xl shadow-sm border border-outline-variant animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="max-w-2xl w-full bg-surface-container-lowest p-10 rounded-3xl shadow-sm border border-outline-variant animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
             <Leaf className="text-primary" size={24} />
             <span className="font-bold text-xl text-on-surface">EcoPilot AI</span>
           </div>
-          <div className="text-sm font-medium text-slate-400">
+          <div className="text-sm font-medium text-on-surface-variant">
             Step {currentStep + 1} of {steps.length}
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function OnboardingPage() {
           <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center text-primary mb-6">
             <Icon size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">{step.title}</h1>
+          <h1 className="text-3xl font-bold text-on-surface mb-2">{step.title}</h1>
           <p className="text-slate-500">Help us customize your baseline footprint estimate.</p>
         </div>
 
@@ -133,7 +133,7 @@ export default function OnboardingPage() {
                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all ${
                   isSelected 
                     ? 'border-primary bg-primary/5 text-primary font-bold shadow-sm' 
-                    : 'border-slate-100 hover:border-slate-300 text-slate-700 font-medium'
+                    : 'border-outline-variant hover:border-slate-300 text-on-surface-variant font-medium'
                 }`}
               >
                 {opt.label}

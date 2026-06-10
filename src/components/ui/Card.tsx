@@ -9,7 +9,7 @@ export const Card = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "rounded-[1.5rem] bg-white border border-slate-100",
+        "rounded-[1.5rem] bg-surface-container-lowest border border-outline-variant",
         level === 1 ? "shadow-level-1" : "shadow-level-2",
         className
       )}

@@ -77,7 +77,7 @@ export default function ImpactReportPage() {
       <Card className="bg-primary-container/30 border-none relative overflow-hidden print:break-inside-avoid">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="p-8 flex items-start gap-6 relative z-10">
-          <div className="bg-white p-3 rounded-2xl shrink-0 shadow-sm print:border">
+          <div className="bg-surface-container-lowest p-3 rounded-2xl shrink-0 shadow-sm print:border">
             <Sparkles className="text-primary" size={32} />
           </div>
           <div>

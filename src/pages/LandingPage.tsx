@@ -28,7 +28,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
-        <Badge variant="outline" className="mb-8 rounded-full py-1.5 px-4 bg-white/50 backdrop-blur-md text-primary border-primary/20 shadow-sm gap-2">
+        <Badge variant="outline" className="mb-8 rounded-full py-1.5 px-4 bg-surface/50 backdrop-blur-md text-primary border-primary/20 shadow-sm gap-2">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span> EcoPilot AI 2.0 is now live
         </Badge>
         
@@ -45,7 +45,7 @@ export default function LandingPage() {
           <Link to="/dashboard">
             <Button size="lg" className="rounded-full px-8 shadow-level-1">Start Your Eco Journey</Button>
           </Link>
-          <Button size="lg" variant="outline" className="rounded-full px-8 bg-white shadow-sm gap-2">
+          <Button size="lg" variant="outline" className="rounded-full px-8 bg-surface-container-lowest shadow-sm gap-2">
             <Play size={18} /> View Demo
           </Button>
         </div>
@@ -53,7 +53,7 @@ export default function LandingPage() {
         {/* Dashboard Preview Mockup */}
         <div className="mt-20 relative max-w-5xl mx-auto w-full">
           <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10 bottom-0 h-1/2"></div>
-          <div className="bg-white rounded-[2rem] shadow-level-2 border border-slate-100 p-8 flex gap-8 relative z-0 overflow-hidden text-left">
+          <div className="bg-surface-container-lowest rounded-[2rem] shadow-level-2 border border-outline-variant p-8 flex gap-8 relative z-0 overflow-hidden text-left">
             {/* Mockup Left Column */}
             <div className="flex-1 space-y-8">
               <div>
@@ -75,7 +75,7 @@ export default function LandingPage() {
                         <p className="text-xs text-on-surface-variant">+15 pts • 2h left</p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" className="h-8 text-xs bg-white rounded-full">Claim</Button>
+                    <Button variant="outline" size="sm" className="h-8 text-xs bg-surface-container-lowest rounded-full">Claim</Button>
                   </div>
                   <div className="bg-surface-container-low rounded-xl p-3 flex items-center justify-between border border-transparent opacity-60">
                     <div className="flex items-center gap-3">
@@ -98,12 +98,12 @@ export default function LandingPage() {
                   <div className="bg-primary text-white p-1 rounded-md"><Leaf size={14} /></div>
                   AI Mentor
                 </div>
-                <p className="text-sm text-on-surface italic bg-white p-3 rounded-xl shadow-sm mb-3">
+                <p className="text-sm text-on-surface italic bg-surface-container-lowest p-3 rounded-xl shadow-sm mb-3">
                   "Great job on the bike commute! 🚴 If you switch to a plant-based lunch tomorrow, you'll hit Level 5."
                 </p>
                 <Button size="sm" className="w-full text-xs bg-primary text-white">Accept Challenge &rarr;</Button>
               </div>
-              <div className="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+              <div className="bg-surface-container-lowest border border-outline-variant p-5 rounded-2xl shadow-sm">
                 <p className="text-sm font-bold flex items-center gap-2 mb-4">Recent Badges <Trophy size={14} className="text-on-surface-variant" /></p>
                 <div className="flex justify-between">
                   <div className="flex flex-col items-center gap-2"><div className="w-12 h-12 rounded-full border-2 border-[#ffe699] text-[#b38600] flex items-center justify-center bg-[#fff9e6]">☕</div><span className="text-[10px] font-semibold text-on-surface-variant">Refill Hero</span></div>
@@ -117,7 +117,7 @@ export default function LandingPage() {
       </main>
 
       {/* Stats Section */}
-      <section className="bg-white border-y border-outline-variant py-16">
+      <section className="bg-surface-container-lowest border-y border-outline-variant py-16">
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-outline-variant">
           <div className="text-center px-4">
             <p className="text-5xl font-bold text-primary mb-2">500k+</p>

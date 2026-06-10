@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
 import { useStore } from '../store/store';
+import { useTheme } from '../contexts/ThemeContext';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2, Loader2 } from 'lucide-react';
+import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2, Loader2, Moon } from 'lucide-react';
 import { uploadProfileImage } from '../services/cloudinary';
 
 export default function SettingsPage() {
@@ -10,6 +11,8 @@ export default function SettingsPage() {
   const settings = useStore((state) => state.settings);
   const updateUser = useStore((state) => state.updateUser);
   const updateSettings = useStore((state) => state.updateSettings);
+  
+  const { theme, toggleTheme } = useTheme();
   
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email || '');
@@ -127,7 +130,7 @@ export default function SettingsPage() {
                   className="hidden" 
                 />
                 <div 
-                  className="w-24 h-24 rounded-full bg-surface-container-high overflow-hidden border-4 border-white shadow-md relative cursor-pointer group-hover:opacity-90 transition-opacity"
+                  className="w-24 h-24 rounded-full bg-surface-container-high overflow-hidden border-4 border-surface-container-highest shadow-md relative cursor-pointer group-hover:opacity-90 transition-opacity"
                   onClick={() => !isUploading && fileInputRef.current?.click()}
                 >
                   {isUploading && (
@@ -144,7 +147,7 @@ export default function SettingsPage() {
                 <button 
                   onClick={() => !isUploading && fileInputRef.current?.click()}
                   disabled={isUploading}
-                  className="absolute top-16 right-[-8px] p-2 bg-white rounded-full shadow-md text-on-surface border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50 z-20"
+                  className="absolute top-16 right-[-8px] p-2 bg-surface-container-lowest rounded-full shadow-md text-on-surface border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50 z-20"
                 >
                   <Edit2 size={14} />
                 </button>
@@ -203,12 +206,26 @@ export default function SettingsPage() {
             <div className="space-y-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
+                  <h4 className="font-bold text-on-surface mb-1 flex items-center gap-2">
+                    <Moon size={18} className="text-primary" />
+                    Dark Mode
+                  </h4>
+                  <p className="text-sm text-on-surface-variant">Switch to a darker, low-light friendly aesthetic.</p>
+                </div>
+                <div className="relative inline-block w-12 h-6 mt-1">
+                  <input type="checkbox" className="peer sr-only" id="dark-mode" checked={theme === 'dark'} onChange={toggleTheme} />
+                  <label htmlFor="dark-mode" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-surface-container-lowest before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
+                </div>
+              </div>
+
+              <div className="flex items-start justify-between gap-4">
+                <div>
                   <h4 className="font-bold text-on-surface mb-1">Daily Reminders</h4>
                   <p className="text-sm text-on-surface-variant">Receive a quick morning nudge to stay on track with your daily eco-goals.</p>
                 </div>
                 <div className="relative inline-block w-12 h-6 mt-1">
                   <input type="checkbox" className="peer sr-only" id="daily-reminders" checked={remindersEnabled} onChange={(e) => setRemindersEnabled(e.target.checked)} />
-                  <label htmlFor="daily-reminders" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-white before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
+                  <label htmlFor="daily-reminders" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-surface-container-lowest before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
                 </div>
               </div>
               
@@ -219,7 +236,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="relative inline-block w-12 h-6 mt-1">
                   <input type="checkbox" className="peer sr-only" id="weekly-reports" defaultChecked />
-                  <label htmlFor="weekly-reports" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-white before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
+                  <label htmlFor="weekly-reports" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-surface-container-lowest before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
                 </div>
               </div>
             </div>

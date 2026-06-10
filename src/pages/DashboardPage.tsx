@@ -51,7 +51,7 @@ export default function DashboardPage() {
           <h1 className="text-display-lg font-bold text-on-surface tracking-tight">Good morning, {user.name}!</h1>
           <p className="text-body-lg text-on-surface-variant mt-2">Ready to make a positive impact today?</p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
+        <div className="flex items-center gap-2 bg-surface-container-lowest px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
           <Calendar size={20} className="text-primary" />
           <span className="font-semibold text-sm">{today}</span>
         </div>
@@ -59,11 +59,11 @@ export default function DashboardPage() {
 
       {/* Insights Banner */}
       <div className="bg-surface-container-highest rounded-[1.5rem] p-6 border border-surface-container-highest relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/40 rounded-full blur-3xl"></div>
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface/40 rounded-full blur-3xl"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center relative shadow-sm">
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-white rounded-full border-2 border-surface-container-highest"></span>
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-surface-container-lowest rounded-full border-2 border-surface-container-highest"></span>
             </div>
             <h2 className="text-xl font-bold text-on-surface flex items-center gap-2">
               EcoPilot AI Insights <Badge className="bg-primary/20 text-primary uppercase text-[10px] tracking-wider">Live</Badge>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
           <CardContent className="flex-1 flex flex-col justify-center">
             <div className="bg-surface p-6 rounded-2xl border border-outline-variant relative overflow-hidden group hover:border-primary/50 transition-colors">
               <div className="flex gap-4 items-start relative z-10">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary">
+                <div className="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary">
                   {hasCompletedMission ? <CheckCircle2 size={24} /> : <Circle size={24} />}
                 </div>
                 <div className="flex-1">
@@ -162,7 +162,7 @@ export default function DashboardPage() {
                   "p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group",
                   challenge.completedToday 
                     ? "bg-surface border-transparent" 
-                    : "bg-white border-outline-variant hover:border-primary/50"
+                    : "bg-surface-container-lowest border-outline-variant hover:border-primary/50"
                 )}
                 onClick={() => toggleChallenge(challenge.id)}
               >
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                       {challenge.title}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="secondary" className="text-[10px] bg-white border border-outline-variant shadow-sm py-0.5">
+                      <Badge variant="secondary" className="text-[10px] bg-surface-container-lowest border border-outline-variant shadow-sm py-0.5">
                         💨 -{challenge.co2SavingsKg} kg CO₂
                       </Badge>
                       <Badge variant="secondary" className="text-[10px] bg-surface-dim border-none py-0.5">

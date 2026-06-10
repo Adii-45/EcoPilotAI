@@ -59,7 +59,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex w-full font-sans bg-white">
+    <div className="min-h-screen flex w-full font-sans bg-surface-container-lowest">
       {/* Left Image Section */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] text-white overflow-hidden">
         <div 
@@ -96,7 +96,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">Welcome Back</h2>
+            <h2 className="text-3xl font-bold text-on-surface mb-2">Welcome Back</h2>
             <p className="text-slate-500">Log in to continue your sustainability journey.</p>
           </div>
 
@@ -108,16 +108,16 @@ export default function LoginPage() {
 
           <form onSubmit={handleEmailLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 block">Email address</label>
+              <label className="text-sm font-semibold text-on-surface-variant block">Email address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail size={18} className="text-slate-400" />
+                  <Mail size={18} className="text-on-surface-variant" />
                 </div>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-900"
+                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface"
                   placeholder="name@company.com"
                   required
                 />
@@ -125,16 +125,16 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 block">Password</label>
+              <label className="text-sm font-semibold text-on-surface-variant block">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock size={18} className="text-slate-400" />
+                  <Lock size={18} className="text-on-surface-variant" />
                 </div>
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-900"
+                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface"
                   placeholder="••••••••"
                   required
                 />
@@ -162,17 +162,17 @@ export default function LoginPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
+              <div className="w-full border-t border-outline-variant"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-slate-400 font-medium">OR</span>
+              <span className="px-4 bg-surface-container-lowest text-on-surface-variant font-medium">OR</span>
             </div>
           </div>
 
           <button 
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold hover:bg-slate-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-semibold hover:bg-surface-container-low transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
           >
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
             Continue with Google

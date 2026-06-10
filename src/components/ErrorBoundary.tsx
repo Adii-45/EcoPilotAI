@@ -30,11 +30,11 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-surface p-6 font-sans">
-          <div className="max-w-md w-full bg-white p-8 rounded-[2rem] shadow-sm border border-outline-variant text-center">
+          <div className="max-w-md w-full bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm border border-outline-variant text-center">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
               <Leaf size={32} />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-4">Something went wrong</h1>
+            <h1 className="text-2xl font-bold text-on-surface mb-4">Something went wrong</h1>
             <p className="text-slate-500 mb-8">
               We've encountered an unexpected error. Our team has been notified.
             </p>

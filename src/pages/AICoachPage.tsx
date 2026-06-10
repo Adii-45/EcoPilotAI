@@ -41,7 +41,7 @@ export default function AICoachPage() {
         <h2 className="text-2xl font-bold text-on-surface">Suggestions</h2>
         <div className="space-y-4">
           {suggestions.map((item, idx) => (
-            <div key={idx} onClick={() => setInput(item.text)} className="bg-white p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-primary/40 cursor-pointer transition-colors group">
+            <div key={idx} onClick={() => setInput(item.text)} className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-primary/40 cursor-pointer transition-colors group">
               <div className="flex items-center gap-2 mb-2 font-semibold text-on-surface">
                 <item.icon size={18} className={cn("transition-transform group-hover:scale-110", item.color)} />
                 {item.title}
@@ -58,8 +58,8 @@ export default function AICoachPage() {
           
           {messages.length === 0 ? (
              <div className="flex justify-start">
-               <div className="bg-white px-8 py-8 rounded-[1.5rem] rounded-tl-none max-w-3xl shadow-level-1 border border-slate-100 relative">
-                 <div className="absolute -left-12 -top-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white border-2 border-white shadow-sm">
+               <div className="bg-surface-container-lowest px-8 py-8 rounded-[1.5rem] rounded-tl-none max-w-3xl shadow-level-1 border border-outline-variant relative">
+                 <div className="absolute -left-12 -top-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white border-2 border-surface-container-highest shadow-sm">
                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
                  </div>
                  <p className="text-on-surface leading-relaxed text-lg">
@@ -80,8 +80,8 @@ export default function AICoachPage() {
                 </div>
               ) : (
                 <div key={msg.id} className="flex justify-start">
-                  <div className="bg-white px-8 py-8 rounded-[1.5rem] rounded-tl-none max-w-3xl shadow-level-1 border border-slate-100 relative">
-                    <div className="absolute -left-12 -top-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white border-2 border-white shadow-sm">
+                  <div className="bg-surface-container-lowest px-8 py-8 rounded-[1.5rem] rounded-tl-none max-w-3xl shadow-level-1 border border-outline-variant relative">
+                    <div className="absolute -left-12 -top-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white border-2 border-surface-container-highest shadow-sm">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
                     </div>
                     <p className="text-on-surface leading-relaxed text-lg whitespace-pre-wrap">{msg.content}</p>
@@ -93,7 +93,7 @@ export default function AICoachPage() {
 
           {isTyping && (
              <div className="flex justify-start">
-               <div className="bg-white px-6 py-4 rounded-[1.5rem] rounded-tl-none max-w-xs shadow-sm border border-slate-100 flex gap-2">
+               <div className="bg-surface-container-lowest px-6 py-4 rounded-[1.5rem] rounded-tl-none max-w-xs shadow-sm border border-outline-variant flex gap-2">
                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-75"></div>
                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-150"></div>
@@ -105,9 +105,9 @@ export default function AICoachPage() {
         {/* Input Area */}
         <div className="absolute bottom-0 left-0 right-0 pt-8 pb-4 bg-gradient-to-t from-surface via-surface to-transparent">
           <div className="flex items-center gap-3 mb-4 justify-center">
-             <Button variant="outline" onClick={() => window.location.href='/impact'} className="rounded-full bg-white text-sm h-9 shadow-sm"><BarChart3 size={16} className="mr-2"/> View Impact</Button>
-             <Button variant="outline" onClick={() => window.location.href='/habits'} className="rounded-full bg-white text-sm h-9 shadow-sm"><CheckCircle2 size={16} className="mr-2"/> Track Habit</Button>
-             <Button variant="outline" onClick={() => setInput("Give me some more habit ideas.")} className="rounded-full bg-white text-sm h-9 shadow-sm"><Zap size={16} className="mr-2"/> More ideas</Button>
+             <Button variant="outline" onClick={() => window.location.href='/impact'} className="rounded-full bg-surface-container-lowest text-sm h-9 shadow-sm"><BarChart3 size={16} className="mr-2"/> View Impact</Button>
+             <Button variant="outline" onClick={() => window.location.href='/habits'} className="rounded-full bg-surface-container-lowest text-sm h-9 shadow-sm"><CheckCircle2 size={16} className="mr-2"/> Track Habit</Button>
+             <Button variant="outline" onClick={() => setInput("Give me some more habit ideas.")} className="rounded-full bg-surface-container-lowest text-sm h-9 shadow-sm"><Zap size={16} className="mr-2"/> More ideas</Button>
           </div>
           <div className="relative max-w-3xl mx-auto">
             <button className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
@@ -119,7 +119,7 @@ export default function AICoachPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Ask your sustainability mentor for advice, goals, or inspiration..." 
-              className="w-full bg-white shadow-level-1 pl-14 pr-16 py-4 rounded-2xl border border-slate-100 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg"
+              className="w-full bg-surface-container-lowest shadow-level-1 pl-14 pr-16 py-4 rounded-2xl border border-outline-variant focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg"
             />
             <button onClick={handleSend} disabled={isTyping} className="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-white p-2.5 rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm">
               <Send size={20} className="ml-0.5" />

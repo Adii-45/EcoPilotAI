@@ -11,11 +11,14 @@ import {
   HelpCircle,
   Leaf,
   LogOut,
-  Bell
+  Bell,
+  Sun,
+  Moon
 } from "lucide-react";
 import { cn } from "../utils/cn";
 import { useAuth } from "../contexts/AuthContext";
 import { useStore } from "../store/store";
+import { useTheme } from "../contexts/ThemeContext";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
@@ -34,6 +37,7 @@ export default function AppLayout() {
   const markNotificationRead = useStore(state => state.markNotificationRead);
   const habits = useStore(state => state.habits);
   const achievements = useStore(state => state.achievements);
+  const { theme, toggleTheme } = useTheme();
 
   const [showNotifs, setShowNotifs] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +53,7 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen bg-surface flex text-on-surface">
       {/* Sidebar */}
-      <aside className="w-[280px] bg-white border-r border-outline-variant flex flex-col fixed inset-y-0 z-20">
+      <aside className="w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col fixed inset-y-0 z-20">
         <div className="p-6 flex items-center gap-3">
           <div className="bg-primary/10 p-2 rounded-xl text-primary">
             <Leaf size={24} />
@@ -113,7 +117,7 @@ export default function AppLayout() {
 
       {/* Main Content Area */}
       <main className="flex-1 ml-[280px] flex flex-col min-h-screen">
-        <header className="h-16 border-b border-outline-variant bg-white/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-8">
+        <header className="h-16 border-b border-outline-variant bg-surface/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-8">
           <div className="flex-1 max-w-xl relative">
             <div className="relative">
               <input 
@@ -133,7 +137,7 @@ export default function AppLayout() {
             </div>
             
             {showSearch && searchQuery.length > 1 && (
-              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-xl border border-outline-variant p-2 z-50">
+              <div className="absolute top-full mt-2 w-full bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant p-2 z-50">
                 {searchResults.length === 0 ? (
                   <p className="text-sm text-on-surface-variant p-2">No results found.</p>
                 ) : (
@@ -163,17 +167,17 @@ export default function AppLayout() {
           <div className="flex items-center gap-6 ml-4 relative">
             <div className="relative">
               <button 
-                className="text-on-surface-variant hover:text-on-surface relative p-1"
+                className="text-on-surface-variant hover:bg-surface-container rounded-full relative p-2 transition-colors duration-200"
                 onClick={() => setShowNotifs(!showNotifs)}
               >
                 <Bell size={20} />
-                {unreadCount > 0 && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border-2 border-white"></span>}
+                {unreadCount > 0 && <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface-container-highest"></span>}
               </button>
               
               {showNotifs && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowNotifs(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-white shadow-lg border border-outline-variant rounded-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface-container-lowest shadow-lg border border-outline-variant rounded-2xl z-50 overflow-hidden">
                     <div className="p-4 border-b border-outline-variant flex justify-between items-center bg-surface">
                       <h4 className="font-bold text-on-surface">Notifications</h4>
                       {unreadCount > 0 && <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{unreadCount} New</span>}
@@ -187,7 +191,7 @@ export default function AppLayout() {
                             key={n.id} 
                             className={cn(
                               "p-4 border-b border-outline-variant/50 cursor-pointer transition-colors hover:bg-surface",
-                              !n.read ? "bg-primary/5" : "bg-white"
+                              !n.read ? "bg-primary/5" : "bg-surface-container-lowest"
                             )}
                             onClick={() => {
                               if (!n.read) markNotificationRead(n.id);
@@ -203,6 +207,18 @@ export default function AppLayout() {
                 </>
               )}
             </div>
+
+            <button
+              onClick={toggleTheme}
+              className="text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-full p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Moon size={20} className="animate-in spin-in-90 duration-200" />
+              ) : (
+                <Sun size={20} className="animate-in spin-in-[-90deg] duration-200" />
+              )}
+            </button>
             
             <div className="flex items-center gap-3 border-l border-outline-variant pl-6">
               <div className="text-right hidden sm:block">
