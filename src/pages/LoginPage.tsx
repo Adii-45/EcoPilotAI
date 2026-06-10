@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock } from 'lucide-react';
+import { Leaf, Mail, Lock, ArrowLeft } from 'lucide-react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../services/firebase';
 import { Button } from '../components/ui/Button';
@@ -59,7 +59,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex w-full font-sans bg-surface-container-lowest">
+    <div className="min-h-screen flex w-full font-sans bg-surface-container-lowest relative">
+
       {/* Left Image Section */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] text-white overflow-hidden">
         <div 
@@ -69,10 +70,10 @@ export default function LoginPage() {
         <div className="absolute inset-0 z-10 bg-black/40 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent"></div>
         
         <div className="relative z-20 flex flex-col justify-between h-full p-12 lg:p-20">
-          <div className="flex items-center gap-2">
-            <Leaf className="text-primary" size={28} />
+          <Link to="/" aria-label="Return to Homepage" className="flex items-center gap-2 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f172a] rounded-lg">
+            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={28} />
             <span className="text-xl font-bold tracking-tight">EcoPilot AI</span>
-          </div>
+          </Link>
           
           <div className="max-w-md">
             <h1 className="text-5xl font-bold leading-tight mb-6 tracking-tight">
@@ -90,10 +91,10 @@ export default function LoginPage() {
         <div className="w-full max-w-md space-y-8">
           
           {/* Mobile Header */}
-          <div className="flex lg:hidden items-center gap-2 mb-8">
-            <Leaf className="text-primary" size={24} />
+          <Link to="/" aria-label="Return to Homepage" className="flex lg:hidden items-center gap-2 mb-8 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg">
+            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={24} />
             <span className="text-lg font-bold text-on-surface">EcoPilot AI</span>
-          </div>
+          </Link>
 
           <div>
             <h2 className="text-3xl font-bold text-on-surface mb-2">Welcome Back</h2>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock, User as UserIcon, EyeOff, Eye } from 'lucide-react';
+import { Leaf, Mail, Lock, User as UserIcon, EyeOff, Eye, ArrowLeft } from 'lucide-react';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { auth, googleProvider, db } from '../services/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -85,7 +85,8 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex w-full font-sans bg-surface-container-lowest">
+    <div className="min-h-screen flex w-full font-sans bg-surface-container-lowest relative">
+
       {/* Left Image Section */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] text-white overflow-hidden rounded-r-[3rem]">
         <div 
@@ -95,12 +96,12 @@ export default function SignupPage() {
         <div className="absolute inset-0 z-10 bg-black/30 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent"></div>
         
         <div className="relative z-20 flex flex-col justify-between h-full p-12 lg:p-20">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+          <Link to="/" aria-label="Return to Homepage" className="flex items-center gap-2 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f172a] rounded-xl">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white group-hover:shadow-[0_0_12px_rgba(16,185,129,0.6)] transition-all duration-300">
               <Leaf size={24} />
             </div>
             <span className="text-2xl font-bold tracking-tight">EcoPilot AI</span>
-          </div>
+          </Link>
           
           <div className="max-w-md">
             <h1 className="text-5xl font-bold leading-tight mb-6 tracking-tight">
@@ -133,12 +134,12 @@ export default function SignupPage() {
         <div className="w-full max-w-md space-y-8">
           
           {/* Mobile Header */}
-          <div className="flex lg:hidden items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+          <Link to="/" aria-label="Return to Homepage" className="flex lg:hidden items-center gap-2 mb-8 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white group-hover:shadow-[0_0_12px_rgba(16,185,129,0.6)] transition-all duration-300">
               <Leaf size={20} />
             </div>
             <span className="text-lg font-bold text-on-surface">EcoPilot AI</span>
-          </div>
+          </Link>
 
           <div>
             <h2 className="text-3xl font-bold text-on-surface mb-2">Start Your Eco Journey</h2>
