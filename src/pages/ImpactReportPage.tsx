@@ -4,28 +4,37 @@ import { Sparkles, TrendingUp, TreePine, Flame, Star, Share } from 'lucide-react
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
-const weeklyData = [
-  { day: 'Mon', actions: 2 },
-  { day: 'Tue', actions: 4 },
-  { day: 'Wed', actions: 3 },
-  { day: 'Thu', actions: 6 },
-  { day: 'Fri', actions: 5 },
-  { day: 'Sat', actions: 8 },
-  { day: 'Sun', actions: 7 },
-];
-
-const consistencyData = [
-  { day: 'Mon', score: 60 },
-  { day: 'Tue', score: 65 },
-  { day: 'Wed', score: 62 },
-  { day: 'Thu', score: 75 },
-  { day: 'Fri', score: 85 },
-  { day: 'Sat', score: 82 },
-  { day: 'Sun', score: 90 },
-];
+// Removed hardcoded data
 
 export default function ImpactReportPage() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user!);
+  
+  const generateChartData = () => {
+    const history = user?.history || [];
+    const last7Days = Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i));
+      return d.toISOString().split('T')[0];
+    });
+
+    const weeklyData = last7Days.map((dateStr, i) => {
+      const entry = history.find(h => h.date === dateStr);
+      const dayLabel = i === 6 ? 'Today' : `Day ${i + 1}`;
+      return { day: dayLabel, actions: entry ? entry.actions : 0 };
+    });
+
+    const consistencyData = last7Days.map((dateStr, i) => {
+      const entry = history.find(h => h.date === dateStr);
+      const dayLabel = i === 6 ? 'Today' : `Day ${i + 1}`;
+      // If no entry, just use the current score minus a bit, or 0. Since we need to show a line, 
+      // we'll default to the user's score if there's no history yet.
+      return { day: dayLabel, score: entry ? entry.score : user?.sustainabilityScore || 0 };
+    });
+
+    return { weeklyData, consistencyData };
+  };
+
+  const { weeklyData, consistencyData } = generateChartData();
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -72,9 +81,9 @@ export default function ImpactReportPage() {
             <div className="bg-primary/10 w-10 h-10 rounded-xl flex items-center justify-center text-primary mb-4">
               <TreePine size={20} />
             </div>
-            <p className="text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mb-1">Biggest Carbon Saver</p>
+            <p className="text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mb-1">Total Carbon Saved</p>
             <div className="flex items-baseline gap-1">
-              <h3 className="text-xl font-bold text-on-surface">15</h3>
+              <h3 className="text-xl font-bold text-on-surface">{user.totalCarbonSaved.toFixed(1)}</h3>
               <span className="text-sm font-medium text-on-surface-variant">kg</span>
             </div>
           </Card>

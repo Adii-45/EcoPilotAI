@@ -8,10 +8,12 @@ import {
   Activity,
   Settings,
   HelpCircle,
-  Leaf
+  Leaf,
+  LogOut
 } from "lucide-react";
 import { cn } from "../utils/cn";
 import { Button } from "../components/ui/Button";
+import { useAuth } from "../contexts/AuthContext";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
@@ -23,6 +25,8 @@ const navItems = [
 ];
 
 export default function AppLayout() {
+  const { logout } = useAuth();
+
   return (
     <div className="min-h-screen bg-surface flex text-on-surface">
       {/* Sidebar */}
@@ -81,6 +85,13 @@ export default function AppLayout() {
             <button className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-on-surface-variant hover:bg-surface-container w-full transition-colors">
               <HelpCircle size={20} />
               Support
+            </button>
+            <button 
+              onClick={logout}
+              className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-red-600 hover:bg-red-50 hover:text-red-700 w-full transition-colors"
+            >
+              <LogOut size={20} />
+              Log Out
             </button>
           </div>
         </div>

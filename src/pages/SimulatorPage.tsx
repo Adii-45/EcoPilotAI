@@ -3,7 +3,7 @@ import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Car, Utensils, Zap, ShoppingBag, RotateCcw, TreePine, Leaf, Coins } from 'lucide-react';
-import { cn } from '../utils/cn';
+import { calculateCarbonImpact } from '../services/engine';
 
 export default function SimulatorPage() {
   const simulation = useStore((state) => state.simulation);
@@ -20,23 +20,8 @@ export default function SimulatorPage() {
     updateSimulation(localSim);
   };
 
-  // Calculations
-  const baseEmissions = 4500;
-  
-  // Reduction logic (mock formulas for demonstration)
-  // Car: assume 200 is average. less than 200 saves CO2.
-  const carSavings = (200 - localSim.carUsage) * 2.5; 
-  // Meat: 0 is vegan (7 days meatless), 7 is daily. assume 4 is average.
-  const meatSavings = (4 - localSim.meatConsumption) * 150;
-  // Energy: 50 is average, 100 is high efficiency
-  const energySavings = (localSim.energyEfficiency - 50) * 8;
-  // Shopping: 50 is average, 0 is minimal
-  const shoppingSavings = (50 - localSim.shoppingFrequency) * 4;
-
-  const totalReduction = Math.max(0, Math.round(carSavings + meatSavings + energySavings + shoppingSavings));
-  const futureEmissions = Math.max(0, baseEmissions - totalReduction);
-  const treesEquivalent = Math.round(totalReduction / 20.7); // Roughly 20.7 kg CO2 per tree per year
-  const moneySaved = Math.round(totalReduction * 0.375); // Mock money equivalent
+  const { annualEmissions: futureEmissions, carbonReduction: totalReduction, moneySaved, treesEquivalent } = calculateCarbonImpact(localSim);
+  const baseEmissions = futureEmissions + totalReduction;
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">

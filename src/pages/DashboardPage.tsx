@@ -1,17 +1,17 @@
-import { useState } from "react";
 import { Leaf, Calendar, CheckCircle2, Circle, Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
 import { ProgressRing } from "../components/ui/ProgressRing";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
-import { mockInsights, mockMission } from "../data/mockData";
 import { cn } from "../utils/cn";
 import { useStore } from "../store/store";
 
 export default function DashboardPage() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user!);
   const challenges = useStore((state) => state.dailyChallenges);
   const completeHabit = useStore((state) => state.completeHabit);
+  const insights = useStore((state) => state.insights);
+  const activeMission = useStore((state) => state.activeMission);
 
   const totalEarned = challenges.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0);
 
@@ -48,11 +48,11 @@ export default function DashboardPage() {
           <p className="text-on-surface font-medium leading-relaxed max-w-4xl flex items-start gap-2">
             <Leaf className="text-primary mt-1 shrink-0" size={18} />
             <span>
-              <strong>EcoPilot AI says:</strong> {mockInsights[0].text}
+              <strong>EcoPilot AI says:</strong> {insights[0]?.text}
             </span>
           </p>
           <div className="mt-5 flex gap-3">
-            <Button className="bg-primary text-white shadow-sm">{mockInsights[0].actionLabel}</Button>
+            <Button className="bg-primary text-white shadow-sm">{insights[0]?.actionLabel}</Button>
             <Button variant="outline" className="bg-white border-white/40 shadow-sm">Show More Insights</Button>
           </div>
         </div>
@@ -95,11 +95,11 @@ export default function DashboardPage() {
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-xl">{mockMission.title}</h3>
-                  <p className="text-on-surface-variant mt-1">{mockMission.description}</p>
+                  <h3 className="font-bold text-xl">{activeMission?.title}</h3>
+                  <p className="text-on-surface-variant mt-1">{activeMission?.description}</p>
                 </div>
                 <div className="bg-primary text-white font-bold px-3 py-1.5 rounded-lg text-sm shadow-sm">
-                  +{mockMission.xpReward} XP
+                  +{activeMission?.xpReward} XP
                 </div>
               </div>
             </div>

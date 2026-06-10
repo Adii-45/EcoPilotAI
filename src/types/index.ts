@@ -13,6 +13,7 @@ export interface User {
   totalCarbonSaved: number;
   totalActions: number;
   achievementsEarned: number;
+  history: { date: string; score: number; actions: number }[];
 }
 
 export interface Habit {
@@ -76,4 +77,10 @@ export interface SimulationState {
   meatConsumption: number; // days/wk
   energyEfficiency: number; // 0 (Low) to 100 (High)
   shoppingFrequency: number; // 0 (Minimal) to 100 (Frequent)
+}
+
+export interface UserSettings {
+  remindersEnabled: boolean;
+  coachingIntensity: 'Gentle' | 'Standard' | 'Strict';
+  sustainabilityFocus: Category[];
 }

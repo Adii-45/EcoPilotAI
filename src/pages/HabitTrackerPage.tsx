@@ -1,13 +1,13 @@
 import { CheckCircle2, Circle, Flame, Sparkles } from "lucide-react";
 import { ProgressRing } from "../components/ui/ProgressRing";
 import { Badge } from "../components/ui/Badge";
-import { mockWeeklyChallenges } from "../data/mockData";
 import { cn } from "../utils/cn";
 import { useStore } from "../store/store";
 
 export default function HabitTrackerPage() {
   const habits = useStore((state) => state.habits);
   const completeHabit = useStore((state) => state.completeHabit);
+  const weeklyChallenges = useStore((state) => state.weeklyChallenges);
 
   const toggleHabit = (id: string) => {
     completeHabit(id);
@@ -47,7 +47,7 @@ export default function HabitTrackerPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Weekly Challenges</h2>
           <div className="grid grid-cols-2 gap-4">
-            {mockWeeklyChallenges.map(challenge => (
+            {weeklyChallenges.map(challenge => (
               <div key={challenge.id} className="bg-white p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start mb-3">

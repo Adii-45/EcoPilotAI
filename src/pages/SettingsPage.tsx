@@ -6,11 +6,28 @@ import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 export default function SettingsPage() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user!);
+  const settings = useStore((state) => state.settings);
+  const updateUser = useStore((state) => state.updateUser);
+  const updateSettings = useStore((state) => state.updateSettings);
   
   const [activeTab, setActiveTab] = useState('profile');
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email || '');
+  const [remindersEnabled, setRemindersEnabled] = useState(settings.remindersEnabled);
+  const [coachingIntensity, setCoachingIntensity] = useState(
+    settings.coachingIntensity === 'Gentle' ? "0" : settings.coachingIntensity === 'Standard' ? "50" : "100"
+  );
+
+  const handleSave = () => {
+    updateUser({ name, email });
+    const intensity = coachingIntensity === "0" ? 'Gentle' : coachingIntensity === "50" ? 'Standard' : 'Strict';
+    updateSettings({
+      remindersEnabled,
+      coachingIntensity: intensity
+    });
+    alert('Settings saved successfully!');
+  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -19,7 +36,7 @@ export default function SettingsPage() {
           <h1 className="text-3xl font-bold text-on-surface mb-2">Sustainability Passport</h1>
           <p className="text-on-surface-variant">Your eco-journey, account details, and preferences.</p>
         </div>
-        <Button className="gap-2 shrink-0">
+        <Button className="gap-2 shrink-0" onClick={handleSave}>
           <Save size={18} />
           Save Changes
         </Button>
@@ -150,7 +167,7 @@ export default function SettingsPage() {
                   <p className="text-sm text-on-surface-variant">Receive a quick morning nudge to stay on track with your daily eco-goals.</p>
                 </div>
                 <div className="relative inline-block w-12 h-6 mt-1">
-                  <input type="checkbox" className="peer sr-only" id="daily-reminders" defaultChecked />
+                  <input type="checkbox" className="peer sr-only" id="daily-reminders" checked={remindersEnabled} onChange={(e) => setRemindersEnabled(e.target.checked)} />
                   <label htmlFor="daily-reminders" className="block w-12 h-6 bg-surface-container-high rounded-full cursor-pointer peer-checked:bg-primary transition-colors before:content-[''] before:absolute before:top-1 before:left-1 before:bg-white before:w-4 before:h-4 before:rounded-full before:transition-transform peer-checked:before:translate-x-6"></label>
                 </div>
               </div>
@@ -181,13 +198,15 @@ export default function SettingsPage() {
                   <h4 className="font-bold text-on-surface mb-1">Coaching Intensity</h4>
                   <p className="text-sm text-on-surface-variant">Adjust how the AI challenges and encourages you to build new habits.</p>
                 </div>
-                <span className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">Balanced</span>
+                <span className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">{settings.coachingIntensity}</span>
               </div>
               
               <div className="py-4">
                 <input 
                   type="range" 
-                  min="0" max="100" defaultValue="50" step="50"
+                  min="0" max="100" step="50"
+                  value={coachingIntensity}
+                  onChange={(e) => setCoachingIntensity(e.target.value)}
                   className="w-full accent-primary h-2 bg-surface-container rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase mt-2">

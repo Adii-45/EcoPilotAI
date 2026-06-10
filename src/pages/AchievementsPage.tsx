@@ -13,7 +13,7 @@ const mockLeaderboard = [
 ];
 
 export default function AchievementsPage() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user!);
   const achievements = useStore((state) => state.achievements);
   const [activeCategory, setActiveCategory] = useState('All Categories');
 
