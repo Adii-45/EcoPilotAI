@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock, User as UserIcon, EyeOff, Eye, ArrowLeft } from 'lucide-react';
+import { Leaf, Mail, Lock, User as UserIcon, EyeOff, Eye } from 'lucide-react';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { auth, googleProvider, db } from '../services/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -33,7 +33,7 @@ export default function SignupPage() {
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (password.length < 8) {
       setError('Password must be at least 8 characters.');
       return;
@@ -43,7 +43,7 @@ export default function SignupPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      
+
       // Write user profile document directly to Firestore to guarantee immediate creation
       const userRef = doc(db, 'users', userCredential.user.uid);
       await setDoc(userRef, {
@@ -89,12 +89,12 @@ export default function SignupPage() {
 
       {/* Left Image Section */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] text-white overflow-hidden rounded-r-[3rem]">
-        <div 
+        <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)' }}
         />
         <div className="absolute inset-0 z-10 bg-black/30 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent"></div>
-        
+
         <div className="relative z-20 flex flex-col justify-between h-full p-12 lg:p-20">
           <Link to="/" aria-label="Return to Homepage" className="flex items-center gap-2 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f172a] rounded-xl">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white group-hover:shadow-[0_0_12px_rgba(16,185,129,0.6)] transition-all duration-300">
@@ -102,10 +102,10 @@ export default function SignupPage() {
             </div>
             <span className="text-2xl font-bold tracking-tight">EcoPilot AI</span>
           </Link>
-          
+
           <div className="max-w-md">
             <h1 className="text-5xl font-bold leading-tight mb-6 tracking-tight">
-              Engineering a <br/><span className="text-[#6ee7b7]">Greener Future.</span>
+              Engineering a <br /><span className="text-[#6ee7b7]">Greener Future.</span>
             </h1>
             <p className="text-lg text-slate-200 leading-relaxed mb-10">
               Join 50k+ active pilots reducing their carbon footprint through intelligent habit building.
@@ -132,7 +132,7 @@ export default function SignupPage() {
       {/* Right Signup Section */}
       <div className="flex-1 flex flex-col justify-center items-center p-8 sm:p-12 lg:p-24">
         <div className="w-full max-w-md space-y-8">
-          
+
           {/* Mobile Header */}
           <Link to="/" aria-label="Return to Homepage" className="flex lg:hidden items-center gap-2 mb-8 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white group-hover:shadow-[0_0_12px_rgba(16,185,129,0.6)] transition-all duration-300">
@@ -159,8 +159,8 @@ export default function SignupPage() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <UserIcon size={18} className="text-on-surface-variant" />
                 </div>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-slate-50/50"
@@ -176,8 +176,8 @@ export default function SignupPage() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Mail size={18} className="text-on-surface-variant" />
                 </div>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-slate-50/50"
@@ -193,15 +193,15 @@ export default function SignupPage() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Lock size={18} className="text-on-surface-variant" />
                 </div>
-                <input 
-                  type={showPassword ? "text" : "password"} 
+                <input
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-11 pr-12 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface bg-slate-50/50"
                   placeholder="••••••••"
                   required
                 />
-                <button 
+                <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant hover:text-slate-600 transition-colors"
@@ -215,8 +215,8 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full py-4 mt-2 rounded-xl text-base font-semibold shadow-sm flex items-center justify-center gap-2"
               disabled={loading}
             >
@@ -234,7 +234,7 @@ export default function SignupPage() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handleGoogleSignup}
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-semibold hover:bg-surface-container-low transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200"

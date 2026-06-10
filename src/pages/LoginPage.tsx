@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { Leaf, Mail, Lock } from 'lucide-react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../services/firebase';
 import { Button } from '../components/ui/Button';
@@ -63,18 +63,18 @@ export default function LoginPage() {
 
       {/* Left Image Section */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] text-white overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)' }}
         />
         <div className="absolute inset-0 z-10 bg-black/40 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent"></div>
-        
+
         <div className="relative z-20 flex flex-col justify-between h-full p-12 lg:p-20">
           <Link to="/" aria-label="Return to Homepage" className="flex items-center gap-2 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f172a] rounded-lg">
             <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={28} />
             <span className="text-xl font-bold tracking-tight">EcoPilot AI</span>
           </Link>
-          
+
           <div className="max-w-md">
             <h1 className="text-5xl font-bold leading-tight mb-6 tracking-tight">
               "Small steps, giant impact."
@@ -89,7 +89,7 @@ export default function LoginPage() {
       {/* Right Login Section */}
       <div className="flex-1 flex flex-col justify-center items-center p-8 sm:p-12 lg:p-24">
         <div className="w-full max-w-md space-y-8">
-          
+
           {/* Mobile Header */}
           <Link to="/" aria-label="Return to Homepage" className="flex lg:hidden items-center gap-2 mb-8 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg">
             <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={24} />
@@ -114,8 +114,8 @@ export default function LoginPage() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Mail size={18} className="text-on-surface-variant" />
                 </div>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface"
@@ -131,8 +131,8 @@ export default function LoginPage() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Lock size={18} className="text-on-surface-variant" />
                 </div>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-on-surface"
@@ -152,8 +152,8 @@ export default function LoginPage() {
               </a>
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full py-6 rounded-xl text-base font-semibold shadow-sm"
               disabled={loading}
             >
@@ -170,7 +170,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handleGoogleLogin}
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-semibold hover:bg-surface-container-low transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
