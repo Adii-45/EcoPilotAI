@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import type { User, Habit, Achievement, SimulationState, UserSettings, AIChatMessage } from '../types';
+import type { User, Habit, Achievement, SimulationState, UserSettings, AIChatMessage, ActivityRecord, Notification } from '../types';
 
 export const saveUserProgress = async (userId: string, data: Partial<User>) => {
   const userRef = doc(db, 'users', userId);
@@ -66,4 +66,68 @@ export const getChatHistory = async (userId: string): Promise<AIChatMessage[] | 
   const chatRef = doc(db, 'chatHistory', userId);
   const snap = await getDoc(chatRef);
   return snap.exists() ? snap.data().messages as AIChatMessage[] : null;
+};
+
+export const saveActivity = async (userId: string, activity: ActivityRecord) => {
+  const userActivityRef = doc(db, 'activity', userId);
+  const snap = await getDoc(userActivityRef);
+  const existingActivities = snap.exists() ? snap.data().data as ActivityRecord[] : [];
+  
+  await setDoc(userActivityRef, { data: [...existingActivities, activity] }, { merge: true });
+};
+
+export const getActivities = async (userId: string): Promise<ActivityRecord[]> => {
+  const userActivityRef = doc(db, 'activity', userId);
+  const snap = await getDoc(userActivityRef);
+  return snap.exists() ? snap.data().data as ActivityRecord[] : [];
+};
+
+export const saveNotification = async (userId: string, notification: Notification) => {
+  const notifRef = doc(db, 'notifications', userId);
+  const snap = await getDoc(notifRef);
+  const existing = snap.exists() ? snap.data().data as Notification[] : [];
+  
+  await setDoc(notifRef, { data: [...existing, notification] }, { merge: true });
+};
+
+export const getNotifications = async (userId: string): Promise<Notification[]> => {
+  const notifRef = doc(db, 'notifications', userId);
+  const snap = await getDoc(notifRef);
+  return snap.exists() ? snap.data().data as Notification[] : [];
+};
+
+export const markNotificationsRead = async (userId: string) => {
+  const notifRef = doc(db, 'notifications', userId);
+  const snap = await getDoc(notifRef);
+  if (snap.exists()) {
+    const existing = snap.data().data as Notification[];
+    const updated = existing.map(n => ({ ...n, read: true }));
+    await setDoc(notifRef, { data: updated }, { merge: true });
+  }
+};
+export const saveReport = async (userId: string, weekDate: string, summary: string) => {
+  const reportRef = doc(db, 'reports', userId);
+  const snap = await getDoc(reportRef);
+  const existing = snap.exists() ? snap.data().data || {} : {};
+  
+  await setDoc(reportRef, { data: { ...existing, [weekDate]: summary } }, { merge: true });
+};
+
+export const getReport = async (userId: string, weekDate: string): Promise<string | null> => {
+  const reportRef = doc(db, 'reports', userId);
+  const snap = await getDoc(reportRef);
+  if (snap.exists()) {
+    const data = snap.data().data;
+    if (data && data[weekDate]) return data[weekDate];
+  }
+  return null;
+};
+
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+
+export const getGlobalLeaderboard = async (): Promise<Partial<User>[]> => {
+  const usersRef = collection(db, 'users');
+  const q = query(usersRef, orderBy('xp', 'desc'), limit(10));
+  const snap = await getDocs(q);
+  return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<User>));
 };

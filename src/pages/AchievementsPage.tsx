@@ -1,21 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
 import { Trophy, Users, Bike, Leaf, Zap, ShoppingBag, Lock, Medal } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { getGlobalLeaderboard } from '../services/db';
+import type { User } from '../types';
 
 const categories = ['All Categories', 'Transportation', 'Energy', 'Food', 'Lifestyle'];
-
-const mockLeaderboard = [
-  { id: '1', name: 'Jane Doe', level: 6, title: 'Eco Master', score: '45 Days', initials: 'JD' },
-  { id: '2', name: 'Alex Smith', level: 5, title: 'Guardian', score: '38 Days', initials: 'AS' },
-];
 
 export default function AchievementsPage() {
   const user = useStore((state) => state.user!);
   const achievements = useStore((state) => state.achievements);
   const [activeCategory, setActiveCategory] = useState('All Categories');
+  const [leaderboard, setLeaderboard] = useState<Partial<User>[]>([]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const data = await getGlobalLeaderboard();
+        setLeaderboard(data);
+      } catch (error) {
+        console.error("Failed to fetch leaderboard", error);
+      }
+    };
+    fetchLeaderboard();
+  }, []);
 
   const filteredAchievements = activeCategory === 'All Categories' 
     ? achievements 
@@ -131,6 +140,11 @@ export default function AchievementsPage() {
                 </div>
               </div>
             ))}
+            {Object.keys(groupedAchievements).length === 0 && (
+              <div className="text-center py-8 border border-dashed rounded-2xl text-on-surface-variant">
+                No achievements found in this category. Complete habits to unlock them!
+              </div>
+            )}
           </div>
         </div>
 
@@ -139,40 +153,51 @@ export default function AchievementsPage() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-on-surface flex items-center gap-2">
               <Trophy className="text-primary" />
-              Leaderboard
+              Global Leaderboard
             </h3>
             <Card className="overflow-hidden border-none shadow-md">
-              <div className="bg-surface-container p-3 text-xs font-bold tracking-wider text-on-surface-variant uppercase text-center">Top Eco Streaks</div>
+              <div className="bg-surface-container p-3 text-xs font-bold tracking-wider text-on-surface-variant uppercase text-center">Top Eco Warriors (By XP)</div>
               <div className="divide-y divide-outline-variant">
-                {mockLeaderboard.map((person, i) => (
-                  <div key={person.id} className="p-4 flex items-center gap-4 hover:bg-surface-container/50 transition-colors">
-                    <span className="font-black text-on-surface-variant w-4 text-center">{i + 1}</span>
-                    <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-on-surface text-sm">
-                      {person.initials}
+                {leaderboard.length === 0 ? (
+                  <div className="p-4 text-center text-sm text-on-surface-variant">Loading leaderboard...</div>
+                ) : (
+                  leaderboard.map((person, i) => (
+                    <div key={person.id} className={cn(
+                      "p-4 flex items-center gap-4 hover:bg-surface-container/50 transition-colors",
+                      person.id === user.id && "bg-primary/5"
+                    )}>
+                      <span className="font-black text-on-surface-variant w-4 text-center">{i + 1}</span>
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm",
+                        person.id === user.id ? "bg-primary text-white" : "bg-surface-container-high text-on-surface"
+                      )}>
+                        {person.name?.substring(0, 2).toUpperCase() || 'U'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h6 className="font-bold text-on-surface truncate">
+                          {person.id === user.id ? 'You' : person.name || 'Anonymous User'}
+                        </h6>
+                        <p className="text-xs text-on-surface-variant">Level {person.level || 1}</p>
+                      </div>
+                      <div className="font-bold text-primary text-sm whitespace-nowrap">{person.xp?.toLocaleString() || 0} XP</div>
+                    </div>
+                  ))
+                )}
+                
+                {/* Ensure current user is shown if not in top 10 */}
+                {leaderboard.length > 0 && !leaderboard.find(p => p.id === user.id) && (
+                  <div className="p-4 flex items-center gap-4 bg-primary/5 border-t-2 border-primary/20">
+                    <span className="font-black text-on-surface w-4 text-center">-</span>
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm">
+                      {user.name.substring(0, 2).toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h6 className="font-bold text-on-surface truncate">{person.name}</h6>
-                      <p className="text-xs text-on-surface-variant">Level {person.level} {person.title}</p>
+                      <h6 className="font-bold text-on-surface truncate">You</h6>
+                      <p className="text-xs text-on-surface-variant">Level {user.level}</p>
                     </div>
-                    <div className="font-bold text-primary text-sm whitespace-nowrap">{person.score}</div>
+                    <div className="font-bold text-primary text-sm whitespace-nowrap">{user.xp.toLocaleString()} XP</div>
                   </div>
-                ))}
-                
-                {/* Current User Row */}
-                <div className="p-4 flex items-center gap-4 bg-primary/5">
-                  <span className="font-black text-on-surface w-4 text-center">3</span>
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm">
-                    You
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h6 className="font-bold text-on-surface truncate">You</h6>
-                    <p className="text-xs text-on-surface-variant">Level {user.level} Warrior</p>
-                  </div>
-                  <div className="font-bold text-on-surface text-sm whitespace-nowrap">{user.streak} Days</div>
-                </div>
-              </div>
-              <div className="p-4 bg-surface-container/30 text-center">
-                <button className="text-sm font-bold text-primary hover:text-primary/80">View Full Leaderboard</button>
+                )}
               </div>
             </Card>
           </div>
@@ -180,23 +205,26 @@ export default function AchievementsPage() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-on-surface flex items-center gap-2">
               <Users className="text-primary" />
-              Friends Impact
+              Community Impact
             </h3>
             <Card className="p-6 border-none shadow-md">
               <p className="text-on-surface-variant text-sm mb-6 leading-relaxed">
-                Together, you and your friends are making a real difference this month.
+                Together, the EcoPilot community is making a real difference globally.
               </p>
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-primary/5 p-4 rounded-xl text-center">
-                  <div className="text-2xl font-black text-on-surface mb-1">124</div>
-                  <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Trees Planted</p>
+                  <div className="text-2xl font-black text-on-surface mb-1">
+                    {leaderboard.reduce((acc, curr) => acc + (curr.totalCarbonSaved || 0), 0).toFixed(0)}
+                  </div>
+                  <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Top Users kg CO2 Saved</p>
                 </div>
                 <div className="bg-surface-container p-4 rounded-xl text-center">
-                  <div className="text-2xl font-black text-on-surface mb-1">850</div>
-                  <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">kg CO2 Saved</p>
+                  <div className="text-2xl font-black text-on-surface mb-1">
+                    {leaderboard.reduce((acc, curr) => acc + (curr.totalActions || 0), 0)}
+                  </div>
+                  <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Total Actions Taken</p>
                 </div>
               </div>
-              <Button variant="secondary" className="w-full">Invite More Friends</Button>
             </Card>
           </div>
         </div>

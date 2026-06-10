@@ -66,3 +66,29 @@ Keep responses concise, encouraging, and actionable. Do not format with markdown
   
   return "I'm currently unable to connect to the coaching server. Please check your API key and connection.";
 };
+
+export const generateWeeklySummary = async (user: User, activities: any[]): Promise<string> => {
+  const client = getClient();
+  if (!client) return "Keep up the great work! Your actions are making a difference.";
+
+  const prompt = `Based on the user's weekly activity, generate a 2-sentence encouraging summary of their sustainability impact.
+User Stats:
+- Level: ${user.level}
+- Total Actions: ${user.totalActions}
+- Carbon Saved: ${user.totalCarbonSaved} kg
+- Streak: ${user.streak} days
+- Recent Activities Count: ${activities.length}
+
+Do not use Markdown. Keep it conversational and highly encouraging.`;
+
+  try {
+    const response = await client.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: [{ role: 'user', parts: [{ text: prompt }] }]
+    });
+    return response.text || "Your dedication to sustainability is inspiring. Keep taking those small steps!";
+  } catch (error) {
+    console.error("Error generating summary:", error);
+    return "Your dedication to sustainability is inspiring. Keep taking those small steps!";
+  }
+};

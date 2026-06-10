@@ -105,9 +105,9 @@ export default function AICoachPage() {
         {/* Input Area */}
         <div className="absolute bottom-0 left-0 right-0 pt-8 pb-4 bg-gradient-to-t from-surface via-surface to-transparent">
           <div className="flex items-center gap-3 mb-4 justify-center">
-             <Button variant="outline" className="rounded-full bg-white text-sm h-9 shadow-sm"><BarChart3 size={16} className="mr-2"/> View Impact</Button>
-             <Button variant="outline" className="rounded-full bg-white text-sm h-9 shadow-sm"><CheckCircle2 size={16} className="mr-2"/> Track Habit</Button>
-             <Button variant="outline" className="rounded-full bg-white text-sm h-9 shadow-sm"><Zap size={16} className="mr-2"/> More ideas</Button>
+             <Button variant="outline" onClick={() => window.location.href='/impact'} className="rounded-full bg-white text-sm h-9 shadow-sm"><BarChart3 size={16} className="mr-2"/> View Impact</Button>
+             <Button variant="outline" onClick={() => window.location.href='/habits'} className="rounded-full bg-white text-sm h-9 shadow-sm"><CheckCircle2 size={16} className="mr-2"/> Track Habit</Button>
+             <Button variant="outline" onClick={() => setInput("Give me some more habit ideas.")} className="rounded-full bg-white text-sm h-9 shadow-sm"><Zap size={16} className="mr-2"/> More ideas</Button>
           </div>
           <div className="relative max-w-3xl mx-auto">
             <button className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">

@@ -1,7 +1,11 @@
 import { create } from 'zustand';
-import type { User, Habit, Achievement, SimulationState, Mission, Insight, Challenge, UserSettings, AIChatMessage } from '../types';
+import type { User, Habit, Achievement, SimulationState, Mission, Insight, Challenge, UserSettings, AIChatMessage, ActivityRecord, Notification } from '../types';
 import { calculateLevel, calculateSustainabilityScore } from '../services/engine';
-import { saveUserProgress, saveHabits, saveAchievements, saveSimulation, saveSettings, saveChatHistory } from '../services/db';
+import { saveUserProgress, saveHabits, saveAchievements, saveSimulation, saveSettings, saveChatHistory, saveNotification } from '../services/db';
+import { logActivity } from '../services/activityEngine';
+import { evaluateAchievements } from '../services/achievementEngine';
+
+const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
 interface AppState {
   user: User | null;
@@ -14,23 +18,21 @@ interface AppState {
   activeMission: Mission | null;
   insights: Insight[];
   aiMessages: AIChatMessage[];
+  activities: ActivityRecord[];
+  notifications: Notification[];
   
   // Actions
   completeHabit: (habitId: string) => Promise<void>;
+  addHabit: (habit: Omit<Habit, 'id' | 'streak' | 'completedToday'>) => Promise<void>;
   updateSimulation: (updates: Partial<SimulationState>) => Promise<void>;
+  applySimulation: () => Promise<void>;
   unlockAchievement: (achievementId: string) => Promise<void>;
   updateSettings: (updates: Partial<UserSettings>) => Promise<void>;
   updateUser: (updates: Partial<User>) => Promise<void>;
   addChatMessage: (msg: Omit<AIChatMessage, 'id'>) => Promise<void>;
+  markNotificationRead: (notificationId: string) => Promise<void>;
   setInitialData: (data: Partial<AppState>) => void;
 }
-
-const initialAchievements: Achievement[] = [
-  { id: 'a1', title: 'Zero Emission Commuter', description: 'Log 50 zero-emission commutes (bike, walk, EV).', xpReward: 500, category: 'Transport', unlocked: true, progress: 50, total: 50, icon: 'Bike' },
-  { id: 'a2', title: 'Public Transit Pro', description: 'Take public transportation 20 times this month.', xpReward: 300, category: 'Transport', unlocked: false, progress: 12, total: 20, icon: 'Train' },
-  { id: 'a3', title: 'Plant-Based Pioneer', description: 'Eat 30 plant-based meals.', xpReward: 250, category: 'Food', unlocked: true, progress: 30, total: 30, icon: 'Leaf' },
-  { id: 'a4', title: 'Consistency Champion', description: 'Maintain a 7 day streak.', xpReward: 400, category: 'Lifestyle', unlocked: false, progress: 0, total: 7, icon: 'Flame' },
-];
 
 const initialSettings: UserSettings = {
   remindersEnabled: true,
@@ -38,50 +40,42 @@ const initialSettings: UserSettings = {
   sustainabilityFocus: ['Transport', 'Energy']
 };
 
-const initialDailyChallenges: Habit[] = [
-  { id: 'dc1', title: 'Used reusable water bottle', description: '', xpReward: 20, co2SavingsKg: 0.1, difficulty: 'Easy', category: 'Water', streak: 0, completedToday: true },
-  { id: 'dc2', title: 'Walked instead of driving', description: '', xpReward: 20, co2SavingsKg: 0.5, difficulty: 'Medium', category: 'Transport', streak: 0, completedToday: true },
-  { id: 'dc3', title: 'Unplug inactive electronics', description: '', xpReward: 15, co2SavingsKg: 0.2, difficulty: 'Easy', category: 'Energy', streak: 0, completedToday: false },
-  { id: 'dc4', title: 'Air-dry laundry', description: '', xpReward: 30, co2SavingsKg: 1.2, difficulty: 'Medium', category: 'Energy', streak: 0, completedToday: false }
-];
-
-const initialActiveHabits: Habit[] = [
-  { id: 'h1', title: 'Carry reusable bottle', description: '', xpReward: 20, co2SavingsKg: 0.1, difficulty: 'Easy', category: 'Water', streak: 5, completedToday: true },
-  { id: 'h2', title: 'Walk 5k steps', description: '', xpReward: 30, co2SavingsKg: 0.8, difficulty: 'Medium', category: 'Transport', streak: 3, completedToday: false },
-  { id: 'h3', title: 'Use public transport', description: '', xpReward: 50, co2SavingsKg: 2.5, difficulty: 'Hard', category: 'Transport', streak: 7, completedToday: true }
-];
-
-const initialWeeklyChallenges: Challenge[] = [
-  { id: 'wc1', title: 'Public Transit Pro', description: 'Take public transport 5 days this week.', xpReward: 100, progress: 3, total: 5, category: 'Transport' },
-  { id: 'wc2', title: 'Hydration Hero', description: 'Use your reusable bottle 7 days straight.', xpReward: 50, progress: 7, total: 7, category: 'Water' }
-];
-
-const initialInsights: Insight[] = [
-  { id: 'i1', text: 'Your transportation habits contribute the highest emissions. Replacing just two car trips with public transport each week could reduce your annual footprint by ~90 kg CO₂.', type: 'recommendation', actionLabel: 'Accept Challenge' }
-];
-
-const initialMission: Mission = {
-  id: 'm1', title: 'Go Meatless for Dinner', description: 'Choose a plant-based meal tonight to significantly reduce your daily emissions.', xpReward: 50, completed: false,
-};
-
 export const useStore = create<AppState>((set, get) => ({
   user: null,
   settings: initialSettings,
-  habits: initialActiveHabits,
-  dailyChallenges: initialDailyChallenges,
-  weeklyChallenges: initialWeeklyChallenges,
-  achievements: initialAchievements,
+  habits: [],
+  dailyChallenges: [],
+  weeklyChallenges: [],
+  achievements: [],
   simulation: {
-    carUsage: 120,
-    meatConsumption: 4,
+    carUsage: 0,
+    meatConsumption: 0,
     energyEfficiency: 50,
     shoppingFrequency: 50,
   },
-  activeMission: initialMission,
-  insights: initialInsights,
+  activeMission: null,
+  insights: [],
   aiMessages: [],
+  activities: [],
+  notifications: [],
 
   setInitialData: (data) => set((state) => ({ ...state, ...data })),
+
+  addHabit: async (habitData) => {
+    const state = get();
+    if (!state.user) return;
+    
+    const newHabit: Habit = {
+      ...habitData,
+      id: generateId(),
+      streak: 0,
+      completedToday: false
+    };
+
+    const updatedHabits = [...state.habits, newHabit];
+    set({ habits: updatedHabits });
+    await saveHabits(state.user.id, updatedHabits, state.dailyChallenges);
+  },
 
   completeHabit: async (habitId: string) => {
     const state = get();
@@ -118,16 +112,6 @@ export const useStore = create<AppState>((set, get) => ({
     // Recalculate score
     newUser.sustainabilityScore = calculateSustainabilityScore(newUser, [...updatedHabits, ...updatedDaily]);
 
-    // Check for achievements
-    const newAchievements = [...state.achievements];
-    const consistencyAch = newAchievements.find(a => a.id === 'a4');
-    if (consistencyAch && !consistencyAch.unlocked && newUser.streak >= consistencyAch.total) {
-      consistencyAch.unlocked = true;
-      consistencyAch.progress = consistencyAch.total;
-      newUser.achievementsEarned += 1;
-      newUser.xp += consistencyAch.xpReward;
-    }
-
     // Update daily history
     const todayStr = new Date().toISOString().split('T')[0];
     const newHistory = [...(newUser.history || [])];
@@ -148,18 +132,49 @@ export const useStore = create<AppState>((set, get) => ({
     }
     newUser.history = newHistory;
 
-    // Set state locally first for snappy UI
+    // Log Activity
+    const activity = await logActivity(newUser.id, 'habit_completed', xpGained, carbonSaved, { habitId, title: habitToComplete.title });
+    const newActivities = [activity, ...state.activities];
+
+    // Evaluate Achievements
+    const { newUnlocked, updatedAchievements } = evaluateAchievements(newUser, newActivities, state.achievements);
+    
+    let addedNotifications: Notification[] = [];
+    if (newUnlocked.length > 0) {
+      newUser.achievementsEarned += newUnlocked.length;
+      for (const ach of newUnlocked) {
+        newUser.xp += ach.xpReward;
+        const notif: Notification = {
+          id: generateId(),
+          userId: newUser.id,
+          title: 'Achievement Unlocked!',
+          message: `You unlocked ${ach.title} and earned ${ach.xpReward} XP.`,
+          type: 'achievement',
+          read: false,
+          timestamp: new Date().toISOString()
+        };
+        await saveNotification(newUser.id, notif);
+        addedNotifications.push(notif);
+        await logActivity(newUser.id, 'achievement_unlocked', ach.xpReward, 0, { achievementId: ach.id, title: ach.title });
+      }
+    }
+
+    // Set state
     set({
       user: newUser,
       habits: updatedHabits,
       dailyChallenges: updatedDaily,
-      achievements: newAchievements
+      achievements: updatedAchievements,
+      activities: newActivities,
+      notifications: [...addedNotifications, ...state.notifications]
     });
 
     // Sync to DB
-    await saveUserProgress(state.user.id, newUser);
-    await saveHabits(state.user.id, updatedHabits, updatedDaily);
-    await saveAchievements(state.user.id, newAchievements);
+    await saveUserProgress(newUser.id, newUser);
+    await saveHabits(newUser.id, updatedHabits, updatedDaily);
+    if (newUnlocked.length > 0) {
+      await saveAchievements(newUser.id, updatedAchievements);
+    }
   },
 
   updateSimulation: async (updates) => {
@@ -168,6 +183,42 @@ export const useStore = create<AppState>((set, get) => ({
     set({ simulation: newSim });
     if (state.user) {
       await saveSimulation(state.user.id, newSim);
+    }
+  },
+
+  applySimulation: async () => {
+    const state = get();
+    if (!state.user) return;
+    const activity = await logActivity(state.user.id, 'simulation_run', 50, 0, { simulation: state.simulation });
+    const newActivities = [activity, ...state.activities];
+    
+    const newUser = { ...state.user, xp: state.user.xp + 50 };
+    const { newUnlocked, updatedAchievements } = evaluateAchievements(newUser, newActivities, state.achievements);
+    
+    let addedNotifications: Notification[] = [];
+    if (newUnlocked.length > 0) {
+      newUser.achievementsEarned += newUnlocked.length;
+      for (const ach of newUnlocked) {
+        newUser.xp += ach.xpReward;
+        const notif: Notification = {
+          id: generateId(),
+          userId: newUser.id,
+          title: 'Achievement Unlocked!',
+          message: `You unlocked ${ach.title} and earned ${ach.xpReward} XP.`,
+          type: 'achievement',
+          read: false,
+          timestamp: new Date().toISOString()
+        };
+        await saveNotification(newUser.id, notif);
+        addedNotifications.push(notif);
+        await logActivity(newUser.id, 'achievement_unlocked', ach.xpReward, 0, { achievementId: ach.id, title: ach.title });
+      }
+    }
+
+    set({ user: newUser, activities: newActivities, achievements: updatedAchievements, notifications: [...addedNotifications, ...state.notifications] });
+    await saveUserProgress(newUser.id, newUser);
+    if (newUnlocked.length > 0) {
+      await saveAchievements(newUser.id, updatedAchievements);
     }
   },
 
@@ -201,7 +252,6 @@ export const useStore = create<AppState>((set, get) => ({
 
   updateUser: async (updates) => {
     const state = get();
-    // Handles initial user load or manual updates
     const newUser = state.user ? { ...state.user, ...updates } : updates as User;
     set({ user: newUser });
     if (newUser.id) {
@@ -211,12 +261,18 @@ export const useStore = create<AppState>((set, get) => ({
 
   addChatMessage: async (msg) => {
     const state = get();
-    const newMsg = { ...msg, id: Date.now().toString() } as AIChatMessage;
+    const newMsg = { ...msg, id: generateId() } as AIChatMessage;
     const newHistory = [...state.aiMessages, newMsg];
     
     set({ aiMessages: newHistory });
     if (state.user) {
       await saveChatHistory(state.user.id, newHistory);
     }
+  },
+
+  markNotificationRead: async (notificationId) => {
+    const state = get();
+    const newNotifs = state.notifications.map(n => n.id === notificationId ? { ...n, read: true } : n);
+    set({ notifications: newNotifs });
   }
 }));

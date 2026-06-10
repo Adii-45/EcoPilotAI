@@ -5,6 +5,7 @@ export interface User {
   id: string;
   name: string;
   email?: string;
+  avatar?: string;
   level: number;
   xp: number;
   nextLevelXp: number;
@@ -14,6 +15,26 @@ export interface User {
   totalActions: number;
   achievementsEarned: number;
   history: { date: string; score: number; actions: number }[];
+}
+
+export interface ActivityRecord {
+  id: string;
+  userId: string;
+  type: 'habit_completed' | 'mission_completed' | 'achievement_unlocked' | 'simulation_run' | 'streak_increased';
+  timestamp: string; // ISO String
+  pointsEarned: number;
+  carbonSaved: number;
+  metadata?: any;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type: 'habit_reminder' | 'achievement' | 'report_ready' | 'streak_risk' | 'system';
+  read: boolean;
+  timestamp: string; // ISO string
 }
 
 export interface Habit {

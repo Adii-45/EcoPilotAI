@@ -141,13 +141,26 @@ export default function SimulatorPage() {
             </div>
           </div>
 
-          <Button 
-            className="w-full mt-8" 
-            onClick={handleRecalculate}
-            disabled={localSim === simulation}
-          >
-            Recalculate Projection
-          </Button>
+          <div className="flex flex-col gap-3 mt-8">
+            <Button 
+              className="w-full" 
+              variant="outline"
+              onClick={handleRecalculate}
+              disabled={localSim === simulation}
+            >
+              Save Simulation
+            </Button>
+            <Button 
+              className="w-full" 
+              onClick={async () => {
+                await handleRecalculate();
+                await useStore.getState().applySimulation();
+                alert("Scenario Applied! Your dashboard and profile have been updated.");
+              }}
+            >
+              Apply Changes
+            </Button>
+          </div>
         </Card>
 
         {/* Current & Future Results */}

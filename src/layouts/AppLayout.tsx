@@ -1,4 +1,5 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { 
   LayoutDashboard, 
   Bot, 
@@ -9,11 +10,13 @@ import {
   Settings,
   HelpCircle,
   Leaf,
-  LogOut
+  LogOut,
+  Bell
 } from "lucide-react";
 import { cn } from "../utils/cn";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../contexts/AuthContext";
+import { useStore } from "../store/store";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
@@ -26,11 +29,28 @@ const navItems = [
 
 export default function AppLayout() {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+  const user = useStore(state => state.user!);
+  const notifications = useStore(state => state.notifications);
+  const markNotificationRead = useStore(state => state.markNotificationRead);
+  const habits = useStore(state => state.habits);
+  const achievements = useStore(state => state.achievements);
+
+  const [showNotifs, setShowNotifs] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const searchResults = searchQuery.length > 1 ? [
+    ...habits.filter(h => h.title.toLowerCase().includes(searchQuery.toLowerCase())).map(h => ({ type: 'Habit', text: h.title, link: '/habits' })),
+    ...achievements.filter(a => a.title.toLowerCase().includes(searchQuery.toLowerCase())).map(a => ({ type: 'Achievement', text: a.title, link: '/achievements' }))
+  ] : [];
 
   return (
     <div className="min-h-screen bg-surface flex text-on-surface">
       {/* Sidebar */}
-      <aside className="w-[280px] bg-white border-r border-outline-variant flex flex-col fixed inset-y-0 z-10">
+      <aside className="w-[280px] bg-white border-r border-outline-variant flex flex-col fixed inset-y-0 z-20">
         <div className="p-6 flex items-center gap-3">
           <div className="bg-primary/10 p-2 rounded-xl text-primary">
             <Leaf size={24} />
@@ -100,26 +120,104 @@ export default function AppLayout() {
       {/* Main Content Area */}
       <main className="flex-1 ml-[280px] flex flex-col min-h-screen">
         <header className="h-16 border-b border-outline-variant bg-white/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-8">
-          <div className="flex-1 max-w-xl">
+          <div className="flex-1 max-w-xl relative">
             <div className="relative">
               <input 
                 type="text" 
-                placeholder="Search insights, actions..." 
+                placeholder="Search habits, achievements..." 
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSearch(true);
+                }}
+                onFocus={() => setShowSearch(true)}
                 className="w-full bg-surface pl-10 pr-4 py-2 rounded-xl border border-outline-variant focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm"
               />
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               </span>
             </div>
+            
+            {showSearch && searchQuery.length > 1 && (
+              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-xl border border-outline-variant p-2 z-50">
+                {searchResults.length === 0 ? (
+                  <p className="text-sm text-on-surface-variant p-2">No results found.</p>
+                ) : (
+                  searchResults.map((res, i) => (
+                    <div 
+                      key={i} 
+                      className="p-2 hover:bg-surface-container rounded-lg cursor-pointer"
+                      onClick={() => {
+                        navigate(res.link);
+                        setShowSearch(false);
+                        setSearchQuery('');
+                      }}
+                    >
+                      <p className="font-bold text-sm text-on-surface">{res.text}</p>
+                      <p className="text-[10px] text-on-surface-variant uppercase">{res.type}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+            {/* Click outside search overlay to close */}
+            {showSearch && (
+               <div className="fixed inset-0 z-[-1]" onClick={() => setShowSearch(false)}></div>
+            )}
           </div>
           
-          <div className="flex items-center gap-4 ml-4">
-            <button className="text-on-surface-variant hover:text-on-surface relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
-            </button>
-            <div className="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
-              <img src="https://ui-avatars.com/api/?name=Alex+User&background=006c49&color=fff" alt="User" />
+          <div className="flex items-center gap-6 ml-4 relative">
+            <div className="relative">
+              <button 
+                className="text-on-surface-variant hover:text-on-surface relative p-1"
+                onClick={() => setShowNotifs(!showNotifs)}
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border-2 border-white"></span>}
+              </button>
+              
+              {showNotifs && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowNotifs(false)}></div>
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-white shadow-lg border border-outline-variant rounded-2xl z-50 overflow-hidden">
+                    <div className="p-4 border-b border-outline-variant flex justify-between items-center bg-surface">
+                      <h4 className="font-bold text-on-surface">Notifications</h4>
+                      {unreadCount > 0 && <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{unreadCount} New</span>}
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {notifications.length === 0 ? (
+                        <p className="p-6 text-center text-sm text-on-surface-variant">You're all caught up!</p>
+                      ) : (
+                        notifications.map(n => (
+                          <div 
+                            key={n.id} 
+                            className={cn(
+                              "p-4 border-b border-outline-variant/50 cursor-pointer transition-colors hover:bg-surface",
+                              !n.read ? "bg-primary/5" : "bg-white"
+                            )}
+                            onClick={() => {
+                              if (!n.read) markNotificationRead(n.id);
+                            }}
+                          >
+                            <p className="text-sm font-bold text-on-surface mb-1">{n.title}</p>
+                            <p className="text-xs text-on-surface-variant">{n.message}</p>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            
+            <div className="flex items-center gap-3 border-l border-outline-variant pl-6">
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-bold text-on-surface">{user.name}</p>
+                <p className="text-xs text-primary font-bold">Level {user.level}</p>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+                <img src={`https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff`} alt={user.name} />
+              </div>
             </div>
           </div>
         </header>

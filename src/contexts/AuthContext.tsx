@@ -47,11 +47,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             getDoc(doc(db, 'achievements', user.uid)),
             getDoc(doc(db, 'simulations', user.uid)),
             getDoc(doc(db, 'settings', user.uid)),
-            getDoc(doc(db, 'chatHistory', user.uid))
+            getDoc(doc(db, 'chatHistory', user.uid)),
+            getDoc(doc(db, 'activity', user.uid)),
+            getDoc(doc(db, 'notifications', user.uid))
           ]);
 
           // Race the Firestore fetch against our timeout
-          const [userDoc, habitsDoc, achDoc, simDoc, settingsDoc, chatDoc] = await Promise.race([
+          const [userDoc, habitsDoc, achDoc, simDoc, settingsDoc, chatDoc, activityDoc, notifDoc] = await Promise.race([
             fetchPromise,
             timeoutPromise
           ]);
@@ -113,6 +115,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
           if (chatDoc.exists()) {
             storeUpdates.aiMessages = chatDoc.data().messages || [];
+          }
+
+          if (activityDoc.exists()) {
+            storeUpdates.activities = activityDoc.data().data || [];
+          }
+
+          if (notifDoc.exists()) {
+            storeUpdates.notifications = notifDoc.data().data || [];
           }
 
           // Apply state to Zustand
