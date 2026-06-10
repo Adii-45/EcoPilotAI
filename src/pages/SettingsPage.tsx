@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2 } from 'lucide-react';
+import { Save, Bell, LineChart, Bot, Edit2, CheckCircle2, Loader2 } from 'lucide-react';
+import { uploadProfileImage } from '../services/cloudinary';
 
 export default function SettingsPage() {
   const user = useStore((state) => state.user!);
@@ -16,6 +17,44 @@ export default function SettingsPage() {
   const [coachingIntensity, setCoachingIntensity] = useState(
     settings.coachingIntensity === 'Gentle' ? "0" : settings.coachingIntensity === 'Standard' ? "50" : "100"
   );
+  
+  const [isUploading, setIsUploading] = useState(false);
+  const [toast, setToast] = useState<{message: string, type: 'error'|'success'} | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const showToast = (message: string, type: 'error'|'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File is too large. Maximum size is 5MB.', 'error');
+      return;
+    }
+
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      showToast('Invalid file format. Please upload JPG, PNG, or WEBP.', 'error');
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      const url = await uploadProfileImage(file);
+      await updateUser({ photoURL: url });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      showToast('Profile picture updated successfully!', 'success');
+    } catch (error) {
+      showToast('Failed to upload image. Please try again.', 'error');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+
 
   const handleSave = () => {
     updateUser({ name, email });
@@ -24,11 +63,16 @@ export default function SettingsPage() {
       remindersEnabled,
       coachingIntensity: intensity
     });
-    alert('Settings saved successfully!');
+    showToast('Settings saved successfully!', 'success');
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500 relative">
+      {toast && (
+        <div className={`fixed top-4 right-4 px-4 py-2 rounded shadow text-white z-50 transition-opacity ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
+          {toast.message}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-on-surface mb-2">Sustainability Passport</h1>
@@ -74,13 +118,37 @@ export default function SettingsPage() {
             <h3 className="text-xl font-bold text-on-surface border-b border-outline-variant pb-4">User Profile</h3>
             
             <div className="flex flex-col sm:flex-row gap-8 items-start">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-full bg-surface-container-high overflow-hidden border-4 border-white shadow-md">
-                  <img src={`https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff&size=200`} alt="Avatar" className="w-full h-full object-cover" />
+              <div className="relative group flex flex-col items-center gap-2">
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  accept="image/jpeg, image/png, image/webp" 
+                  className="hidden" 
+                />
+                <div 
+                  className="w-24 h-24 rounded-full bg-surface-container-high overflow-hidden border-4 border-white shadow-md relative cursor-pointer group-hover:opacity-90 transition-opacity"
+                  onClick={() => !isUploading && fileInputRef.current?.click()}
+                >
+                  {isUploading && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
+                      <Loader2 className="text-white animate-spin" size={24} />
+                    </div>
+                  )}
+                  <img 
+                    src={user.photoURL || `https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff&size=200`} 
+                    alt="Avatar" 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
-                <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md text-on-surface border border-outline-variant hover:bg-surface-container transition-colors">
+                <button 
+                  onClick={() => !isUploading && fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="absolute top-16 right-[-8px] p-2 bg-white rounded-full shadow-md text-on-surface border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50 z-20"
+                >
                   <Edit2 size={14} />
                 </button>
+
               </div>
               
               <div className="flex-1 w-full space-y-4">

@@ -210,7 +210,7 @@ export default function AppLayout() {
                 <p className="text-xs text-primary font-bold">Level {user.level}</p>
               </div>
               <div className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
-                <img src={`https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff`} alt={user.name} />
+                <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff`} alt={user.name} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
