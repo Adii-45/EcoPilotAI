@@ -120,6 +120,9 @@ export const useStore = create<AppState>((set, get) => ({
     // Recalculate score
     newUser.sustainabilityScore = calculateSustainabilityScore(newUser, [...updatedHabits, ...updatedDaily]);
 
+    // Single Source of Truth for Today's Actions
+    const todaysActionsCount = updatedHabits.filter(h => h.completedToday).length + updatedDaily.filter(h => h.completedToday).length;
+
     // Update daily history
     const todayStr = new Date().toISOString().split('T')[0];
     const newHistory = [...(newUser.history || [])];
@@ -129,13 +132,13 @@ export const useStore = create<AppState>((set, get) => ({
       newHistory[todayIndex] = {
         date: todayStr,
         score: newUser.sustainabilityScore,
-        actions: Math.max(0, newHistory[todayIndex].actions + actionChange)
+        actions: todaysActionsCount
       };
-    } else if (!isUncompleting) {
+    } else if (todaysActionsCount > 0) {
       newHistory.push({
         date: todayStr,
         score: newUser.sustainabilityScore,
-        actions: 1
+        actions: todaysActionsCount
       });
     }
     newUser.history = newHistory;
