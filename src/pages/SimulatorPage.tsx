@@ -73,8 +73,8 @@ export default function SimulatorPage() {
       {/* Header & Scenarios */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-on-surface mb-2">Future Impact Simulator</h1>
-          <p className="text-on-surface-variant max-w-xl">
+          <h1 className="text-2xl md:text-3xl font-bold text-on-surface mb-2">Future Impact Simulator</h1>
+          <p className="text-sm md:text-base text-on-surface-variant max-w-xl">
             Forecast your environmental impact. Adjust your lifestyle parameters or try a quick scenario to see your potential reduction.
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function SimulatorPage() {
                 min="0" max="300" step="10"
                 value={localSim.carUsage}
                 onChange={(e) => setLocalSim({...localSim, carUsage: parseInt(e.target.value)})}
-                className="w-full accent-primary h-2 bg-surface-container rounded-lg appearance-none cursor-pointer"
+                className="w-full accent-primary h-3 md:h-2 bg-surface-container rounded-lg appearance-none cursor-pointer my-2 md:my-0"
               />
               <div className="flex justify-between text-xs font-medium text-on-surface-variant">
                 <span>0</span>
@@ -146,7 +146,7 @@ export default function SimulatorPage() {
                 min="0" max="7" step="1"
                 value={localSim.meatConsumption}
                 onChange={(e) => setLocalSim({...localSim, meatConsumption: parseInt(e.target.value)})}
-                className="w-full accent-primary h-2 bg-surface-container rounded-lg appearance-none cursor-pointer"
+                className="w-full accent-primary h-3 md:h-2 bg-surface-container rounded-lg appearance-none cursor-pointer my-2 md:my-0"
               />
               <div className="flex justify-between text-xs font-medium text-on-surface-variant">
                 <span>Vegan</span>
@@ -170,7 +170,7 @@ export default function SimulatorPage() {
                 min="0" max="100" step="10"
                 value={localSim.energyEfficiency}
                 onChange={(e) => setLocalSim({...localSim, energyEfficiency: parseInt(e.target.value)})}
-                className="w-full accent-primary h-2 bg-surface-container rounded-lg appearance-none cursor-pointer"
+                className="w-full accent-primary h-3 md:h-2 bg-surface-container rounded-lg appearance-none cursor-pointer my-2 md:my-0"
               />
               <div className="flex justify-between text-xs font-medium text-on-surface-variant">
                 <span>Low</span>
@@ -194,7 +194,7 @@ export default function SimulatorPage() {
                 min="0" max="100" step="10"
                 value={localSim.shoppingFrequency}
                 onChange={(e) => setLocalSim({...localSim, shoppingFrequency: parseInt(e.target.value)})}
-                className="w-full accent-primary h-2 bg-surface-container rounded-lg appearance-none cursor-pointer"
+                className="w-full accent-primary h-3 md:h-2 bg-surface-container rounded-lg appearance-none cursor-pointer my-2 md:my-0"
               />
               <div className="flex justify-between text-xs font-medium text-on-surface-variant">
                 <span>Minimal</span>

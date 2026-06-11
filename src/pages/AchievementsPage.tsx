@@ -82,6 +82,78 @@ export default function AchievementsPage() {
     }
   };
 
+  const renderLeaderboard = () => (
+    <div className="space-y-5">
+      <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
+        <Trophy className="text-primary" size={26} />
+        Global Leaderboard
+      </h3>
+      
+      {loadingLeaderboard ? (
+        <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-bold text-on-surface-variant">Loading rankings...</p>
+        </Card>
+      ) : leaderboard.length > 0 ? (
+        <Card className="overflow-hidden border-none shadow-md bg-surface-container-lowest">
+          <div className="bg-surface-container/50 p-4 border-b border-outline-variant/30 flex justify-between items-center">
+            <span className="text-xs font-black tracking-wider text-on-surface-variant uppercase">Top Eco Warriors</span>
+            <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-full">Top 10</span>
+          </div>
+          <div className="divide-y divide-outline-variant/30">
+            {leaderboard.map((person, i) => (
+              <div key={person.id} className={cn(
+                "p-4 flex items-center gap-4 hover:bg-surface-container/50 transition-colors",
+                person.id === user.id && "bg-primary/5"
+              )}>
+                <span className={cn(
+                  "font-black w-6 text-center text-lg",
+                  i === 0 ? "text-amber-500" : i === 1 ? "text-slate-400" : i === 2 ? "text-amber-700" : "text-on-surface-variant"
+                )}>{i + 1}</span>
+                <div className={cn(
+                  "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-inner",
+                  person.id === user.id ? "bg-primary text-white" : "bg-surface-container-high text-on-surface"
+                )}>
+                  {person.name?.substring(0, 2).toUpperCase() || 'U'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h6 className="font-bold text-on-surface truncate text-sm">
+                    {person.id === user.id ? 'You' : person.name || 'Anonymous'}
+                  </h6>
+                  <p className="text-[11px] font-bold text-on-surface-variant">Level {person.level || 1}</p>
+                </div>
+                <div className="font-black text-primary text-sm whitespace-nowrap">{person.xp?.toLocaleString() || 0} XP</div>
+              </div>
+            ))}
+            
+            {/* Ensure current user is shown if not in top 10 */}
+            {!leaderboard.find(p => p.id === user.id) && (
+              <div className="p-4 flex items-center gap-4 bg-primary/10 border-t-2 border-primary/20">
+                <span className="font-black text-on-surface w-6 text-center">-</span>
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm shadow-md">
+                  {user.name.substring(0, 2).toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h6 className="font-bold text-on-surface truncate text-sm">You</h6>
+                  <p className="text-[11px] font-bold text-primary/80">Level {user.level}</p>
+                </div>
+                <div className="font-black text-primary text-sm whitespace-nowrap">{user.xp.toLocaleString()} XP</div>
+              </div>
+            )}
+          </div>
+        </Card>
+      ) : (
+        <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
+          <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2">
+            <Users size={32} />
+          </div>
+          <h4 className="text-lg font-bold text-on-surface">No data available</h4>
+          <p className="text-sm text-on-surface-variant">Community rankings will appear as more users join EcoPilot.</p>
+        </Card>
+      )}
+    </div>
+  );
+
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
       
@@ -124,34 +196,34 @@ export default function AchievementsPage() {
       </Card>
 
       {/* SECTION 2 - ACHIEVEMENT SUMMARY CARDS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mb-1">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mb-1">
             <Trophy size={20} />
           </div>
-          <p className="text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Unlocked</p>
-          <p className="text-2xl font-black text-on-surface">{unlockedCount > 0 ? unlockedCount : "No data yet"}</p>
+          <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Unlocked</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface">{unlockedCount > 0 ? unlockedCount : "No data yet"}</p>
         </Card>
-        <Card className="p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-10 h-10 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1">
+        <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1">
             <Flame size={20} />
           </div>
-          <p className="text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Longest Streak</p>
-          <p className="text-2xl font-black text-on-surface">{user.streak > 0 ? `${user.streak} Days` : "No data yet"}</p>
+          <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Longest Streak</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface">{user.streak > 0 ? `${user.streak} Days` : "No data yet"}</p>
         </Card>
-        <Card className="p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-1">
+        <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-1">
             <Leaf size={20} />
           </div>
-          <p className="text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">CO₂ Saved</p>
-          <p className="text-2xl font-black text-on-surface">{user.totalCarbonSaved > 0 ? `${user.totalCarbonSaved.toFixed(1)} kg` : "No data yet"}</p>
+          <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">CO₂ Saved</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface">{user.totalCarbonSaved > 0 ? `${user.totalCarbonSaved.toFixed(1)} kg` : "No data yet"}</p>
         </Card>
-        <Card className="p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1">
+        <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1">
             <Zap size={20} />
           </div>
-          <p className="text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Total XP</p>
-          <p className="text-2xl font-black text-on-surface">{user.xp > 0 ? user.xp.toLocaleString() : "No data yet"}</p>
+          <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Total XP</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface">{user.xp > 0 ? user.xp.toLocaleString() : "No data yet"}</p>
         </Card>
       </div>
 
@@ -190,6 +262,11 @@ export default function AchievementsPage() {
             </div>
           )}
 
+          {/* Mobile Leaderboard */}
+          <div className="block lg:hidden">
+            {renderLeaderboard()}
+          </div>
+
           {/* SECTION 4 - ACHIEVEMENT CATEGORIES */}
           <div className="space-y-6">
             <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
@@ -197,13 +274,13 @@ export default function AchievementsPage() {
               Badge Collection
             </h3>
             
-            <div className="flex flex-wrap gap-2 pb-2">
+            <div className="flex overflow-x-auto hide-scrollbar gap-3 pb-4 snap-x">
               {availableCategories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   className={cn(
-                    "px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-sm",
+                    "px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-sm shrink-0 snap-center",
                     activeCategory === cat 
                       ? "bg-primary text-white scale-105 shadow-primary/30" 
                       : "bg-surface-container-low text-on-surface hover:bg-surface-container-high hover:scale-105"
@@ -301,78 +378,11 @@ export default function AchievementsPage() {
           </div>
         </div>
 
-        {/* Sidebar Column */}
         <div className="space-y-10">
           
           {/* SECTION 6 - LEADERBOARD REWORK */}
-          <div className="space-y-5">
-            <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
-              <Trophy className="text-primary" size={26} />
-              Global Leaderboard
-            </h3>
-            
-            {loadingLeaderboard ? (
-              <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
-                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="text-sm font-bold text-on-surface-variant">Loading rankings...</p>
-              </Card>
-            ) : leaderboard.length > 0 ? (
-              <Card className="overflow-hidden border-none shadow-md bg-surface-container-lowest">
-                <div className="bg-surface-container/50 p-4 border-b border-outline-variant/30 flex justify-between items-center">
-                  <span className="text-xs font-black tracking-wider text-on-surface-variant uppercase">Top Eco Warriors</span>
-                  <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-full">Top 10</span>
-                </div>
-                <div className="divide-y divide-outline-variant/30">
-                  {leaderboard.map((person, i) => (
-                    <div key={person.id} className={cn(
-                      "p-4 flex items-center gap-4 hover:bg-surface-container/50 transition-colors",
-                      person.id === user.id && "bg-primary/5"
-                    )}>
-                      <span className={cn(
-                        "font-black w-6 text-center text-lg",
-                        i === 0 ? "text-amber-500" : i === 1 ? "text-slate-400" : i === 2 ? "text-amber-700" : "text-on-surface-variant"
-                      )}>{i + 1}</span>
-                      <div className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-inner",
-                        person.id === user.id ? "bg-primary text-white" : "bg-surface-container-high text-on-surface"
-                      )}>
-                        {person.name?.substring(0, 2).toUpperCase() || 'U'}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h6 className="font-bold text-on-surface truncate text-sm">
-                          {person.id === user.id ? 'You' : person.name || 'Anonymous'}
-                        </h6>
-                        <p className="text-[11px] font-bold text-on-surface-variant">Level {person.level || 1}</p>
-                      </div>
-                      <div className="font-black text-primary text-sm whitespace-nowrap">{person.xp?.toLocaleString() || 0} XP</div>
-                    </div>
-                  ))}
-                  
-                  {/* Ensure current user is shown if not in top 10 */}
-                  {!leaderboard.find(p => p.id === user.id) && (
-                    <div className="p-4 flex items-center gap-4 bg-primary/10 border-t-2 border-primary/20">
-                      <span className="font-black text-on-surface w-6 text-center">-</span>
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm shadow-md">
-                        {user.name.substring(0, 2).toUpperCase()}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h6 className="font-bold text-on-surface truncate text-sm">You</h6>
-                        <p className="text-[11px] font-bold text-primary/80">Level {user.level}</p>
-                      </div>
-                      <div className="font-black text-primary text-sm whitespace-nowrap">{user.xp.toLocaleString()} XP</div>
-                    </div>
-                  )}
-                </div>
-              </Card>
-            ) : (
-              <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
-                <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2">
-                  <Users size={32} />
-                </div>
-                <h4 className="text-lg font-bold text-on-surface">No data available</h4>
-                <p className="text-sm text-on-surface-variant">Community rankings will appear as more users join EcoPilot.</p>
-              </Card>
-            )}
+          <div className="hidden lg:block">
+            {renderLeaderboard()}
           </div>
 
           {/* SECTION 7 - COMMUNITY IMPACT REWORK */}

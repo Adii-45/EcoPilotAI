@@ -267,8 +267,8 @@ export default function ImpactReportPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 print:break-inside-avoid">
         <div className="lg:col-span-3">
           <h2 className="text-xl font-bold text-on-surface mb-4">Impact Metrics</h2>
-          <div className="grid grid-cols-2 gap-4 h-[calc(100%-2.5rem)]">
-            <Card className="p-4 sm:p-5 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100%-2.5rem)]">
+            <Card className="p-5 sm:p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
               <div className="mb-2">
                 <div className="bg-green-500/10 text-green-600 dark:text-green-400 w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
                   <Activity size={20} />
@@ -280,7 +280,7 @@ export default function ImpactReportPage() {
                 <p className="text-[10px] sm:text-xs text-on-surface-variant/80">Completed actions</p>
               </div>
             </Card>
-            <Card className="p-4 sm:p-5 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
+            <Card className="p-5 sm:p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
               <div className="mb-2">
                 <div className="bg-teal-500/10 text-teal-600 dark:text-teal-400 w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
                   <TreePine size={20} />
@@ -295,7 +295,7 @@ export default function ImpactReportPage() {
                 <p className="text-[10px] sm:text-xs text-on-surface-variant/80">Total prevented</p>
               </div>
             </Card>
-            <Card className="p-4 sm:p-5 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
+            <Card className="p-5 sm:p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
               <div className="mb-2">
                 <div className="bg-orange-500/10 text-orange-600 dark:text-orange-400 w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
                   <Flame size={20} />
@@ -310,7 +310,7 @@ export default function ImpactReportPage() {
                 <p className="text-[10px] sm:text-xs text-on-surface-variant/80">{timeFilter === 'all' ? 'Current best streak' : 'Best in period'}</p>
               </div>
             </Card>
-            <Card className="p-4 sm:p-5 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
+            <Card className="p-5 sm:p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors group cursor-default">
               <div className="mb-2">
                 <div className="bg-amber-500/10 text-amber-600 dark:text-amber-400 w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
                   <Star size={20} />
@@ -380,7 +380,7 @@ export default function ImpactReportPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:block">
-        <Card className="p-6 flex flex-col h-[380px] print:mb-6 print:break-inside-avoid">
+        <Card className="p-4 md:p-6 flex flex-col h-[300px] md:h-[380px] print:mb-6 print:break-inside-avoid">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-bold text-on-surface">Activity Trends</h3>
@@ -418,7 +418,7 @@ export default function ImpactReportPage() {
           </div>
         </Card>
 
-        <Card className="p-6 flex flex-col h-[380px] print:break-inside-avoid">
+        <Card className="p-6 flex flex-col h-[300px] md:h-[380px] print:break-inside-avoid">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-bold text-on-surface">Consistency Score</h3>
@@ -509,16 +509,16 @@ export default function ImpactReportPage() {
       <div className="print:hidden">
         <h2 className="text-xl font-bold text-on-surface mb-4">Report Actions</h2>
         <Card className="p-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button onClick={handleShareReport} className="flex-1 gap-2 h-12 text-base">
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch">
+            <Button onClick={handleShareReport} className="w-full sm:flex-1 gap-2 h-12 text-base">
               <Share size={18} />
               Share Report
             </Button>
-            <Button variant="outline" onClick={handleShareReport} className="flex-1 gap-2 h-12 text-base">
+            <Button variant="outline" onClick={handleShareReport} className="w-full sm:flex-1 gap-2 h-12 text-base">
               <Download size={18} />
               Download Summary
             </Button>
-            <Link to="/achievements" className="flex-1">
+            <Link to="/achievements" className="w-full sm:flex-1 block">
               <Button variant="secondary" className="w-full gap-2 h-12 text-base">
                 View Achievements
                 <ChevronRight size={18} />

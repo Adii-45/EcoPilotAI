@@ -12,7 +12,9 @@ import {
   LogOut,
   Bell,
   Sun,
-  Moon
+  Moon,
+  Menu,
+  X
 } from "lucide-react";
 import { cn } from "../utils/cn";
 import { useAuth } from "../contexts/AuthContext";
@@ -49,6 +51,7 @@ export default function AppLayout() {
   const [showNotifs, setShowNotifs] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -59,16 +62,33 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen bg-surface flex text-on-surface">
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col fixed inset-y-0 z-20">
+      <aside className={cn(
+        "w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col fixed inset-y-0 z-50 transition-transform duration-300 lg:translate-x-0",
+        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
         <div className="p-6 flex items-center gap-3">
-          <div className="bg-primary/10 p-2 rounded-xl text-primary">
+          <div className="bg-primary/10 p-2 rounded-xl text-primary shrink-0">
             <Leaf size={24} />
           </div>
-          <div>
+          <div className="flex-1">
             <h1 className="font-bold text-xl leading-none text-on-surface">EcoPilot AI</h1>
             <p className="text-xs text-on-surface-variant mt-1 font-mono">Sustainability Coach</p>
           </div>
+          <button 
+            className="lg:hidden p-2 text-on-surface-variant hover:bg-surface-container rounded-full"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <nav className="flex-1 px-4 py-4 space-y-1">
@@ -76,6 +96,7 @@ export default function AppLayout() {
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={() => setIsMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors",
@@ -95,6 +116,7 @@ export default function AppLayout() {
           <div className="space-y-1">
             <NavLink 
               to="/settings"
+              onClick={() => setIsMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium transition-colors w-full",
@@ -109,7 +131,10 @@ export default function AppLayout() {
             </NavLink>
 
             <button 
-              onClick={handleLogout}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                handleLogout();
+              }}
               className="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-red-600 hover:bg-red-50 hover:text-red-700 w-full transition-colors"
             >
               <LogOut size={20} />
@@ -120,13 +145,22 @@ export default function AppLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 ml-[280px] flex flex-col min-h-screen">
-        <header className="h-16 border-b border-outline-variant bg-surface/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-8">
-          <div className="flex-1 max-w-xl relative">
-            <div className="relative">
+      <main className="flex-1 lg:ml-[280px] flex flex-col min-h-screen max-w-full w-full overflow-x-hidden">
+        <header className="h-16 border-b border-outline-variant bg-surface/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-4 lg:px-8">
+          <div className="flex items-center lg:hidden mr-3 shrink-0">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-xl transition-colors"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
+          
+          <div className="flex-1 max-w-xl relative flex items-center">
+            <div className="relative w-full">
               <input 
                 type="text" 
-                placeholder="Search habits, achievements..." 
+                placeholder="Search..." 
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -168,7 +202,7 @@ export default function AppLayout() {
             )}
           </div>
           
-          <div className="flex items-center gap-6 ml-4 relative">
+          <div className="flex items-center gap-2 lg:gap-6 ml-2 lg:ml-4 relative shrink-0">
             <div className="relative">
               <button 
                 className="text-on-surface-variant hover:bg-surface-container rounded-full relative p-2 transition-colors duration-200"
@@ -224,7 +258,7 @@ export default function AppLayout() {
               )}
             </button>
             
-            <div className="flex items-center gap-3 border-l border-outline-variant pl-6">
+            <div className="flex items-center gap-3 border-l border-outline-variant pl-2 lg:pl-6 ml-1 lg:ml-0">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-bold text-on-surface">{user.name}</p>
                 <p className="text-xs text-primary font-bold">Level {user.level}</p>
@@ -236,7 +270,7 @@ export default function AppLayout() {
           </div>
         </header>
 
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 lg:p-8">
           <Outlet />
         </div>
       </main>

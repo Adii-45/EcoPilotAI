@@ -42,11 +42,11 @@ export default function DashboardPage() {
   const hasCompletedMission = displayHabits.some(h => h.completedToday);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-6xl mx-auto space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Header */}
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-display-lg font-bold text-on-surface tracking-tight">Good morning, {user.name}!</h1>
+          <h1 className="text-3xl md:text-display-lg font-bold text-on-surface tracking-tight">Good morning, {user.name}!</h1>
           <p className="text-body-lg text-on-surface-variant mt-2">Ready to make a positive impact today?</p>
         </div>
         <div className="flex items-center gap-2 bg-surface-container-lowest px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
@@ -89,7 +89,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
         
         {/* Sustainability Score */}
         <Card className="flex flex-col">
@@ -110,7 +110,7 @@ export default function DashboardPage() {
 
         {/* Today's Eco Mission */}
         <Card className="flex flex-col">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 gap-2">
             <CardTitle className="text-2xl font-bold flex items-center gap-2">
               <span className="text-primary">⚑</span> Today's Eco Mission
             </CardTitle>
@@ -149,7 +149,7 @@ export default function DashboardPage() {
 
       {/* Today's Habits */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-3">
           <div>
             <h2 className="text-2xl font-bold">Your Habits</h2>
             <p className="text-on-surface-variant">Complete actions to earn XP and level up!</p>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
              No habits created yet. Go to the Habit Tracker to create your first habit!
            </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {displayHabits.map(habit => (
               <div 
                 key={habit.id} 

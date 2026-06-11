@@ -39,17 +39,17 @@ export default function HabitTrackerPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto flex gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Main Column */}
       <div className="flex-1 space-y-8">
         <div>
-          <h1 className="text-display-lg font-bold text-on-surface tracking-tight">Your Sustainable Habits</h1>
-          <p className="text-body-lg text-on-surface-variant mt-2">Track your daily actions and watch your impact grow.</p>
+          <h1 className="text-3xl md:text-display-lg font-bold text-on-surface tracking-tight">Your Sustainable Habits</h1>
+          <p className="text-base md:text-body-lg text-on-surface-variant mt-2">Track your daily actions and watch your impact grow.</p>
         </div>
 
         {/* Completion Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 text-on-surface-variant mb-3">
               <Activity size={18} className="text-primary" />
               <p className="text-xs font-bold uppercase tracking-wider">Completion</p>
@@ -60,7 +60,7 @@ export default function HabitTrackerPage() {
             </div>
           </div>
           
-          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+          <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 text-on-surface-variant mb-3">
               <Flame size={18} className="text-orange-500" />
               <p className="text-xs font-bold uppercase tracking-wider">Active Streak</p>
@@ -68,7 +68,7 @@ export default function HabitTrackerPage() {
             <p className="text-3xl font-black text-on-surface">{user.streak} <span className="text-base font-medium text-on-surface-variant tracking-normal">Days</span></p>
           </div>
 
-          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+          <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 text-on-surface-variant mb-3">
               <Award size={18} className="text-amber-500" />
               <p className="text-xs font-bold uppercase tracking-wider">Total XP</p>
@@ -76,7 +76,7 @@ export default function HabitTrackerPage() {
             <p className="text-3xl font-black text-on-surface">{user.xp}</p>
           </div>
 
-          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+          <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 text-on-surface-variant mb-3">
               <CalendarDays size={18} className="text-blue-500" />
               <p className="text-xs font-bold uppercase tracking-wider">Active Habits</p>
@@ -89,16 +89,16 @@ export default function HabitTrackerPage() {
         {weeklyChallenges.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold mb-4">Weekly Challenges</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {weeklyChallenges.map(challenge => (
                 <div key={challenge.id} className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
                   <div>
-                    <div className="flex justify-between items-start mb-3">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
                       <div className="font-bold flex items-center gap-2">
                         <span className="text-xl">{challenge.category === 'Transport' ? '🚆' : '💧'}</span>
                         {challenge.title}
                       </div>
-                      <Badge variant="outline" className="bg-[#fff9e6] text-[#b38600] border-[#ffe699] gap-1 px-2">
+                      <Badge variant="outline" className="bg-[#fff9e6] text-[#b38600] border-[#ffe699] gap-1 px-2 shrink-0">
                         <AwardIcon /> {challenge.xpReward} XP
                       </Badge>
                     </div>
@@ -124,7 +124,7 @@ export default function HabitTrackerPage() {
 
         {/* Active Habits */}
         <div>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <h2 className="text-2xl font-bold">Active Habits</h2>
             <button 
               onClick={() => setIsModalOpen(true)}
@@ -153,14 +153,14 @@ export default function HabitTrackerPage() {
                 <div 
                   key={habit.id}
                   className={cn(
-                    "p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center justify-between group",
+                    "p-6 md:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col md:flex-row md:items-center justify-between group gap-4 md:gap-0",
                     habit.completedToday 
                       ? "bg-primary/5 border-primary/30 shadow-sm" 
                       : "bg-surface-container-lowest border-outline-variant hover:border-primary/40 hover:shadow-md"
                   )}
                   onClick={() => toggleHabit(habit.id)}
                 >
-                  <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-4 md:gap-5">
                     {/* Checkmark Circle Animation */}
                     <div className={cn(
                       "shrink-0 transition-all duration-300 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full border-2",
@@ -187,7 +187,7 @@ export default function HabitTrackerPage() {
                   </div>
                   
                   {/* Streak Badge */}
-                  <div className="flex items-center">
+                  <div className="flex items-center w-full md:w-auto justify-end md:justify-center border-t border-outline-variant/30 md:border-none pt-3 md:pt-0">
                     <div className={cn(
                       "px-2 md:px-3 py-1 md:py-1.5 rounded-xl flex items-center gap-1 md:gap-1.5 text-xs md:text-sm font-bold transition-colors",
                       habit.streak > 0 
@@ -207,7 +207,7 @@ export default function HabitTrackerPage() {
       </div>
 
       {/* Right Sidebar - Ecosystem */}
-      <div className="w-80">
+      <div className="w-full lg:w-80">
         <div className="bg-gradient-to-b from-white to-surface-container-highest rounded-[2rem] p-8 border border-surface-container-highest shadow-level-1 text-center sticky top-24">
           <div className="absolute top-6 right-6 text-[#ffb300]">
             <Sparkles size={24} />
