@@ -23,6 +23,7 @@ interface AppState {
   
   // Actions
   completeHabit: (habitId: string) => Promise<void>;
+  checkDailyReset: () => Promise<void>;
   addHabit: (habit: Omit<Habit, 'id' | 'streak' | 'completedToday'>) => Promise<void>;
   updateSimulation: (updates: Partial<SimulationState>) => Promise<void>;
   applySimulation: () => Promise<void>;
@@ -89,24 +90,31 @@ export const useStore = create<AppState>((set, get) => ({
       isDaily = true;
     }
 
-    if (!habitToComplete || habitToComplete.completedToday) return;
+    if (!habitToComplete) return;
 
-    const xpGained = habitToComplete.xpReward;
-    const carbonSaved = habitToComplete.co2SavingsKg;
+    const isUncompleting = habitToComplete.completedToday;
+    const xpChange = isUncompleting ? -habitToComplete.xpReward : habitToComplete.xpReward;
+    const carbonChange = isUncompleting ? -habitToComplete.co2SavingsKg : habitToComplete.co2SavingsKg;
+    const actionChange = isUncompleting ? -1 : 1;
+    const streakChange = isUncompleting ? -1 : 1;
 
-    const updatedHabit = { ...habitToComplete, completedToday: true, streak: habitToComplete.streak + 1 };
+    const updatedHabit = { 
+      ...habitToComplete, 
+      completedToday: !isUncompleting, 
+      streak: Math.max(0, habitToComplete.streak + streakChange) 
+    };
     const updatedHabits = isDaily ? state.habits : state.habits.map(h => h.id === habitId ? updatedHabit : h);
     const updatedDaily = isDaily ? state.dailyChallenges.map(h => h.id === habitId ? updatedHabit : h) : state.dailyChallenges;
 
-    const { level, nextLevelXp } = calculateLevel(state.user.xp + xpGained);
+    const { level, nextLevelXp } = calculateLevel(Math.max(0, state.user.xp + xpChange));
 
     const newUser = {
       ...state.user,
-      xp: state.user.xp + xpGained,
+      xp: Math.max(0, state.user.xp + xpChange),
       level,
       nextLevelXp,
-      totalCarbonSaved: state.user.totalCarbonSaved + carbonSaved,
-      totalActions: state.user.totalActions + 1,
+      totalCarbonSaved: Math.max(0, state.user.totalCarbonSaved + carbonChange),
+      totalActions: Math.max(0, state.user.totalActions + actionChange),
     };
 
     // Recalculate score
@@ -121,9 +129,9 @@ export const useStore = create<AppState>((set, get) => ({
       newHistory[todayIndex] = {
         date: todayStr,
         score: newUser.sustainabilityScore,
-        actions: newHistory[todayIndex].actions + 1
+        actions: Math.max(0, newHistory[todayIndex].actions + actionChange)
       };
-    } else {
+    } else if (!isUncompleting) {
       newHistory.push({
         date: todayStr,
         score: newUser.sustainabilityScore,
@@ -132,12 +140,14 @@ export const useStore = create<AppState>((set, get) => ({
     }
     newUser.history = newHistory;
 
-    // Log Activity
-    const activity = await logActivity(newUser.id, 'habit_completed', xpGained, carbonSaved, { habitId, title: habitToComplete.title });
+    // Log Activity (negative if uncompleting, to offset)
+    const activity = await logActivity(newUser.id, 'habit_completed', xpChange, carbonChange, { habitId, title: habitToComplete.title, uncompleted: isUncompleting });
     const newActivities = [activity, ...state.activities];
 
-    // Evaluate Achievements
-    const { newUnlocked, updatedAchievements } = evaluateAchievements(newUser, newActivities, state.achievements);
+    // Evaluate Achievements (only evaluate new if completing)
+    const { newUnlocked, updatedAchievements } = isUncompleting 
+      ? { newUnlocked: [], updatedAchievements: state.achievements } 
+      : evaluateAchievements(newUser, newActivities, state.achievements);
     
     let addedNotifications: Notification[] = [];
     if (newUnlocked.length > 0) {
@@ -274,5 +284,66 @@ export const useStore = create<AppState>((set, get) => ({
     const state = get();
     const newNotifs = state.notifications.map(n => n.id === notificationId ? { ...n, read: true } : n);
     set({ notifications: newNotifs });
+  },
+
+  checkDailyReset: async () => {
+    const state = get();
+    if (!state.user) return;
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const lastActive = state.user.lastActiveDate;
+
+    if (lastActive && lastActive !== todayStr) {
+      const todayDate = new Date(todayStr);
+      const lastActiveDate = new Date(lastActive);
+      const diffTime = Math.abs(todayDate.getTime() - lastActiveDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      let userStreak = state.user.streak;
+      const history = state.user.history || [];
+      const yesterdayStr = new Date(todayDate.getTime() - 86400000).toISOString().split('T')[0];
+      const yesterdayHistory = history.find(h => h.date === yesterdayStr);
+
+      // If they didn't do any actions yesterday, or it's been more than 1 day, break the streak
+      if (diffDays > 1 || !yesterdayHistory || yesterdayHistory.actions === 0) {
+        userStreak = 0;
+      } else if (yesterdayHistory && yesterdayHistory.actions > 0 && lastActive === yesterdayStr) {
+        userStreak += 1;
+      }
+
+      const longestStreak = Math.max(state.user.longestStreak || 0, userStreak);
+
+      const updatedUser = { 
+        ...state.user, 
+        lastActiveDate: todayStr,
+        streak: userStreak,
+        longestStreak
+      };
+
+      const resetHabits = state.habits.map(h => ({
+        ...h,
+        completedToday: false,
+        streak: userStreak === 0 ? 0 : h.streak
+      }));
+
+      const resetDaily = state.dailyChallenges.map(h => ({
+        ...h,
+        completedToday: false,
+        streak: userStreak === 0 ? 0 : h.streak
+      }));
+
+      set({ 
+        user: updatedUser,
+        habits: resetHabits,
+        dailyChallenges: resetDaily
+      });
+
+      await saveUserProgress(updatedUser.id, updatedUser);
+      await saveHabits(updatedUser.id, resetHabits, resetDaily);
+    } else if (!lastActive) {
+      const updatedUser = { ...state.user, lastActiveDate: todayStr, longestStreak: state.user.longestStreak || state.user.streak };
+      set({ user: updatedUser });
+      await saveUserProgress(updatedUser.id, updatedUser);
+    }
   }
 }));

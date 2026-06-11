@@ -131,6 +131,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.log('Hydrating Zustand store...');
           useStore.getState().setInitialData(storeUpdates);
           console.log('Zustand store successfully hydrated.');
+          
+          // Trigger daily reset check
+          await useStore.getState().checkDailyReset();
         } catch (error) {
           console.warn('Failed to load user profile from Firestore (falling back to local state):', error);
           

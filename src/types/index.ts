@@ -16,6 +16,8 @@ export interface User {
   totalActions: number;
   achievementsEarned: number;
   history: { date: string; score: number; actions: number }[];
+  lastActiveDate?: string;
+  longestStreak?: number;
 }
 
 export interface ActivityRecord {

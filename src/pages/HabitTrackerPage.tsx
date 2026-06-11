@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2, Circle, Flame, Sparkles } from "lucide-react";
+import { CheckCircle2, Flame, Sparkles, Leaf, Award, Activity, CalendarDays } from "lucide-react";
 import { ProgressRing } from "../components/ui/ProgressRing";
 import { Badge } from "../components/ui/Badge";
 import { cn } from "../utils/cn";
@@ -21,9 +21,6 @@ export default function HabitTrackerPage() {
   const completedCount = habits.filter(h => h.completedToday).length;
   const totalCount = habits.length;
   const dailyCompletion = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
-  
-  // Basic weekly completion heuristic
-  const weeklyCompletion = Math.min(100, Math.round((user.streak / 7) * 100));
 
   // Dynamic forest stages based on total actions
   let forestStage = "Seedling";
@@ -50,21 +47,41 @@ export default function HabitTrackerPage() {
           <p className="text-body-lg text-on-surface-variant mt-2">Track your daily actions and watch your impact grow.</p>
         </div>
 
-        {/* Completion Stats */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Daily Completion</p>
-              <p className="text-4xl font-bold text-primary">{dailyCompletion}%</p>
+        {/* Completion Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="flex items-center gap-2 text-on-surface-variant mb-3">
+              <Activity size={18} className="text-primary" />
+              <p className="text-xs font-bold uppercase tracking-wider">Completion</p>
             </div>
-            <ProgressRing progress={dailyCompletion} size={64} strokeWidth={8} />
+            <div className="flex items-end justify-between">
+              <p className="text-3xl font-black text-primary">{dailyCompletion}%</p>
+              <ProgressRing progress={dailyCompletion} size={40} strokeWidth={6} />
+            </div>
           </div>
-          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-sm flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Weekly Consistency</p>
-              <p className="text-4xl font-bold text-primary">{weeklyCompletion}%</p>
+          
+          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="flex items-center gap-2 text-on-surface-variant mb-3">
+              <Flame size={18} className="text-orange-500" />
+              <p className="text-xs font-bold uppercase tracking-wider">Active Streak</p>
             </div>
-            <ProgressRing progress={weeklyCompletion} size={64} strokeWidth={8} />
+            <p className="text-3xl font-black text-on-surface">{user.streak} <span className="text-base font-medium text-on-surface-variant tracking-normal">Days</span></p>
+          </div>
+
+          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="flex items-center gap-2 text-on-surface-variant mb-3">
+              <Award size={18} className="text-amber-500" />
+              <p className="text-xs font-bold uppercase tracking-wider">Total XP</p>
+            </div>
+            <p className="text-3xl font-black text-on-surface">{user.xp}</p>
+          </div>
+
+          <div className="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="flex items-center gap-2 text-on-surface-variant mb-3">
+              <CalendarDays size={18} className="text-blue-500" />
+              <p className="text-xs font-bold uppercase tracking-wider">Active Habits</p>
+            </div>
+            <p className="text-3xl font-black text-on-surface">{totalCount}</p>
           </div>
         </div>
 
@@ -116,46 +133,71 @@ export default function HabitTrackerPage() {
               + New Habit
             </button>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {habits.length === 0 ? (
-              <div className="text-center p-8 border border-dashed rounded-2xl text-on-surface-variant">
-                You have no habits yet. Click "+ New Habit" to get started!
+              <div className="text-center p-12 bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-3xl flex flex-col items-center justify-center animate-in fade-in duration-500">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+                  <Leaf size={32} />
+                </div>
+                <h3 className="text-xl font-bold mb-2">No Habits Yet</h3>
+                <p className="text-on-surface-variant mb-6 max-w-sm">Start your sustainability journey by creating your first eco-friendly habit.</p>
+                <button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-primary text-white font-bold py-2.5 px-6 rounded-xl hover:bg-primary/90 transition-colors shadow-sm active:scale-95"
+                >
+                  + Create Habit
+                </button>
               </div>
             ) : (
               habits.map(habit => (
                 <div 
                   key={habit.id}
                   className={cn(
-                    "p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between",
+                    "p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center justify-between group",
                     habit.completedToday 
-                      ? "bg-surface-container-low border-primary/20" 
-                      : "bg-surface-container-lowest border-outline-variant hover:border-primary/50 shadow-sm"
+                      ? "bg-primary/5 border-primary/30 shadow-sm" 
+                      : "bg-surface-container-lowest border-outline-variant hover:border-primary/40 hover:shadow-md"
                   )}
                   onClick={() => toggleHabit(habit.id)}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-5">
+                    {/* Checkmark Circle Animation */}
                     <div className={cn(
-                      "shrink-0 transition-colors",
-                      habit.completedToday ? "text-primary" : "text-outline-variant"
+                      "shrink-0 transition-all duration-300 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full border-2",
+                      habit.completedToday 
+                        ? "bg-primary border-primary text-white scale-110" 
+                        : "border-outline-variant text-transparent group-hover:border-primary/50"
                     )}>
-                      {habit.completedToday ? <CheckCircle2 size={28} /> : <Circle size={28} />}
+                      <CheckCircle2 size={24} className={cn("transition-opacity duration-300", habit.completedToday ? "opacity-100" : "opacity-0")} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg">{habit.title}</h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="bg-[#fff9e6] text-[#b38600] border-none py-0.5 gap-1">
+                      <h4 className={cn(
+                        "font-bold text-base md:text-lg transition-colors duration-300",
+                        habit.completedToday ? "text-on-surface-variant line-through decoration-primary/30" : "text-on-surface"
+                      )}>{habit.title}</h4>
+                      <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                        <Badge variant="secondary" className="bg-[#fff9e6] text-[#b38600] border-none py-0.5 gap-1 shadow-sm text-[10px] md:text-xs">
                           <AwardIcon /> +{habit.xpReward} XP
                         </Badge>
-                        <Badge variant="secondary" className="bg-surface-dim border-none py-0.5">
+                        <Badge variant="secondary" className="bg-surface-dim border-none py-0.5 text-on-surface-variant text-[10px] md:text-xs">
                           {habit.category}
                         </Badge>
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    {[...Array(7)].map((_, i) => (
-                      <Flame key={i} size={20} className={i < habit.streak ? "text-[#ff9900] fill-[#ff9900]" : "text-outline-variant/30"} />
-                    ))}
+                  
+                  {/* Streak Badge */}
+                  <div className="flex items-center">
+                    <div className={cn(
+                      "px-2 md:px-3 py-1 md:py-1.5 rounded-xl flex items-center gap-1 md:gap-1.5 text-xs md:text-sm font-bold transition-colors",
+                      habit.streak > 0 
+                        ? "bg-orange-500/10 text-orange-600" 
+                        : "bg-surface-container text-on-surface-variant/50"
+                    )}>
+                      <Flame size={16} className={cn(habit.streak > 0 && "fill-orange-600")} />
+                      <span className="hidden md:inline">{habit.streak} Day{habit.streak !== 1 && 's'}</span>
+                      <span className="md:hidden">{habit.streak}</span>
+                    </div>
                   </div>
                 </div>
               ))

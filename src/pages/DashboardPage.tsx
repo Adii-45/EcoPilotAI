@@ -9,16 +9,14 @@ import { useMemo } from "react";
 export default function DashboardPage() {
   const user = useStore((state) => state.user!);
   const habits = useStore((state) => state.habits);
-  const challenges = useStore((state) => state.dailyChallenges);
   const completeHabit = useStore((state) => state.completeHabit);
   const simulation = useStore((state) => state.simulation);
 
-  // Use habits as daily challenges if dailyChallenges is empty
-  const displayChallenges = challenges.length > 0 ? challenges : habits.slice(0, 4);
+  const displayHabits = habits;
 
-  const totalEarned = displayChallenges.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0);
+  const totalEarned = displayHabits.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0);
 
-  const toggleChallenge = (id: string) => {
+  const toggleHabit = (id: string) => {
     completeHabit(id);
   };
 
@@ -41,7 +39,7 @@ export default function DashboardPage() {
     };
   }, []);
 
-  const hasCompletedMission = displayChallenges.some(h => h.completedToday);
+  const hasCompletedMission = displayHabits.some(h => h.completedToday);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -149,11 +147,11 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Daily Challenges */}
+      {/* Today's Habits */}
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold">Your Habits & Challenges</h2>
+            <h2 className="text-2xl font-bold">Your Habits</h2>
             <p className="text-on-surface-variant">Complete actions to earn XP and level up!</p>
           </div>
           <Badge className="bg-primary/20 text-primary py-1.5 px-4 text-sm">
@@ -161,46 +159,46 @@ export default function DashboardPage() {
           </Badge>
         </div>
         
-        {displayChallenges.length === 0 ? (
+        {displayHabits.length === 0 ? (
            <div className="text-center py-8 text-on-surface-variant bg-surface rounded-2xl border border-outline-variant">
              No habits created yet. Go to the Habit Tracker to create your first habit!
            </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {displayChallenges.map(challenge => (
+            {displayHabits.map(habit => (
               <div 
-                key={challenge.id} 
+                key={habit.id} 
                 className={cn(
                   "p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group",
-                  challenge.completedToday 
+                  habit.completedToday 
                     ? "bg-surface border-transparent" 
                     : "bg-surface-container-lowest border-outline-variant hover:border-primary/50"
                 )}
-                onClick={() => toggleChallenge(challenge.id)}
+                onClick={() => toggleHabit(habit.id)}
               >
                 <div className="flex items-center gap-4">
                   <div className={cn(
                     "shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors",
-                    challenge.completedToday ? "text-primary bg-primary/10" : "text-outline-variant"
+                    habit.completedToday ? "text-primary bg-primary/10" : "text-outline-variant"
                   )}>
-                    {challenge.completedToday ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+                    {habit.completedToday ? <CheckCircle2 size={24} /> : <Circle size={24} />}
                   </div>
                   <div>
-                    <h4 className={cn("font-bold text-lg", challenge.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
-                      {challenge.title}
+                    <h4 className={cn("font-bold text-lg", habit.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
+                      {habit.title}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary" className="text-[10px] bg-surface-container-lowest border border-outline-variant shadow-sm py-0.5">
-                        💨 -{challenge.co2SavingsKg} kg CO₂
+                        💨 -{habit.co2SavingsKg} kg CO₂
                       </Badge>
                       <Badge variant="secondary" className="text-[10px] bg-surface-dim border-none py-0.5">
-                        {challenge.difficulty}
+                        {habit.difficulty}
                       </Badge>
                     </div>
                   </div>
                 </div>
                 <div className="font-bold text-on-surface-variant">
-                  +{challenge.xpReward} XP
+                  +{habit.xpReward} XP
                 </div>
               </div>
             ))}
