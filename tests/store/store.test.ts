@@ -46,7 +46,7 @@ describe('Store Logic (Habit Tracker)', () => {
           id: 'habit-1',
           title: 'Test Habit',
           description: 'A habit',
-          categoryId: 'transport',
+          category: 'Transport',
           difficulty: 'Easy',
           co2SavingsKg: 2,
           xpReward: 10,
