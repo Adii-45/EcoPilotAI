@@ -1,10 +1,6 @@
 /**
  * Compresses an image file to a maximum width/height of 800px.
  */
-console.log(
-  import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
-  import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-);
 export const compressImage = async (file: File, maxWidth = 800, maxHeight = 800): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();

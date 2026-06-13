@@ -4,7 +4,7 @@
 
   **AI-Powered Sustainability Coach & Gamified Habit Tracker**
 
-  [Report Bug](https://github.com/your-username/ecopilot-ai/issues) · [Request Feature](https://github.com/your-username/ecopilot-ai/issues)
+  [Report Bug](https://github.com/Adii-45/EcoPilotAI/issues) · [Request Feature](https://github.com/Adii-45/EcoPilotAI/issues)
 
   ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
   ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -88,8 +88,8 @@ The AI-Powered Sustainability Recommendation Engine operates entirely client-sid
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/ecopilot-ai.git
-   cd ecopilot-ai
+   git clone https://github.com/Adii-45/EcoPilotAI.git
+   cd EcoPilotAI
    ```
 
 2. **Install dependencies**
@@ -119,7 +119,7 @@ The AI-Powered Sustainability Recommendation Engine operates entirely client-sid
 
 ## 📸 Screenshots
 
-*(Placeholder for UI screenshots: Dashboard, AI Coach, and the new Sustainability Recommendation Assessment)*
+![EcoPilot AI Dashboard](./public/screenshot.png)
 
 ---
 
@@ -202,6 +202,6 @@ To deliver a premium, snappy user experience, the application includes multiple 
 <div align="center">
   <p>Built with 💚 for a sustainable future!!</p>
   <p>
-    <a href="https://github.com/your-username/ecopilot-ai/blob/main/LICENSE">License (MIT)</a>
+    <a href="https://github.com/Adii-45/EcoPilotAI/blob/main/LICENSE">License (MIT)</a>
   </p>
 </div>

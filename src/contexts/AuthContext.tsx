@@ -33,11 +33,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log('onAuthStateChanged fired. User:', user ? user.uid : 'null');
       setLoading(true);
       if (user) {
         try {
-          console.log('Fetching all user Firestore documents concurrently...');
           
           // Timeout helper (3.5 seconds) to prevent infinite database connection hangs
           const timeoutPromise = new Promise<never>((_, reject) =>
@@ -60,7 +58,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             fetchPromise,
             timeoutPromise
           ]);
-          console.log('Firestore documents successfully fetched!');
 
           const storeUpdates: Partial<AppState> = {};
 
@@ -134,9 +131,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
 
           // Apply state to Zustand
-          console.log('Hydrating Zustand store...');
           useStore.getState().setInitialData(storeUpdates);
-          console.log('Zustand store successfully hydrated.');
           
           // Trigger daily reset check
           await useStore.getState().checkDailyReset();
@@ -167,7 +162,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         useStore.getState().setInitialData({ user: null });
       }
       
-      console.log('Setting current user and loading = false');
       setCurrentUser(user);
       setLoading(false);
     });
