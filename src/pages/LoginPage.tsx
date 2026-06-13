@@ -52,8 +52,8 @@ export default function LoginPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface">
-        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-surface" aria-live="polite">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
       </div>
     );
   }
@@ -66,12 +66,13 @@ export default function LoginPage() {
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)' }}
+          aria-hidden="true"
         />
-        <div className="absolute inset-0 z-10 bg-black/40 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent"></div>
+        <div className="absolute inset-0 z-10 bg-black/40 bg-gradient-to-t from-[#0a1811] via-transparent to-transparent" aria-hidden="true"></div>
 
         <div className="relative z-20 flex flex-col justify-between h-full p-12 lg:p-20">
           <Link to="/" aria-label="Return to Homepage" className="flex items-center gap-2 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f172a] rounded-lg">
-            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={28} />
+            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={28} aria-hidden="true" />
             <span className="text-xl font-bold tracking-tight">EcoPilot AI</span>
           </Link>
 
@@ -92,7 +93,7 @@ export default function LoginPage() {
 
           {/* Mobile Header */}
           <Link to="/" aria-label="Return to Homepage" className="flex lg:hidden items-center gap-2 mb-8 w-max group hover:opacity-80 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg">
-            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={24} />
+            <Leaf className="text-primary group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all duration-300" size={24} aria-hidden="true" />
             <span className="text-lg font-bold text-on-surface">EcoPilot AI</span>
           </Link>
 
@@ -102,19 +103,20 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100">
+            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100" role="alert" aria-live="assertive">
               {error}
             </div>
           )}
 
           <form onSubmit={handleEmailLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-on-surface-variant block">Email address</label>
+              <label htmlFor="login-email" className="text-sm font-semibold text-on-surface-variant block">Email address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                   <Mail size={18} className="text-on-surface-variant" />
                 </div>
                 <input
+                  id="login-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -126,12 +128,13 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-on-surface-variant block">Password</label>
+              <label htmlFor="login-password" className="text-sm font-semibold text-on-surface-variant block">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                   <Lock size={18} className="text-on-surface-variant" />
                 </div>
                 <input
+                  id="login-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -143,11 +146,11 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" />
+              <label htmlFor="login-remember" className="flex items-center gap-2 cursor-pointer">
+                <input id="login-remember" type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" />
                 <span className="text-sm text-slate-600 font-medium">Remember me</span>
               </label>
-              <a href="#" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+              <a href="#" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded">
                 Forgot password?
               </a>
             </div>
@@ -161,7 +164,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="relative">
+          <div className="relative" aria-hidden="true">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-outline-variant"></div>
             </div>
@@ -173,14 +176,14 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-semibold hover:bg-surface-container-low transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-semibold hover:bg-surface-container-low transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-offset-2"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" className="w-5 h-5" aria-hidden="true" />
             Continue with Google
           </button>
 
           <p className="text-center text-slate-500 font-medium pt-4">
-            New to EcoPilot? <Link to="/signup" className="text-primary font-bold hover:text-primary/80 transition-colors">Create an account</Link>
+            New to EcoPilot? <Link to="/signup" className="text-primary font-bold hover:text-primary/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded">Create an account</Link>
           </p>
         </div>
       </div>

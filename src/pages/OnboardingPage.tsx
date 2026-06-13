@@ -107,30 +107,33 @@ export default function OnboardingPage() {
         
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <Leaf className="text-primary" size={24} />
+            <Leaf className="text-primary" size={24} aria-hidden="true" />
             <span className="font-bold text-xl text-on-surface">EcoPilot AI</span>
           </div>
-          <div className="text-sm font-medium text-on-surface-variant">
+          <div className="text-sm font-medium text-on-surface-variant" aria-live="polite">
             Step {currentStep + 1} of {steps.length}
           </div>
         </div>
 
         <div className="mb-10">
-          <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center text-primary mb-6">
+          <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center text-primary mb-6" aria-hidden="true">
             <Icon size={32} />
           </div>
           <h1 className="text-3xl font-bold text-on-surface mb-2">{step.title}</h1>
           <p className="text-slate-500">Help us customize your baseline footprint estimate.</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4" role="radiogroup" aria-labelledby="step-title">
+          <h2 id="step-title" className="sr-only">{step.title}</h2>
           {step.options.map((opt, idx) => {
             const isSelected = answers[step.id]?.value === opt.value;
             return (
               <button
                 key={idx}
+                role="radio"
+                aria-checked={isSelected}
                 onClick={() => handleSelect(opt)}
-                className={`w-full text-left p-5 rounded-2xl border-2 transition-all ${
+                className={`w-full text-left p-5 rounded-2xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   isSelected 
                     ? 'border-primary bg-primary/5 text-primary font-bold shadow-sm' 
                     : 'border-outline-variant hover:border-slate-300 text-on-surface-variant font-medium'

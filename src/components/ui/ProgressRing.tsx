@@ -25,8 +25,16 @@ export function ProgressRing({
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={cn("relative flex items-center justify-center", className)} style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="transform -rotate-90">
+    <div 
+      className={cn("relative flex items-center justify-center", className)} 
+      style={{ width: size, height: size }}
+      role="progressbar"
+      aria-valuenow={progress}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label="Progress Indicator"
+    >
+      <svg width={size} height={size} className="transform -rotate-90" aria-hidden="true">
         <circle
           className={cn("transition-colors duration-300", trackColorClass)}
           stroke="currentColor"

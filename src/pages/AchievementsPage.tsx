@@ -85,13 +85,13 @@ export default function AchievementsPage() {
   const renderLeaderboard = () => (
     <div className="space-y-5">
       <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
-        <Trophy className="text-primary" size={26} />
+        <Trophy className="text-primary" size={26} aria-hidden="true" />
         Global Leaderboard
       </h3>
       
       {loadingLeaderboard ? (
-        <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4" aria-live="polite">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" aria-hidden="true"></div>
           <p className="text-sm font-bold text-on-surface-variant">Loading rankings...</p>
         </Card>
       ) : leaderboard.length > 0 ? (
@@ -100,20 +100,20 @@ export default function AchievementsPage() {
             <span className="text-xs font-black tracking-wider text-on-surface-variant uppercase">Top Eco Warriors</span>
             <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-full">Top 10</span>
           </div>
-          <div className="divide-y divide-outline-variant/30">
+          <div className="divide-y divide-outline-variant/30" role="list">
             {leaderboard.map((person, i) => (
               <div key={person.id} className={cn(
                 "p-4 flex items-center gap-4 hover:bg-surface-container/50 transition-colors",
                 person.id === user.id && "bg-primary/5"
-              )}>
+              )} role="listitem">
                 <span className={cn(
                   "font-black w-6 text-center text-lg",
                   i === 0 ? "text-amber-500" : i === 1 ? "text-slate-400" : i === 2 ? "text-amber-700" : "text-on-surface-variant"
-                )}>{i + 1}</span>
+                )} aria-label={`Rank ${i + 1}`}>{i + 1}</span>
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-inner",
                   person.id === user.id ? "bg-primary text-white" : "bg-surface-container-high text-on-surface"
-                )}>
+                )} aria-hidden="true">
                   {person.name?.substring(0, 2).toUpperCase() || 'U'}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -122,29 +122,29 @@ export default function AchievementsPage() {
                   </h6>
                   <p className="text-[11px] font-bold text-on-surface-variant">Level {person.level || 1}</p>
                 </div>
-                <div className="font-black text-primary text-sm whitespace-nowrap">{person.xp?.toLocaleString() || 0} XP</div>
+                <div className="font-black text-primary text-sm whitespace-nowrap" aria-label={`${person.xp?.toLocaleString() || 0} Experience Points`}>{person.xp?.toLocaleString() || 0} XP</div>
               </div>
             ))}
             
             {/* Ensure current user is shown if not in top 10 */}
             {!leaderboard.find(p => p.id === user.id) && (
-              <div className="p-4 flex items-center gap-4 bg-primary/10 border-t-2 border-primary/20">
-                <span className="font-black text-on-surface w-6 text-center">-</span>
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm shadow-md">
+              <div className="p-4 flex items-center gap-4 bg-primary/10 border-t-2 border-primary/20" role="listitem">
+                <span className="font-black text-on-surface w-6 text-center" aria-hidden="true">-</span>
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-sm shadow-md" aria-hidden="true">
                   {user.name.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h6 className="font-bold text-on-surface truncate text-sm">You</h6>
                   <p className="text-[11px] font-bold text-primary/80">Level {user.level}</p>
                 </div>
-                <div className="font-black text-primary text-sm whitespace-nowrap">{user.xp.toLocaleString()} XP</div>
+                <div className="font-black text-primary text-sm whitespace-nowrap" aria-label={`${user.xp.toLocaleString()} Experience Points`}>{user.xp.toLocaleString()} XP</div>
               </div>
             )}
           </div>
         </Card>
       ) : (
         <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
-          <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2">
+          <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2" aria-hidden="true">
             <Users size={32} />
           </div>
           <h4 className="text-lg font-bold text-on-surface">No data available</h4>
@@ -158,11 +158,11 @@ export default function AchievementsPage() {
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
       
       {/* SECTION 1 - ACHIEVEMENT HERO */}
-      <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-surface-container-low to-surface-container flex flex-col md:flex-row items-center p-8 md:p-12 gap-8 md:gap-12">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
+      <Card className="relative overflow-hidden border-none shadow-xl bg-gradient-to-br from-surface-container-low to-surface-container flex flex-col md:flex-row items-center p-8 md:p-12 gap-8 md:gap-12" aria-label="User Level and Experience">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none" aria-hidden="true"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/4 pointer-events-none" aria-hidden="true"></div>
         
-        <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shrink-0 shadow-2xl shadow-primary/30 text-white border-4 border-surface">
+        <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shrink-0 shadow-2xl shadow-primary/30 text-white border-4 border-surface" aria-hidden="true">
           <Trophy size={64} className="drop-shadow-md" />
           <div className="absolute -bottom-4 bg-surface text-on-surface font-black px-4 py-1.5 rounded-full text-sm shadow-lg border border-outline-variant">
             Lvl {user.level}
@@ -196,36 +196,36 @@ export default function AchievementsPage() {
       </Card>
 
       {/* SECTION 2 - ACHIEVEMENT SUMMARY CARDS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" aria-label="Achievement Summary">
         <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mb-1">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mb-1" aria-hidden="true">
             <Trophy size={20} />
           </div>
           <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Unlocked</p>
-          <p className="text-xl md:text-2xl font-black text-on-surface">{unlockedCount > 0 ? unlockedCount : "No data yet"}</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface" aria-live="polite">{unlockedCount > 0 ? unlockedCount : "No data yet"}</p>
         </Card>
         <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1" aria-hidden="true">
             <Flame size={20} />
           </div>
           <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Longest Streak</p>
-          <p className="text-xl md:text-2xl font-black text-on-surface">{user.streak > 0 ? `${user.streak} Days` : "No data yet"}</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface" aria-live="polite">{user.streak > 0 ? `${user.streak} Days` : "No data yet"}</p>
         </Card>
         <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-1">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-1" aria-hidden="true">
             <Leaf size={20} />
           </div>
           <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">CO₂ Saved</p>
-          <p className="text-xl md:text-2xl font-black text-on-surface">{user.totalCarbonSaved > 0 ? `${user.totalCarbonSaved.toFixed(1)} kg` : "No data yet"}</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface" aria-live="polite">{user.totalCarbonSaved > 0 ? `${user.totalCarbonSaved.toFixed(1)} kg` : "No data yet"}</p>
         </Card>
         <Card className="p-4 md:p-5 flex flex-col justify-center items-center text-center space-y-2 border-none shadow-md hover:shadow-lg transition-shadow bg-surface-container-lowest">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1" aria-hidden="true">
             <Zap size={20} />
           </div>
           <p className="text-[10px] md:text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">Total XP</p>
-          <p className="text-xl md:text-2xl font-black text-on-surface">{user.xp > 0 ? user.xp.toLocaleString() : "No data yet"}</p>
+          <p className="text-xl md:text-2xl font-black text-on-surface" aria-live="polite">{user.xp > 0 ? user.xp.toLocaleString() : "No data yet"}</p>
         </Card>
-      </div>
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
         {/* Main Content Column */}
@@ -233,9 +233,9 @@ export default function AchievementsPage() {
           
           {/* SECTION 9 - ACHIEVEMENT PROGRESSION */}
           {nextAchievements.length > 0 && (
-            <div className="space-y-5">
+            <div className="space-y-5" aria-label="Next Achievements">
               <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
-                <Target className="text-primary" size={26} />
+                <Target className="text-primary" size={26} aria-hidden="true" />
                 Next Achievements
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -270,17 +270,18 @@ export default function AchievementsPage() {
           {/* SECTION 4 - ACHIEVEMENT CATEGORIES */}
           <div className="space-y-6">
             <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
-              <Medal className="text-primary" size={26} />
+              <Medal className="text-primary" size={26} aria-hidden="true" />
               Badge Collection
             </h3>
             
-            <div className="flex overflow-x-auto hide-scrollbar gap-3 pb-4 snap-x">
+            <nav className="flex overflow-x-auto hide-scrollbar gap-3 pb-4 snap-x" aria-label="Achievement Categories">
               {availableCategories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
+                  aria-pressed={activeCategory === cat}
                   className={cn(
-                    "px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-sm shrink-0 snap-center",
+                    "px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-sm shrink-0 snap-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                     activeCategory === cat 
                       ? "bg-primary text-white scale-105 shadow-primary/30" 
                       : "bg-surface-container-low text-on-surface hover:bg-surface-container-high hover:scale-105"
@@ -289,14 +290,14 @@ export default function AchievementsPage() {
                   {cat}
                 </button>
               ))}
-            </div>
+            </nav>
 
             {/* SECTION 3 - BETTER BADGE SYSTEM & SECTION 5 - EMPTY STATES */}
             <div className="space-y-8 animate-in fade-in duration-300">
               {Object.entries(groupedAchievements).map(([category, achs]) => (
                 <div key={category} className="space-y-4 bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/30">
                   <h4 className="text-xl font-black text-on-surface flex items-center gap-3 border-b border-outline-variant/50 pb-4">
-                    <div className="p-2 bg-surface-container rounded-xl">
+                    <div className="p-2 bg-surface-container rounded-xl" aria-hidden="true">
                       {getCategoryIcon(category)}
                     </div>
                     {category}
@@ -312,7 +313,7 @@ export default function AchievementsPage() {
                             : "bg-surface-container-lowest/50 border border-dashed border-outline-variant/50 opacity-80"
                         )}
                       >
-                        {ach.unlocked && <div className="absolute -top-10 -right-10 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none"></div>}
+                        {ach.unlocked && <div className="absolute -top-10 -right-10 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none" aria-hidden="true"></div>}
                         
                         <div className="flex items-start gap-4 mb-4 relative z-10">
                           <div className={cn(
@@ -320,7 +321,7 @@ export default function AchievementsPage() {
                             ach.unlocked 
                               ? "bg-primary text-white shadow-primary/20" 
                               : "bg-surface-container-high text-on-surface-variant"
-                          )}>
+                          )} aria-hidden="true">
                             {ach.unlocked ? <CheckCircle2 size={28} /> : <Lock size={24} />}
                           </div>
                           <div className="flex-1">
@@ -367,7 +368,7 @@ export default function AchievementsPage() {
               
               {Object.keys(groupedAchievements).length === 0 && (
                 <Card className="text-center py-16 border-none shadow-md bg-surface-container-lowest flex flex-col items-center justify-center space-y-4">
-                  <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mb-2">
+                  <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mb-2" aria-hidden="true">
                     <Medal size={32} />
                   </div>
                   <h4 className="text-xl font-bold text-on-surface">No achievements available yet</h4>
@@ -386,9 +387,9 @@ export default function AchievementsPage() {
           </div>
 
           {/* SECTION 7 - COMMUNITY IMPACT REWORK */}
-          <div className="space-y-5">
+          <section className="space-y-5" aria-label="Community Impact">
             <h3 className="text-2xl font-black text-on-surface flex items-center gap-2">
-              <Users className="text-primary" size={26} />
+              <Users className="text-primary" size={26} aria-hidden="true" />
               Community Impact
             </h3>
             
@@ -426,14 +427,14 @@ export default function AchievementsPage() {
               </Card>
             ) : (
               <Card className="p-8 border-none shadow-md bg-surface-container-lowest text-center space-y-4">
-                <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2">
+                <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center text-on-surface-variant mx-auto mb-2" aria-hidden="true">
                   <Leaf size={32} />
                 </div>
                 <h4 className="text-lg font-bold text-on-surface">Awaiting Impact Data</h4>
                 <p className="text-sm text-on-surface-variant">Community statistics will appear once more data is available.</p>
               </Card>
             )}
-          </div>
+          </section>
           
         </div>
       </div>

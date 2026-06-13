@@ -14,7 +14,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="h-20 px-6 md:px-8 flex items-center justify-between max-w-7xl mx-auto w-full relative z-20">
         <div className="flex items-center gap-2">
-          <Leaf className="text-primary" size={28} />
+          <Leaf className="text-primary" size={28} aria-hidden="true" />
           <span className="font-bold text-xl text-on-surface">EcoPilot AI</span>
         </div>
         <div className="hidden md:flex items-center gap-8 font-medium text-sm text-on-surface-variant">
@@ -40,7 +40,7 @@ export default function LandingPage() {
           Your Intelligent <br className="hidden sm:block" />
           Sustainability <span className="text-primary relative inline-block">
             Companion.
-            <svg className="absolute -bottom-2 left-0 w-full text-primary/30" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10C50 2 150 2 198 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg>
+            <svg className="absolute -bottom-2 left-0 w-full text-primary/30" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 10C50 2 150 2 198 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg>
           </span>
         </h1>
         
@@ -53,7 +53,7 @@ export default function LandingPage() {
             <Button size="lg" className="rounded-full px-8 shadow-level-2 w-full sm:w-auto text-base h-14">Start Your Eco Journey</Button>
           </Link>
           <Button size="lg" variant="outline" className="rounded-full px-8 bg-surface-container-lowest border-outline-variant shadow-sm gap-2 w-full sm:w-auto text-base h-14 hover:bg-surface-container-low transition-colors">
-            <Play size={18} /> View Demo
+            <Play size={18} aria-hidden="true" /> View Demo
           </Button>
         </div>
       </section>
@@ -73,7 +73,7 @@ export default function LandingPage() {
             {/* Mockup Left Column */}
             <div className="flex-1 space-y-6 md:space-y-8 bg-surface-container-low/30 p-4 md:p-8 rounded-2xl md:rounded-[2rem] border border-outline-variant/30">
               <div>
-                <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2 mb-1">Impact Score <ShieldCheck className="text-primary" size={20} /></h3>
+                <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2 mb-1">Impact Score <ShieldCheck className="text-primary" size={20} aria-hidden="true" /></h3>
                 <p className="text-on-surface-variant font-medium">Level 4: Eco Pioneer</p>
               </div>
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 md:gap-8">
@@ -97,13 +97,13 @@ export default function LandingPage() {
                   </div>
                   <div className="bg-surface-container-lowest rounded-xl p-3 md:p-4 flex items-center justify-between border border-transparent opacity-75">
                     <div className="flex items-center gap-3 md:gap-4">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-lg md:text-xl grayscale">🍴</div>
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-lg md:text-xl grayscale" aria-hidden="true">🍴</div>
                       <div>
                         <p className="font-bold text-sm md:text-base text-on-surface-variant line-through decoration-on-surface-variant/30">Plant-Based Meal</p>
                         <p className="text-xs font-medium text-on-surface-variant">Completed</p>
                       </div>
                     </div>
-                    <CheckCircle2 className="text-primary" size={22} />
+                    <CheckCircle2 className="text-primary" size={22} aria-hidden="true" />
                   </div>
                 </div>
               </div>
@@ -113,10 +113,10 @@ export default function LandingPage() {
             <div className="w-full lg:w-80 space-y-4 md:space-y-6">
               <div className="bg-gradient-to-br from-[#e6f4ef] to-[#f0f9f5] p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-[#cce8dd] shadow-sm relative overflow-hidden">
                 <div className="absolute -right-4 -top-4 opacity-10 text-primary">
-                  <BrainCircuit size={100} />
+                  <BrainCircuit size={100} aria-hidden="true" />
                 </div>
                 <div className="flex items-center gap-2 font-bold text-primary mb-4 relative z-10 text-lg">
-                  <div className="bg-primary text-white p-1.5 rounded-lg shadow-sm"><Sparkles size={16} /></div>
+                  <div className="bg-primary text-white p-1.5 rounded-lg shadow-sm"><Sparkles size={16} aria-hidden="true" /></div>
                   AI Mentor
                 </div>
                 <div className="bg-surface/80 backdrop-blur-sm p-4 rounded-xl shadow-sm mb-4 relative z-10 border border-white/50">
@@ -128,18 +128,18 @@ export default function LandingPage() {
               </div>
               
               <div className="bg-surface-container-lowest border border-outline-variant/50 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm">
-                <p className="text-sm md:text-base font-bold flex items-center gap-2 mb-4 md:mb-5 text-on-surface">Recent Badges <Trophy size={16} className="text-amber-500" /></p>
+                <p className="text-sm md:text-base font-bold flex items-center gap-2 mb-4 md:mb-5 text-on-surface">Recent Badges <Trophy size={16} className="text-amber-500" aria-hidden="true" /></p>
                 <div className="flex justify-between px-2">
                   <div className="flex flex-col items-center gap-2 transition-transform hover:scale-105 cursor-default">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-amber-200 text-amber-600 flex items-center justify-center bg-amber-50 shadow-sm text-xl md:text-2xl">☕</div>
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-amber-200 text-amber-600 flex items-center justify-center bg-amber-50 shadow-sm text-xl md:text-2xl" aria-hidden="true">☕</div>
                     <span className="text-[10px] md:text-xs font-semibold text-on-surface-variant">Refill Hero</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 transition-transform hover:scale-105 cursor-default">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-primary/30 text-primary flex items-center justify-center bg-primary/10 shadow-sm text-xl md:text-2xl">⚡</div>
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-primary/30 text-primary flex items-center justify-center bg-primary/10 shadow-sm text-xl md:text-2xl" aria-hidden="true">⚡</div>
                     <span className="text-[10px] md:text-xs font-semibold text-on-surface-variant">Energy Saver</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 transition-transform hover:scale-105 cursor-default">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-blue-200 text-blue-600 flex items-center justify-center bg-blue-50 shadow-sm"><Droplets size={20} className="md:w-6 md:h-6" /></div>
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-blue-200 text-blue-600 flex items-center justify-center bg-blue-50 shadow-sm"><Droplets size={20} className="md:w-6 md:h-6" aria-hidden="true" /></div>
                     <span className="text-[10px] md:text-xs font-semibold text-on-surface-variant">Water Wise</span>
                   </div>
                 </div>
@@ -190,7 +190,7 @@ export default function LandingPage() {
           ].map((feature, idx) => (
             <div key={idx} className="bg-surface-container-lowest border border-outline-variant/40 rounded-3xl p-8 shadow-sm hover:shadow-level-2 hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                <feature.icon size={28} />
+                <feature.icon size={28} aria-hidden="true" />
               </div>
               <h4 className="text-xl font-bold text-on-surface mb-3">{feature.title}</h4>
               <p className="text-on-surface-variant leading-relaxed">{feature.desc}</p>
@@ -247,14 +247,14 @@ export default function LandingPage() {
               ].map((text, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                    <CheckCircle2 size={14} />
+                    <CheckCircle2 size={14} aria-hidden="true" />
                   </div>
                   <span className="text-on-surface font-medium">{text}</span>
                 </div>
               ))}
             </div>
             
-            <Button className="rounded-full px-8 gap-2">Meet Your Coach <ArrowRight size={18} /></Button>
+            <Button className="rounded-full px-8 gap-2">Meet Your Coach <ArrowRight size={18} aria-hidden="true" /></Button>
           </div>
           
           <div className="flex-1 w-full max-w-md lg:max-w-none relative">
@@ -265,7 +265,7 @@ export default function LandingPage() {
               {/* AI Recommendation Card */}
               <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-level-2 border border-outline-variant/30 transform transition-transform hover:-translate-y-1 z-20 relative mr-8 md:mr-12">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="bg-blue-100 text-blue-600 p-2 rounded-lg"><Sparkles size={18} /></div>
+                  <div className="bg-blue-100 text-blue-600 p-2 rounded-lg"><Sparkles size={18} aria-hidden="true" /></div>
                   <span className="font-bold text-sm text-on-surface">Smart Recommendation</span>
                 </div>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
@@ -276,7 +276,7 @@ export default function LandingPage() {
               {/* AI Insight Card */}
               <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-level-2 border border-outline-variant/30 transform transition-transform hover:-translate-y-1 ml-8 md:ml-12 z-10 relative opacity-95">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="bg-emerald-100 text-emerald-600 p-2 rounded-lg"><Leaf size={18} /></div>
+                  <div className="bg-emerald-100 text-emerald-600 p-2 rounded-lg"><Leaf size={18} aria-hidden="true" /></div>
                   <span className="font-bold text-sm text-on-surface">Weekly Insight</span>
                 </div>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
@@ -287,7 +287,7 @@ export default function LandingPage() {
               {/* Progress Guidance Card */}
               <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-level-2 border border-outline-variant/30 transform transition-transform hover:-translate-y-1 z-0 relative mr-4 md:mr-20 opacity-90">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="bg-purple-100 text-purple-600 p-2 rounded-lg"><Target size={18} /></div>
+                  <div className="bg-purple-100 text-purple-600 p-2 rounded-lg"><Target size={18} aria-hidden="true" /></div>
                   <span className="font-bold text-sm text-on-surface">Progress Update</span>
                 </div>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
@@ -320,7 +320,7 @@ export default function LandingPage() {
             ].map((rank, idx) => (
               <div key={idx} className="bg-surface-container-lowest rounded-3xl p-6 md:p-8 text-center shadow-sm border border-outline-variant/50 relative group hover:shadow-level-2 transition-all">
                 <div className={`w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full ${rank.bg} ${rank.color} flex items-center justify-center mb-6 border-4 border-surface shadow-sm group-hover:scale-110 transition-transform`}>
-                  <rank.icon size={32} className="md:w-10 md:h-10" />
+                  <rank.icon size={32} className="md:w-10 md:h-10" aria-hidden="true" />
                 </div>
                 <h4 className="text-lg md:text-xl font-bold text-on-surface mb-2">{rank.name}</h4>
                 <p className="text-xs md:text-sm font-semibold text-on-surface-variant uppercase tracking-wider">Level {rank.level}+</p>
@@ -356,7 +356,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-10 px-6 md:px-8 max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-between text-sm text-on-surface-variant border-t border-outline-variant/30 mt-auto">
         <div className="flex items-center gap-2 font-bold text-primary text-xl mb-6 md:mb-0">
-          <Leaf size={24} /> EcoPilot AI
+          <Leaf size={24} aria-hidden="true" /> EcoPilot AI
         </div>
         <div className="flex flex-wrap justify-center gap-6 mb-6 md:mb-0 font-medium">
           <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>

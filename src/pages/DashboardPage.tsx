@@ -50,17 +50,17 @@ export default function DashboardPage() {
           <p className="text-body-lg text-on-surface-variant mt-2">Ready to make a positive impact today?</p>
         </div>
         <div className="flex items-center gap-2 bg-surface-container-lowest px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
-          <Calendar size={20} className="text-primary" />
+          <Calendar size={20} className="text-primary" aria-hidden="true" />
           <span className="font-semibold text-sm">{today}</span>
         </div>
       </div>
 
       {/* Insights Banner */}
       <div className="bg-surface-container-highest rounded-[1.5rem] p-6 border border-surface-container-highest relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface/40 rounded-full blur-3xl"></div>
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface/40 rounded-full blur-3xl" aria-hidden="true"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-4 mb-3">
-            <div className="relative w-12 h-12 group cursor-default">
+            <div className="relative w-12 h-12 group cursor-default" aria-hidden="true">
               {/* Outer Glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#6FFBBE] via-[#4EDEA3] to-[#10B981] rounded-full blur-md opacity-40 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500"></div>
               
@@ -79,10 +79,10 @@ export default function DashboardPage() {
               EcoPilot AI Insights <Badge className="bg-primary/20 text-primary uppercase text-[10px] tracking-wider">Live</Badge>
             </h2>
           </div>
-          <p className="text-on-surface font-medium leading-relaxed max-w-4xl flex items-start gap-2">
-            <Leaf className="text-primary mt-1 shrink-0" size={18} />
+          <p className="text-on-surface font-medium leading-relaxed max-w-4xl flex items-start gap-2" aria-live="polite">
+            <Leaf className="text-primary mt-1 shrink-0" size={18} aria-hidden="true" />
             <span>
-              <strong>EcoPilot AI says:</strong> {dynamicInsight}
+              <strong>EcoPilot AI says:</strong> <span className="sr-only">EcoPilot AI says:</span> {dynamicInsight}
             </span>
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function DashboardPage() {
               <span className="text-on-surface-variant font-medium">/100</span>
             </ProgressRing>
             <div className="w-full bg-primary/10 text-primary p-4 rounded-xl flex items-center gap-3 font-medium">
-              <Award className="shrink-0" />
+              <Award className="shrink-0" aria-hidden="true" />
               <p>Your current level is <strong>{user.level}</strong> with {user.totalCarbonSaved.toFixed(1)}kg CO2 saved.</p>
             </div>
           </CardContent>
@@ -112,7 +112,7 @@ export default function DashboardPage() {
         <Card className="flex flex-col">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 gap-2">
             <CardTitle className="text-2xl font-bold flex items-center gap-2">
-              <span className="text-primary">⚑</span> Today's Eco Mission
+              <span className="text-primary" aria-hidden="true">⚑</span> Today's Eco Mission
             </CardTitle>
             <Badge className="bg-error/10 text-error gap-1 py-1">
               {user.streak} Day Streak!
@@ -121,24 +121,24 @@ export default function DashboardPage() {
           <CardContent className="flex-1 flex flex-col justify-center">
             <div className="bg-surface p-6 rounded-2xl border border-outline-variant relative overflow-hidden group hover:border-primary/50 transition-colors">
               <div className="flex gap-4 items-start relative z-10">
-                <div className="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary">
+                <div className="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary" aria-hidden="true">
                   {hasCompletedMission ? <CheckCircle2 size={24} /> : <Circle size={24} />}
                 </div>
                 <div className="flex-1">
                   <h3 className="font-bold text-xl">{activeMission.title}</h3>
                   <p className="text-on-surface-variant mt-1">{activeMission.description}</p>
                 </div>
-                <div className="bg-primary text-white font-bold px-3 py-1.5 rounded-lg text-sm shadow-sm">
+                <div className="bg-primary text-white font-bold px-3 py-1.5 rounded-lg text-sm shadow-sm" aria-label={`Reward: ${activeMission.xpReward} XP`}>
                   +{activeMission.xpReward} XP
                 </div>
               </div>
             </div>
             
             <div className="mt-8 space-y-2">
-              <div className="h-4 bg-surface-container rounded-full overflow-hidden flex">
+              <div className="h-4 bg-surface-container rounded-full overflow-hidden flex" role="progressbar" aria-valuenow={hasCompletedMission ? 100 : 0} aria-valuemin={0} aria-valuemax={100} aria-label="Mission Progress">
                 <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: hasCompletedMission ? '100%' : '0%' }}></div>
               </div>
-              <div className="flex justify-between text-sm font-medium text-on-surface-variant">
+              <div className="flex justify-between text-sm font-medium text-on-surface-variant" aria-hidden="true">
                 <span>Mission Progress</span>
                 <span>{hasCompletedMission ? '1' : '0'}/1 Completed</span>
               </div>
@@ -148,7 +148,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Today's Habits */}
-      <div>
+      <section>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-3">
           <div>
             <h2 className="text-2xl font-bold">Your Habits</h2>
@@ -160,51 +160,55 @@ export default function DashboardPage() {
         </div>
         
         {displayHabits.length === 0 ? (
-           <div className="text-center py-8 text-on-surface-variant bg-surface rounded-2xl border border-outline-variant">
+           <div className="text-center py-8 text-on-surface-variant bg-surface rounded-2xl border border-outline-variant" role="status">
              No habits created yet. Go to the Habit Tracker to create your first habit!
            </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {displayHabits.map(habit => (
-              <div 
-                key={habit.id} 
-                className={cn(
-                  "p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group",
-                  habit.completedToday 
-                    ? "bg-surface border-transparent" 
-                    : "bg-surface-container-lowest border-outline-variant hover:border-primary/50"
-                )}
-                onClick={() => toggleHabit(habit.id)}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={cn(
-                    "shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors",
-                    habit.completedToday ? "text-primary bg-primary/10" : "text-outline-variant"
-                  )}>
-                    {habit.completedToday ? <CheckCircle2 size={24} /> : <Circle size={24} />}
-                  </div>
-                  <div>
-                    <h4 className={cn("font-bold text-lg", habit.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
-                      {habit.title}
-                    </h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="secondary" className="text-[10px] bg-surface-container-lowest border border-outline-variant shadow-sm py-0.5">
-                        💨 -{habit.co2SavingsKg} kg CO₂
-                      </Badge>
-                      <Badge variant="secondary" className="text-[10px] bg-surface-dim border-none py-0.5">
-                        {habit.difficulty}
-                      </Badge>
+              <li key={habit.id}>
+                <button 
+                  type="button"
+                  className={cn(
+                    "w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    habit.completedToday 
+                      ? "bg-surface border-transparent" 
+                      : "bg-surface-container-lowest border-outline-variant hover:border-primary/50"
+                  )}
+                  onClick={() => toggleHabit(habit.id)}
+                  aria-pressed={habit.completedToday}
+                  aria-label={`${habit.title}, ${habit.difficulty} difficulty, saves ${habit.co2SavingsKg} kg CO2, earns ${habit.xpReward} XP`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={cn(
+                      "shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors",
+                      habit.completedToday ? "text-primary bg-primary/10" : "text-outline-variant"
+                    )} aria-hidden="true">
+                      {habit.completedToday ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+                    </div>
+                    <div>
+                      <h4 className={cn("font-bold text-lg", habit.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
+                        {habit.title}
+                      </h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant="secondary" className="text-[10px] bg-surface-container-lowest border border-outline-variant shadow-sm py-0.5">
+                          💨 -{habit.co2SavingsKg} kg CO₂
+                        </Badge>
+                        <Badge variant="secondary" className="text-[10px] bg-surface-dim border-none py-0.5">
+                          {habit.difficulty}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="font-bold text-on-surface-variant">
-                  +{habit.xpReward} XP
-                </div>
-              </div>
+                  <div className="font-bold text-on-surface-variant">
+                    +{habit.xpReward} XP
+                  </div>
+                </button>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
-      </div>
+      </section>
     </div>
   );
 }
