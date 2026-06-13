@@ -36,7 +36,7 @@ export default function LandingPage() {
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span> EcoPilot AI 2.0 is now live
         </Badge>
         
-        <h1 className="text-display-md md:text-7xl font-extrabold leading-tight text-on-surface mb-6 tracking-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight text-on-surface mb-6 tracking-tight">
           Your Intelligent <br className="hidden sm:block" />
           Sustainability <span className="text-primary relative inline-block">
             Companion.
@@ -151,7 +151,7 @@ export default function LandingPage() {
 
       {/* Stats Section (Redesigned) */}
       <section className="bg-surface border-y border-outline-variant/30 py-12 md:py-16">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           <div className="text-center p-4 bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/20 hover:border-primary/20 transition-colors">
             <p className="text-4xl md:text-5xl font-extrabold text-primary mb-2">500k<span className="text-2xl md:text-3xl text-primary/70">+</span></p>
             <p className="text-xs md:text-sm font-bold tracking-wider text-on-surface-variant uppercase">KG CO2 Saved</p>
@@ -308,7 +308,7 @@ export default function LandingPage() {
             <p className="text-lg text-on-surface-variant max-w-2xl mx-auto">Turn sustainable living into a rewarding adventure. Climb the ranks and showcase your dedication to the planet.</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 relative">
             {/* Desktop Path Line */}
             <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-outline-variant/40 -z-10 -translate-y-1/2"></div>
             

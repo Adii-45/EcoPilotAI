@@ -49,8 +49,8 @@ export default function HabitTrackerPage() {
 
         {/* Completion Stats Grid */}
         <section aria-label="Habit Statistics">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
               <div className="flex items-center gap-2 text-on-surface-variant mb-3">
                 <Activity size={18} className="text-primary" aria-hidden="true" />
                 <h2 className="text-xs font-bold uppercase tracking-wider m-0 p-0">Completion</h2>
@@ -61,7 +61,7 @@ export default function HabitTrackerPage() {
               </div>
             </div>
             
-            <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
               <div className="flex items-center gap-2 text-on-surface-variant mb-3">
                 <Flame size={18} className="text-orange-500" aria-hidden="true" />
                 <h2 className="text-xs font-bold uppercase tracking-wider m-0 p-0">Active Streak</h2>
@@ -69,7 +69,7 @@ export default function HabitTrackerPage() {
               <p className="text-3xl font-black text-on-surface">{user.streak} <span className="text-base font-medium text-on-surface-variant tracking-normal">Days</span></p>
             </div>
 
-            <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
               <div className="flex items-center gap-2 text-on-surface-variant mb-3">
                 <Award size={18} className="text-amber-500" aria-hidden="true" />
                 <h2 className="text-xs font-bold uppercase tracking-wider m-0 p-0">Total XP</h2>
@@ -77,7 +77,7 @@ export default function HabitTrackerPage() {
               <p className="text-3xl font-black text-on-surface">{user.xp}</p>
             </div>
 
-            <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl border border-outline-variant shadow-sm flex flex-col justify-between">
               <div className="flex items-center gap-2 text-on-surface-variant mb-3">
                 <CalendarDays size={18} className="text-blue-500" aria-hidden="true" />
                 <h2 className="text-xs font-bold uppercase tracking-wider m-0 p-0">Active Habits</h2>

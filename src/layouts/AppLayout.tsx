@@ -61,7 +61,7 @@ export default function AppLayout() {
   ] : [];
 
   return (
-    <div className="min-h-screen bg-surface flex text-on-surface">
+    <div className="min-h-screen bg-surface flex text-on-surface supports-[min-height:100dvh]:min-h-[100dvh]">
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -181,7 +181,7 @@ export default function AppLayout() {
             </div>
             
             {showSearch && searchQuery.length > 1 && (
-              <div className="absolute top-full mt-2 w-full bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant p-2 z-50">
+              <div className="absolute top-full mt-2 w-[280px] sm:w-full right-0 sm:right-auto sm:left-0 bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant p-2 z-50">
                 {searchResults.length === 0 ? (
                   <p className="text-sm text-on-surface-variant p-2" role="status">No results found.</p>
                 ) : (
@@ -277,7 +277,7 @@ export default function AppLayout() {
           </div>
         </header>
 
-        <div className="flex-1 p-4 lg:p-8">
+        <div className="flex-1 p-4 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <Outlet />
         </div>
       </main>

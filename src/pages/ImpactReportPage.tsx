@@ -241,7 +241,7 @@ export default function ImpactReportPage() {
               <h2 className="text-xl font-bold text-on-surface">AI Sustainability Summary</h2>
               <span className="text-[10px] font-bold tracking-wider uppercase bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20 print:border print:border-primary print:text-primary print:bg-transparent">Insight</span>
             </div>
-            <p className="text-on-surface-variant leading-relaxed mb-6 text-lg" aria-live="polite">
+            <p className="text-on-surface-variant leading-relaxed mb-6 text-base md:text-lg" aria-live="polite">
               "{summary}"
             </p>
             <div className="flex flex-wrap gap-3">
@@ -339,10 +339,10 @@ export default function ImpactReportPage() {
                   <div className="bg-primary/10 p-2 rounded-lg text-primary" aria-hidden="true">
                     <Target size={20} />
                   </div>
-                  <h3 className="font-bold text-on-surface text-lg">Level {user.level + 1}</h3>
+                  <h3 className="font-bold text-on-surface text-base md:text-lg">Level {user.level + 1}</h3>
                 </div>
                 {user.xp >= user.nextLevelXp && (
-                   <span className="text-[10px] font-bold uppercase tracking-wider bg-primary text-on-primary px-2.5 py-1 rounded-md shadow-sm">Achieved</span>
+                   <span className="text-[10px] font-bold uppercase tracking-wider bg-primary text-on-primary px-2 py-1 rounded-md shadow-sm">Achieved</span>
                 )}
               </div>
               <p className="text-sm text-on-surface-variant mt-3 mb-2">Complete actions and log sustainability milestones to progress.</p>

@@ -399,25 +399,25 @@ export default function AchievementsPage() {
                   Together, the EcoPilot community is making a measurable difference globally.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-2">
-                  <div className="bg-primary/10 p-5 rounded-2xl text-center shadow-inner">
+                  <div className="bg-primary/10 p-3 sm:p-5 rounded-2xl text-center shadow-inner">
                     <div className="text-2xl font-black text-primary mb-1">
                       {communityStats.totalCarbonSaved.toFixed(0)} <span className="text-sm">kg</span>
                     </div>
                     <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Total CO₂ Saved</p>
                   </div>
-                  <div className="bg-surface-container-low p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
+                  <div className="bg-surface-container-low p-3 sm:p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
                     <div className="text-2xl font-black text-on-surface mb-1">
                       {communityStats.totalActions.toLocaleString()}
                     </div>
                     <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Eco Actions</p>
                   </div>
-                  <div className="bg-surface-container-low p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
+                  <div className="bg-surface-container-low p-3 sm:p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
                     <div className="text-2xl font-black text-on-surface mb-1">
                       {communityStats.activeUsers.toLocaleString()}
                     </div>
                     <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Active Users</p>
                   </div>
-                  <div className="bg-surface-container-low p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
+                  <div className="bg-surface-container-low p-3 sm:p-5 rounded-2xl text-center shadow-inner border border-outline-variant/30">
                     <div className="text-2xl font-black text-on-surface mb-1">
                       {communityStats.totalXp > 1000 ? `${(communityStats.totalXp / 1000).toFixed(1)}k` : communityStats.totalXp}
                     </div>

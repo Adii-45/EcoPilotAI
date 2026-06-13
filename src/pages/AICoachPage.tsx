@@ -35,7 +35,7 @@ export default function AICoachPage() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-8rem)] gap-4 lg:gap-8 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] min-h-[500px] gap-4 lg:gap-8 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Suggestions Sidebar (Desktop) */}
       <aside className="hidden lg:flex w-72 flex-col space-y-6 shrink-0" aria-label="Suggestions Sidebar">
         <h2 className="text-lg lg:text-2xl font-bold text-on-surface">Suggestions</h2>
@@ -79,7 +79,7 @@ export default function AICoachPage() {
 
           {messages.length === 0 ? (
              <div className="flex justify-start w-full">
-               <div className="flex gap-4 max-w-[85%] items-start">
+               <div className="flex gap-4 max-w-[90%] md:max-w-[85%] items-start">
                  <div className="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-sm mt-1" aria-hidden="true">
                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
                  </div>
@@ -92,7 +92,7 @@ export default function AICoachPage() {
             messages.map(msg => (
               msg.role === 'user' ? (
                 <div key={msg.id} className="flex justify-end w-full">
-                  <div className="flex gap-4 max-w-[85%] items-end justify-end">
+                  <div className="flex gap-4 max-w-[90%] md:max-w-[85%] items-end justify-end">
                     <div className="bg-gradient-to-br from-[#10B981] to-[#006c49] text-white px-6 py-4 rounded-[1rem] rounded-br-sm shadow-md hover:shadow-lg transition-all">
                       <p className="font-medium whitespace-pre-wrap">{msg.content}</p>
                     </div>
@@ -103,7 +103,7 @@ export default function AICoachPage() {
                 </div>
               ) : (
                 <div key={msg.id} className="flex justify-start w-full">
-                  <div className="flex gap-4 max-w-[85%] items-start">
+                  <div className="flex gap-4 max-w-[90%] md:max-w-[85%] items-start">
                     <div className="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-sm mt-1" aria-hidden="true">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
                     </div>

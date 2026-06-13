@@ -53,7 +53,7 @@ export function CreateHabitModal({ onClose }: CreateHabitModalProps) {
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="habit-category" className="block text-sm font-medium mb-1">Category</label>
                   <select 
@@ -84,7 +84,7 @@ export function CreateHabitModal({ onClose }: CreateHabitModalProps) {
                   </select>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="habit-xp" className="block text-sm font-medium mb-1">XP Reward</label>
                   <input 

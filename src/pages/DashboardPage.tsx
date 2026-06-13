@@ -120,15 +120,17 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent className="flex-1 flex flex-col justify-center">
             <div className="bg-surface p-6 rounded-2xl border border-outline-variant relative overflow-hidden group hover:border-primary/50 transition-colors">
-              <div className="flex gap-4 items-start relative z-10">
-                <div className="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary" aria-hidden="true">
-                  {hasCompletedMission ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center relative z-10">
+                <div className="flex gap-4 items-start flex-1">
+                  <div className="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 border border-outline-variant shadow-sm text-primary" aria-hidden="true">
+                    {hasCompletedMission ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-xl">{activeMission.title}</h3>
+                    <p className="text-on-surface-variant mt-1 text-sm md:text-base">{activeMission.description}</p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-xl">{activeMission.title}</h3>
-                  <p className="text-on-surface-variant mt-1">{activeMission.description}</p>
-                </div>
-                <div className="bg-primary text-white font-bold px-3 py-1.5 rounded-lg text-sm shadow-sm" aria-label={`Reward: ${activeMission.xpReward} XP`}>
+                <div className="bg-primary text-white font-bold px-3 py-1.5 rounded-lg text-sm shadow-sm shrink-0" aria-label={`Reward: ${activeMission.xpReward} XP`}>
                   +{activeMission.xpReward} XP
                 </div>
               </div>
@@ -170,7 +172,7 @@ export default function DashboardPage() {
                 <button 
                   type="button"
                   className={cn(
-                    "w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     habit.completedToday 
                       ? "bg-surface border-transparent" 
                       : "bg-surface-container-lowest border-outline-variant hover:border-primary/50"
@@ -179,18 +181,18 @@ export default function DashboardPage() {
                   aria-pressed={habit.completedToday}
                   aria-label={`${habit.title}, ${habit.difficulty} difficulty, saves ${habit.co2SavingsKg} kg CO2, earns ${habit.xpReward} XP`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 w-full sm:w-auto">
                     <div className={cn(
                       "shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors",
                       habit.completedToday ? "text-primary bg-primary/10" : "text-outline-variant"
                     )} aria-hidden="true">
                       {habit.completedToday ? <CheckCircle2 size={24} /> : <Circle size={24} />}
                     </div>
-                    <div>
-                      <h4 className={cn("font-bold text-lg", habit.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
+                    <div className="flex-1 min-w-0">
+                      <h4 className={cn("font-bold text-base md:text-lg truncate", habit.completedToday && "text-on-surface-variant line-through decoration-2 decoration-on-surface-variant/30")}>
                         {habit.title}
                       </h4>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
                         <Badge variant="secondary" className="text-[10px] bg-surface-container-lowest border border-outline-variant shadow-sm py-0.5">
                           💨 -{habit.co2SavingsKg} kg CO₂
                         </Badge>
@@ -200,7 +202,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="font-bold text-on-surface-variant">
+                  <div className="font-bold text-on-surface-variant self-end sm:self-auto pl-10 sm:pl-0 shrink-0">
                     +{habit.xpReward} XP
                   </div>
                 </button>

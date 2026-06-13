@@ -249,8 +249,8 @@ export default function SimulatorPage() {
                   <div className="text-on-surface-variant font-medium mb-3 flex items-center justify-center gap-2">
                     <RotateCcw size={18} aria-hidden="true" /> Current State
                   </div>
-                  <div className="text-4xl font-bold text-on-surface transition-all duration-500" aria-live="polite">
-                    {baseEmissions.toLocaleString()}<span className="text-base text-on-surface-variant font-normal ml-1">kg CO₂</span>
+                  <div className="text-3xl md:text-4xl font-bold text-on-surface transition-all duration-500" aria-live="polite">
+                    {baseEmissions.toLocaleString()}<span className="text-sm md:text-base text-on-surface-variant font-normal ml-1">kg CO₂</span>
                   </div>
                 </div>
 
@@ -270,8 +270,8 @@ export default function SimulatorPage() {
                   <div className="text-primary font-bold mb-3 flex items-center justify-center gap-2">
                     <Sparkles size={18} aria-hidden="true" /> Future State
                   </div>
-                  <div className="text-4xl font-black text-primary transition-all duration-500" aria-live="polite">
-                    {annualEmissions.toLocaleString()}<span className="text-base text-primary/70 font-normal ml-1">kg CO₂</span>
+                  <div className="text-3xl md:text-4xl font-black text-primary transition-all duration-500" aria-live="polite">
+                    {annualEmissions.toLocaleString()}<span className="text-sm md:text-base text-primary/70 font-normal ml-1">kg CO₂</span>
                   </div>
                 </div>
               </div>
@@ -284,7 +284,7 @@ export default function SimulatorPage() {
               <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform" aria-hidden="true">
                 <Leaf size={28} />
               </div>
-              <div className="text-3xl font-black text-on-surface mb-1 transition-all duration-500" aria-live="polite">
+              <div className="text-2xl md:text-3xl font-black text-on-surface mb-1 transition-all duration-500" aria-live="polite">
                 {(carbonReduction / 1000).toFixed(1)}t
               </div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-on-surface-variant m-0 p-0">CO₂ Prevented</h4>
@@ -294,7 +294,7 @@ export default function SimulatorPage() {
               <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform" aria-hidden="true">
                 <TreePine size={28} />
               </div>
-              <div className="text-3xl font-black text-on-surface mb-1 transition-all duration-500" aria-live="polite">
+              <div className="text-2xl md:text-3xl font-black text-on-surface mb-1 transition-all duration-500" aria-live="polite">
                 {treesEquivalent}
               </div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-on-surface-variant m-0 p-0">Trees Grown</h4>
@@ -304,7 +304,7 @@ export default function SimulatorPage() {
               <div className="bg-secondary/10 text-secondary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform" aria-hidden="true">
                 <Coins size={28} />
               </div>
-              <div className="text-3xl font-black text-secondary mb-1 transition-all duration-500" aria-live="polite">
+              <div className="text-2xl md:text-3xl font-black text-secondary mb-1 transition-all duration-500" aria-live="polite">
                 ${moneySaved}
               </div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-secondary/70 m-0 p-0">Money Saved</h4>
@@ -318,7 +318,7 @@ export default function SimulatorPage() {
               <div className="flex items-center gap-5 bg-surface p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-primary/30 transition-colors">
                 <div className="bg-primary/20 text-primary p-4 rounded-2xl" aria-hidden="true"><Car size={28} /></div>
                 <div>
-                  <div className="text-3xl font-black text-on-surface transition-all duration-500" aria-live="polite">
+                  <div className="text-2xl md:text-3xl font-black text-on-surface transition-all duration-500" aria-live="polite">
                     {milesAvoided.toLocaleString()}
                   </div>
                   <h4 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mt-1 m-0 p-0">Miles Avoided</h4>
@@ -328,7 +328,7 @@ export default function SimulatorPage() {
               <div className="flex items-center gap-5 bg-surface p-5 rounded-2xl border border-outline-variant shadow-sm hover:border-secondary/30 transition-colors">
                 <div className="bg-secondary/20 text-secondary p-4 rounded-2xl" aria-hidden="true"><Home size={28} /></div>
                 <div>
-                  <div className="text-3xl font-black text-on-surface transition-all duration-500" aria-live="polite">
+                  <div className="text-2xl md:text-3xl font-black text-on-surface transition-all duration-500" aria-live="polite">
                     {homeEnergyDays.toLocaleString()}
                   </div>
                   <h4 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mt-1 m-0 p-0">Days Home Energy</h4>
