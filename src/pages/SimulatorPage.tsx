@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useStore } from '../store/store';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -22,13 +22,13 @@ export default function SimulatorPage() {
   const updateSimulation = useStore((state) => state.updateSimulation);
   
   // Local state for smooth slider interaction without constant store updates
-  const [localSim, setLocalSim] = useState<SimulationState | null>(null);
+  const [localSim, setLocalSim] = useState<SimulationState | null>(simulation);
+  const [prevSimStore, setPrevSimStore] = useState<SimulationState | null>(simulation);
   
-  useEffect(() => {
-    if (simulation) {
-      setLocalSim(simulation);
-    }
-  }, [simulation]);
+  if (simulation !== prevSimStore) {
+    setPrevSimStore(simulation);
+    setLocalSim(simulation);
+  }
 
   const { annualEmissions, carbonReduction, moneySaved, treesEquivalent } = useMemo(() => {
     if (!localSim) return { annualEmissions: 0, carbonReduction: 0, moneySaved: 0, treesEquivalent: 0 };

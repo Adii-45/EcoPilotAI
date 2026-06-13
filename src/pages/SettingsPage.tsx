@@ -50,7 +50,7 @@ export default function SettingsPage() {
       await updateUser({ photoURL: url });
       if (fileInputRef.current) fileInputRef.current.value = '';
       showToast('Profile picture updated successfully!', 'success');
-    } catch (error) {
+    } catch {
       showToast('Failed to upload image. Please try again.', 'error');
     } finally {
       setIsUploading(false);

@@ -152,7 +152,7 @@ export const useStore = create<AppState>((set, get) => ({
       ? { newUnlocked: [], updatedAchievements: state.achievements } 
       : evaluateAchievements(newUser, newActivities, state.achievements);
     
-    let addedNotifications: Notification[] = [];
+    const addedNotifications: Notification[] = [];
     if (newUnlocked.length > 0) {
       newUser.achievementsEarned += newUnlocked.length;
       for (const ach of newUnlocked) {
@@ -208,7 +208,7 @@ export const useStore = create<AppState>((set, get) => ({
     const newUser = { ...state.user, xp: state.user.xp + 50 };
     const { newUnlocked, updatedAchievements } = evaluateAchievements(newUser, newActivities, state.achievements);
     
-    let addedNotifications: Notification[] = [];
+    const addedNotifications: Notification[] = [];
     if (newUnlocked.length > 0) {
       newUser.achievementsEarned += newUnlocked.length;
       for (const ach of newUnlocked) {

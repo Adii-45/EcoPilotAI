@@ -30,7 +30,7 @@ export default function ImpactReportPage() {
         return acc;
       }, {} as Record<string, number>);
 
-    const history = [...(user?.history || [])].map(entry => {
+    const history = [...(user.history || [])].map(entry => {
       // Sanitize past days with the true ledger count
       if (entry.date !== todayStr && trueActionsPerDay[entry.date] !== undefined) {
         return { ...entry, actions: Math.max(0, trueActionsPerDay[entry.date]) };
@@ -44,10 +44,10 @@ export default function ImpactReportPage() {
     if (todayIndex >= 0) {
       history[todayIndex] = { ...history[todayIndex], actions: todaysActionsCount };
     } else if (todaysActionsCount > 0) {
-      history.push({ date: todayStr, score: user?.sustainabilityScore || 0, actions: todaysActionsCount });
+      history.push({ date: todayStr, score: user.sustainabilityScore || 0, actions: todaysActionsCount });
     }
     return history;
-  }, [user?.history, habits, dailyChallenges, user?.sustainabilityScore, activities]);
+  }, [user.history, habits, dailyChallenges, user.sustainabilityScore, activities]);
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -66,7 +66,7 @@ export default function ImpactReportPage() {
       }
     };
     if (user.id) fetchSummary();
-  }, [user.id, user.level, user.totalActions, user.totalCarbonSaved, user.streak]);
+  }, [user, activities]);
 
   // Derived metrics for Highlights
   const highlights = useMemo(() => {
@@ -155,7 +155,7 @@ export default function ImpactReportPage() {
     };
   }, [user, activities, timeFilter, syncedHistory]);
 
-  const generateChartData = () => {
+  const { chartData, consistencyData } = useMemo(() => {
     const history = syncedHistory;
     
     let daysToInclude = 7;
@@ -189,13 +189,11 @@ export default function ImpactReportPage() {
       if (timeFilter === '30d') dayLabel = i % 5 === 0 || i === 29 ? `${new Date(dateStr).getDate()}/${new Date(dateStr).getMonth() + 1}` : '';
       if (timeFilter === 'all') dayLabel = i % Math.ceil(daysToInclude/6) === 0 ? `${new Date(dateStr).getDate()}/${new Date(dateStr).getMonth() + 1}` : '';
       
-      return { day: dayLabel, fullDate: dateStr, score: entry ? entry.score : (user?.sustainabilityScore || 0) };
+      return { day: dayLabel, fullDate: dateStr, score: entry ? entry.score : (user.sustainabilityScore || 0) };
     });
 
     return { chartData: weeklyData, consistencyData };
-  };
-
-  const { chartData, consistencyData } = generateChartData();
+  }, [syncedHistory, timeFilter, user.sustainabilityScore]);
 
   const handleShareReport = () => {
     window.print();

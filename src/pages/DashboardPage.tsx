@@ -14,7 +14,7 @@ export default function DashboardPage() {
 
   const displayHabits = habits;
 
-  const totalEarned = displayHabits.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0);
+  const totalEarned = useMemo(() => displayHabits.filter(c => c.completedToday).reduce((acc, curr) => acc + curr.xpReward, 0), [displayHabits]);
 
   const toggleHabit = (id: string) => {
     completeHabit(id);
@@ -39,7 +39,7 @@ export default function DashboardPage() {
     };
   }, []);
 
-  const hasCompletedMission = displayHabits.some(h => h.completedToday);
+  const hasCompletedMission = useMemo(() => displayHabits.some(h => h.completedToday), [displayHabits]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">

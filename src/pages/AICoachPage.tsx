@@ -97,7 +97,7 @@ export default function AICoachPage() {
                       <p className="font-medium whitespace-pre-wrap">{msg.content}</p>
                     </div>
                     <div className="shrink-0 w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant flex items-center justify-center shadow-sm">
-                      <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=006c49&color=fff`} alt={`${user.name}'s profile picture`} className="w-full h-full object-cover" />
+                      <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=006c49&color=fff`} alt={`${user.name}'s profile picture`} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                   </div>
                 </div>

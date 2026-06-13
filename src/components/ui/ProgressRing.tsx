@@ -11,7 +11,7 @@ interface ProgressRingProps {
   children?: React.ReactNode;
 }
 
-export function ProgressRing({
+export const ProgressRing = React.memo(function ProgressRing({
   progress,
   size = 120,
   strokeWidth = 12,
@@ -60,4 +60,4 @@ export function ProgressRing({
       {children && <div className="absolute flex flex-col items-center justify-center">{children}</div>}
     </div>
   );
-}
+});
