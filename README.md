@@ -1,73 +1,53 @@
-# 🌍 EcoPilot AI
+<div align="center">
+  
+  # 🌍 EcoPilot AI
 
-> **AI-Powered Sustainability Coach**
+  **AI-Powered Sustainability Coach & Gamified Habit Tracker**
 
-EcoPilot AI helps users build sustainable habits through habit tracking, AI-powered coaching, eco missions, achievements, reports, simulations, streaks, and personalized sustainability insights. The project combines gamification and AI to encourage environmentally responsible behavior, making it easier than ever to track your impact and lead a greener lifestyle.
+  [Report Bug](https://github.com/your-username/ecopilot-ai/issues) · [Request Feature](https://github.com/your-username/ecopilot-ai/issues)
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
-![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+  ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+  ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+  ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+  ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
+  ![Zustand](https://img.shields.io/badge/Zustand-4A3E3D?style=for-the-badge&logo=react&logoColor=white)
+  ![Gemini AI](https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)
 
----
-
-## 🌟 Features
-
-### Authentication
-- **User signup & login**: Secure email/password authentication
-- **Session persistence**: Stay logged in across visits
-
-### Dashboard
-- **Sustainability score**: A clear metric of your overall impact
-- **Daily eco missions**: Bite-sized tasks to complete every day
-- **Progress tracking**: Visual charts mapping out your green journey
-- **AI insights**: Context-aware recommendations on your dashboard
-
-### AI Coach
-- **Sustainability guidance**: Chat with an intelligent, Gemini-powered assistant
-- **Personalized recommendations**: Advice tailored to your unique lifestyle and goals
-
-### Habit Tracker
-- **Eco-friendly habit logging**: Track your daily sustainable choices
-- **Progress monitoring**: Maintain streaks and build lasting habits
-
-### Impact Reports
-- **Environmental impact summaries**: Detailed breakdowns of your carbon, water, and waste savings
-
-### Achievements
-- **Gamified rewards**: Unlock badges for hitting sustainability milestones
-- **XP system**: Earn experience points for completing eco-friendly actions
-- **Progress milestones**: Visually track how close you are to the next tier
-
-### Simulator
-- **Sustainability scenario simulations**: Understand the long-term impact of your daily choices
-
-### Profile Management
-- **Editable profile**: Customize your personal details
-- **Profile image upload**: Seamless image hosting via Cloudinary integration
-
-### Theme System
-- **Light mode & Dark mode**: Full aesthetic support for both preferences
-- **Theme persistence**: Remembers your choice on your next visit
+</div>
 
 ---
 
-## 💻 Tech Stack
+## 📖 Project Overview
 
-| Category | Technologies |
-| :--- | :--- |
-| **Frontend** | React, TypeScript, Vite |
-| **Styling** | Tailwind CSS |
-| **Backend Services** | Firebase Authentication, Firestore Database |
-| **Storage** | Cloudinary |
-| **State Management** | Zustand |
-| **AI** | Gemini API |
-| **Deployment** | Production-ready |
+**EcoPilot AI** is a production-ready, gamified web application that helps users build sustainable habits. By blending an intuitive habit tracker with an intelligent AI coach powered by the Gemini API, EcoPilot AI translates abstract environmental concepts into tangible, actionable insights. Whether you're tracking daily eco-friendly choices, simulating long-term environmental impacts, or competing for green achievements, EcoPilot AI makes sustainable living engaging and measurable.
 
 ---
 
-## 🏗️ Project Architecture
+## 🎯 Challenge Context
+
+**Why EcoPilot AI?**
+Translating environmental awareness into consistent action is a profound challenge. While many individuals want to reduce their carbon footprint, the impact of daily choices often feels abstract and disconnected. EcoPilot AI addresses this by providing immediate visibility and structure. By integrating gamification mechanics (XP, leveling, streaks) with AI-powered personalized coaching, the platform bridges the gap between intention and action, encouraging long-term behavioral change in sustainability.
+
+---
+
+## ✨ Features
+
+- 🔐 **Secure Authentication**: Robust email/password flow and session management via Firebase.
+- 📊 **Dynamic Dashboard**: Visualize your sustainability score, daily eco missions, and progress charts.
+- 🤖 **AI Coach (Gemini API)**: Chat with an intelligent, context-aware assistant for personalized sustainability guidance.
+- 🌿 **Gamified Habit Tracker**: Log daily eco-friendly choices, maintain streaks, and build lasting habits.
+- 📈 **Impact Reports**: Detailed visual breakdowns of your carbon, water, and waste savings.
+- 🏆 **Achievements & XP**: Earn experience points, level up, and unlock distinct visual badges.
+- 🔮 **Sustainability Simulator**: Simulate the long-term environmental impact of different lifestyle scenarios.
+- 🎨 **Modern Theming**: Seamless Light/Dark mode support with persistent user preferences.
+- 👤 **Profile Management**: Customizable user profiles with cloud-hosted avatars (Cloudinary).
+
+---
+
+## 🏗️ Architecture
+
+EcoPilot AI follows a modular, scalable React architecture. State is managed globally via Zustand and contexts, while Firebase handles backend services.
 
 ```text
 src/
@@ -85,9 +65,22 @@ src/
 
 ---
 
-## 🚀 Local Setup
+## 💻 Tech Stack
 
-Follow these steps to get the project running locally.
+| Category | Technologies |
+| :--- | :--- |
+| **Frontend Framework** | React 18, Vite |
+| **Language** | TypeScript |
+| **Styling & UI** | Tailwind CSS, Lucide React (Icons) |
+| **Backend & DB** | Firebase Authentication, Cloud Firestore |
+| **Image Hosting** | Cloudinary |
+| **State Management** | Zustand, React Context |
+| **AI Integration** | Google Gemini API |
+| **Testing** | Vitest, React Testing Library |
+
+---
+
+## 🚀 Setup Instructions
 
 1. **Clone the repository**
    ```bash
@@ -100,8 +93,11 @@ Follow these steps to get the project running locally.
    npm install
    ```
 
-3. **Set up environment variables** (See the sections below)
-   Copy `.env.example` to `.env.local` and populate the fields.
+3. **Configure Environment Variables**
+   Copy the example environment file and populate it with your credentials:
+   ```bash
+   cp .env.example .env.local
+   ```
 
 4. **Start the development server**
    ```bash
@@ -112,148 +108,83 @@ Follow these steps to get the project running locally.
 
 ## 🔑 Environment Variables
 
-Create a `.env.local` file in the root of your project and add the following variables:
+To run this project, you will need to add the following environment variables to your `.env.local` file:
 
 ```env
-# The API Key for the Gemini AI Coach
-VITE_GEMINI_API_KEY=
+# Gemini AI Coach
+VITE_GEMINI_API_KEY=your_gemini_api_key
 
 # Firebase Configuration
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
 
 # Cloudinary Configuration
-VITE_CLOUDINARY_CLOUD_NAME=
-VITE_CLOUDINARY_UPLOAD_PRESET=
+VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 ```
 
 ---
 
-## 🔥 Firebase Setup
+## 🧪 Testing Guide
 
-1. **Create Firebase project**: Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
-2. **Enable Authentication**: Navigate to Build > Authentication and enable the **Email/Password** provider.
-3. **Enable Firestore**: Navigate to Build > Firestore Database and create a database.
-4. **Configure rules**: Update your Firestore rules to allow read/write access for authenticated users:
-   ```javascript
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /{document=**} {
-         allow read, write: if request.auth != null;
-       }
-     }
-   }
-   ```
-5. **Add environment variables**: Go to Project Settings > General, register a Web App, and copy the Firebase config into your `.env.local` file.
+EcoPilot AI leverages **Vitest** and **React Testing Library** to ensure component reliability and application stability.
 
----
+- **Run all unit & component tests:** 
+  ```bash
+  npm run test
+  ```
+- **Run tests with a visual UI:** 
+  ```bash
+  npm run test:ui
+  ```
+- **Generate test coverage report:** 
+  ```bash
+  npm run test:coverage
+  ```
 
-## ☁️ Cloudinary Setup
-
-1. **Create Cloudinary account**: Sign up at [Cloudinary](https://cloudinary.com/).
-2. **Create unsigned upload preset**: Go to Settings > Upload. Under "Upload presets", click "Add upload preset". Set the "Signing Mode" to **Unsigned**.
-3. **Copy cloud name**: Find your Cloud name on your main Dashboard.
-4. **Add environment variables**: Add your Cloud name and the name of the Unsigned Upload Preset to your `.env.local` file.
+*Testing Strategy:* Tests mirror the `src/` directory structure. Custom DOM matchers (`@testing-library/jest-dom`) are used to assert UI states effectively.
 
 ---
 
-## 📜 Available Scripts
+## ♿ Accessibility Features
 
-In the project directory, you can run:
+EcoPilot AI is engineered to be inclusive, adhering to **WCAG AA standards** to ensure accessibility for all users:
 
-### `npm run dev`
-Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
-
-### `npm run build`
-Builds the app for production to the `dist` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
-
-### `npm run preview`
-Locally preview the production build that was generated by `npm run build`.
+- **Semantic HTML & ARIA:** Comprehensive use of semantic elements, `aria-labels`, and `aria-live` regions for dynamic updates.
+- **Keyboard Navigation:** Full focus management using `tabindex` and distinct `:focus-visible` styling for predictable keyboard traversal.
+- **Screen Reader Support:** Screen reader-only text classes (`.sr-only`) used to articulate charts, graphs, and complex visual states.
+- **Accessible Forms & Controls:** Semantic form associations and accessible custom controls (switches, sliders, radio groups).
 
 ---
 
-## 🧪 Testing
+## ⚡ Performance Optimizations
 
-The project uses [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for unit and component testing.
+To deliver a premium, snappy user experience, the application includes multiple performance optimizations:
 
-### Running Tests
-
-- **Run all tests:** `npm run test`
-- **Run tests with UI:** `npm run test:ui`
-- **Run tests with coverage:** `npm run test:coverage`
-
-### Writing Tests
-
-Tests should be placed in the `tests/` directory mirroring the structure of `src/`. For example, a test for `src/components/ui/Button.tsx` should be located at `tests/components/ui/Button.test.tsx`.
-
-The setup includes `@testing-library/jest-dom` for custom DOM element matchers like `toBeInTheDocument()`.
+- **Code Splitting & Lazy Loading:** React's `lazy` and `Suspense` are utilized for route-based code splitting, drastically reducing initial load times.
+- **Memoization:** Strategic use of `useMemo` and `useCallback` to prevent unnecessary re-renders in complex dashboards and impact charts.
+- **Asset Optimization:** Next-gen image formats and deferred loading strategies. Vite optimizes the production bundle efficiently.
+- **Efficient State:** Zustand minimizes boilerplate and avoids the React Context re-render pitfalls for rapidly changing global state (like Theme and App State).
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Future Roadmap
 
-### Completed
-- [x] Authentication
-- [x] Dashboard
-- [x] AI Coach
-- [x] Dark Mode
-- [x] Profile Images
-
-### Planned
-- [ ] Mobile app (React Native / Capacitor)
-- [ ] Social challenges & community features
-- [ ] Leaderboards
-- [ ] Advanced carbon footprint analytics
-- [ ] Advanced AI recommendations
-- [ ] Multi-device real-time sync
-- [ ] Push notifications
+- **Mobile App:** Cross-platform mobile deployment via React Native or Capacitor.
+- **Social Features:** Community leaderboards, friends lists, and social eco-challenges.
+- **Advanced Analytics:** Deeper, more granular carbon footprint parsing and historical data export.
+- **Push Notifications:** Reminders for daily habits and streaks to boost user retention.
+- **Wearable Integration:** Syncing step data and physical activity to eco metrics.
 
 ---
 
-## Design Decisions & Implementation Notes
-
-### Chosen Vertical
-
-EcoPilot AI was developed in the sustainability and climate-tech domain to address the challenge of translating environmental awareness into consistent action. The motivation centers on helping users build sustainable habits by making abstract environmental impacts tangible. By combining gamification mechanics with AI-powered coaching, the platform is designed to encourage long-term behavior change. Sustainability tracking remains a meaningful problem for students and everyday users as it provides the necessary visibility and structure to integrate eco-friendly choices into daily routines.
-
-### Approach and Logic
-
-The core logic of the application centers on habit tracking as the primary data source. The product approach incorporates the following components:
-- **Habit Tracking:** Serves as the foundational input for user activity.
-- **Sustainability Score Calculation:** Aggregates habit data into a standardized metric representing overall environmental impact.
-- **XP and Leveling System:** Incentivizes continuous engagement through gamified progression.
-- **Achievement Progression:** Rewards specific behavioral milestones.
-- **AI Coaching Recommendations:** Analyzes user data to deliver contextualized, actionable advice.
-- **Impact Reporting and Analytics:** Synthesizes historical data to display long-term trends and savings.
-
-The architecture is designed as a single-page application prioritizing modularity and responsiveness, ensuring that complex calculations and data visualizations remain performant and accessible for all users.
-
-### How the Solution Works
-
-1. User creates an account.
-2. User tracks sustainable habits.
-3. Habits generate XP and sustainability metrics.
-4. Progress contributes to achievements and streaks.
-5. AI Coach provides guidance and recommendations.
-6. Impact Reports summarize progress and trends.
-7. Simulator estimates future environmental impact.
-
-### Assumptions Made
-
-The following reasonable assumptions were made during the design and development phases:
-- Users honestly record completed habits.
-- Sustainability impact values are estimated indicators rather than exact scientific measurements.
-- CO₂ savings are simplified educational approximations to help users gauge their relative impact.
-- AI recommendations are advisory and should not be treated as professional environmental consultation.
-- User engagement improves through visible progress tracking and gamification.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+<div align="center">
+  <p>Built with 💚 for a sustainable future!!</p>
+  <p>
+    <a href="https://github.com/your-username/ecopilot-ai/blob/main/LICENSE">License (MIT)</a>
+  </p>
+</div>
