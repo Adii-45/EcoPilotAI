@@ -33,4 +33,26 @@ describe('recommendationEngine', () => {
     expect(result.estimatedCarbonSavingsKg).toBe(0);
     expect(result.sustainabilityDifficultyScore).toBe(100);
   });
+
+  it('generates recommendations for mixed diet, average energy, occasional shopping', () => {
+    const answers: AssessmentAnswers = {
+      transportation: 'public',
+      food: 'mixed',
+      shopping: 'occasional',
+      energy: 'average',
+      goals: ['save_money', 'healthier']
+    };
+
+    const result = generateRecommendations(answers);
+    
+    // Check for specific branches triggered
+    expect(result.recommendations.some(r => r.title.includes('cycling'))).toBe(true);
+    expect(result.recommendations.some(r => r.title.includes('plant-based'))).toBe(true);
+    expect(result.recommendations.some(r => r.title.includes('second-hand'))).toBe(true);
+    expect(result.recommendations.some(r => r.title.includes('cold'))).toBe(true);
+    
+    // Check goals triggers
+    expect(result.recommendations.some(r => r.title.includes('tire pressure'))).toBe(true);
+    expect(result.recommendations.some(r => r.title.includes('Cook more meals'))).toBe(true);
+  });
 });

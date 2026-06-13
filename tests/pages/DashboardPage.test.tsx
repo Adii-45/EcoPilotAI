@@ -92,4 +92,34 @@ describe('DashboardPage', () => {
     // habit-2 is completed and gives 50 XP
     expect(screen.getByText(/Total Earned Today: 50 XP/i)).toBeInTheDocument();
   });
+
+  it('displays correct dynamic insight for high car usage', () => {
+    // Override simulation for high car usage
+    (useStore as unknown as ReturnType<typeof vi.fn>).mockImplementation((selector) => {
+      return selector({
+        user: mockUser,
+        habits: mockHabits,
+        simulation: { ...mockSimulation, carUsage: 200 },
+        completeHabit: vi.fn(),
+      });
+    });
+
+    render(<DashboardPage />);
+    expect(screen.getByText(/Transportation contributes most of your footprint/i)).toBeInTheDocument();
+  });
+
+  it('displays correct dynamic insight for high meat consumption', () => {
+    // Override simulation for high meat consumption, car usage must be <= 150
+    (useStore as unknown as ReturnType<typeof vi.fn>).mockImplementation((selector) => {
+      return selector({
+        user: mockUser,
+        habits: mockHabits,
+        simulation: { ...mockSimulation, carUsage: 100, meatConsumption: 6 },
+        completeHabit: vi.fn(),
+      });
+    });
+
+    render(<DashboardPage />);
+    expect(screen.getByText(/Reducing meat consumption could significantly lower emissions/i)).toBeInTheDocument();
+  });
 });

@@ -52,5 +52,20 @@ describe('SimulatorPage', () => {
 
     // Car usage should be 0 miles/wk
     expect(screen.getByText('0 miles/wk')).toBeInTheDocument();
+
+    // Click 'Champion'
+    const championBtn = screen.getByRole('button', { name: '🌍 Champion' });
+    fireEvent.click(championBtn);
+    expect(screen.getByText('20 miles/wk')).toBeInTheDocument();
+
+    // Click 'Remote Worker'
+    const remoteBtn = screen.getByRole('button', { name: '🏠 Remote Worker' });
+    fireEvent.click(remoteBtn);
+    expect(screen.getByText('Frequent', { selector: 'span[aria-live="polite"]' })).toBeInTheDocument();
+
+    // Click 'Eco Beginner'
+    const ecoBtn = screen.getByRole('button', { name: '🌱 Eco Beginner' });
+    fireEvent.click(ecoBtn);
+    expect(screen.getByText('Moderate', { selector: 'span[aria-live="polite"]' })).toBeInTheDocument();
   });
 });
