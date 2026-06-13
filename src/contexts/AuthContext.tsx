@@ -77,6 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               totalActions: userData.totalActions || 0,
               achievementsEarned: userData.achievementsEarned || 0,
               history: userData.history || [],
+              lastActiveDate: userData.lastActiveDate,
+              longestStreak: userData.longestStreak,
             };
           } else {
             // Document doesn't exist yet (brand new registration)
