@@ -9,7 +9,7 @@ import { signOut } from 'firebase/auth';
 
 // Mock firebase auth module methods
 vi.mock('firebase/auth', async (importOriginal) => {
-  const actual = await importOriginal() as any;
+  const actual = await importOriginal<typeof import('firebase/auth')>();
   return {
     ...actual,
     signInWithPopup: vi.fn(),

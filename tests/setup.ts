@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
+import React from 'react';
 
 // Mock window.matchMedia for theme context tests
 Object.defineProperty(window, 'matchMedia', {
@@ -29,5 +30,5 @@ vi.mock('../src/contexts/AuthContext', () => ({
     currentUser: { uid: 'test-user', email: 'test@example.com' },
     logout: vi.fn(),
   }),
-  AuthProvider: ({ children }: any) => children
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children
 }));

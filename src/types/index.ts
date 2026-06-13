@@ -20,6 +20,15 @@ export interface User {
   longestStreak?: number;
 }
 
+export interface ActivityMetadata {
+  habitId?: string;
+  achievementId?: string;
+  title?: string;
+  uncompleted?: boolean;
+  simulation?: SimulationState;
+  [key: string]: unknown;
+}
+
 export interface ActivityRecord {
   id: string;
   userId: string;
@@ -27,7 +36,7 @@ export interface ActivityRecord {
   timestamp: string; // ISO String
   pointsEarned: number;
   carbonSaved: number;
-  metadata?: any;
+  metadata?: ActivityMetadata;
 }
 
 export interface Notification {

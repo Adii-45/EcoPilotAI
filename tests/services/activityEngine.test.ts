@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { logActivity, fetchUserActivities } from '../../src/services/activityEngine';
 import * as db from '../../src/services/db';
+import type { ActivityRecord } from '../../src/types';
 
 vi.mock('../../src/services/db', () => ({
   saveActivity: vi.fn(),
@@ -21,10 +22,10 @@ describe('activityEngine', () => {
   });
 
   it('fetches and sorts activities', async () => {
-    const mockActivities: any[] = [
-      { id: '1', timestamp: '2023-01-01T10:00:00.000Z' },
-      { id: '2', timestamp: '2023-01-03T10:00:00.000Z' },
-      { id: '3', timestamp: '2023-01-02T10:00:00.000Z' }
+    const mockActivities: ActivityRecord[] = [
+      { id: '1', timestamp: '2023-01-01T10:00:00.000Z', userId: 'user123', type: 'habit_completed', pointsEarned: 10, carbonSaved: 1 },
+      { id: '2', timestamp: '2023-01-03T10:00:00.000Z', userId: 'user123', type: 'habit_completed', pointsEarned: 10, carbonSaved: 1 },
+      { id: '3', timestamp: '2023-01-02T10:00:00.000Z', userId: 'user123', type: 'habit_completed', pointsEarned: 10, carbonSaved: 1 }
     ];
     vi.spyOn(db, 'getActivities').mockResolvedValue(mockActivities);
     

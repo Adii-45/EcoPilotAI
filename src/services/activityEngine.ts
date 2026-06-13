@@ -1,5 +1,5 @@
 import { saveActivity, getActivities } from './db';
-import type { ActivityRecord } from '../types';
+import type { ActivityRecord, ActivityMetadata } from '../types';
 
 // Simple ID generator since crypto might not be available in all contexts or uuid isn't in package.json
 const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -9,7 +9,7 @@ export const logActivity = async (
   type: ActivityRecord['type'],
   pointsEarned: number,
   carbonSaved: number,
-  metadata?: any
+  metadata?: ActivityMetadata
 ): Promise<ActivityRecord> => {
   const activity: ActivityRecord = {
     id: generateId(),

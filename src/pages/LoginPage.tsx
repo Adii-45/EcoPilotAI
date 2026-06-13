@@ -33,8 +33,9 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in.');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to sign in.';
+      setError(errorMsg);
       setLoading(false);
     }
   };
@@ -44,8 +45,9 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google.');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to sign in with Google.';
+      setError(errorMsg);
       setLoading(false);
     }
   };

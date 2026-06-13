@@ -1,9 +1,12 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { auth, db } from '../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useStore } from '../store/store';
+import type { AppState } from '../store/store';
+import type { Habit, Achievement, SimulationState, UserSettings, AIChatMessage, ActivityRecord, Notification as AppNotification } from '../types';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -59,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           ]);
           console.log('Firestore documents successfully fetched!');
 
-          const storeUpdates: any = {};
+          const storeUpdates: Partial<AppState> = {};
 
           if (userDoc.exists()) {
             const userData = userDoc.data();
@@ -79,6 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               history: userData.history || [],
               lastActiveDate: userData.lastActiveDate,
               longestStreak: userData.longestStreak,
+              avatar: userData.avatar,
             };
           } else {
             // Document doesn't exist yet (brand new registration)
@@ -101,32 +105,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
           if (habitsDoc.exists()) {
             const habitsData = habitsDoc.data();
-            storeUpdates.habits = habitsData.active || [];
-            storeUpdates.dailyChallenges = habitsData.daily || [];
+            storeUpdates.habits = (habitsData.active || []) as Habit[];
+            storeUpdates.dailyChallenges = (habitsData.daily || []) as Habit[];
           }
 
           if (achDoc.exists()) {
-            storeUpdates.achievements = achDoc.data().data || [];
+            storeUpdates.achievements = (achDoc.data().data || []) as Achievement[];
           }
 
           if (simDoc.exists()) {
-            storeUpdates.simulation = simDoc.data();
+            storeUpdates.simulation = simDoc.data() as SimulationState;
           }
 
           if (settingsDoc.exists()) {
-            storeUpdates.settings = settingsDoc.data();
+            storeUpdates.settings = settingsDoc.data() as UserSettings;
           }
 
           if (chatDoc.exists()) {
-            storeUpdates.aiMessages = chatDoc.data().messages || [];
+            storeUpdates.aiMessages = (chatDoc.data().messages || []) as AIChatMessage[];
           }
 
           if (activityDoc.exists()) {
-            storeUpdates.activities = activityDoc.data().data || [];
+            storeUpdates.activities = (activityDoc.data().data || []) as ActivityRecord[];
           }
 
           if (notifDoc.exists()) {
-            storeUpdates.notifications = notifDoc.data().data || [];
+            storeUpdates.notifications = (notifDoc.data().data || []) as AppNotification[];
           }
 
           // Apply state to Zustand

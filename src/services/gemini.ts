@@ -1,5 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
-import type { User, Habit, AIChatMessage } from '../types';
+import type { User, Habit, AIChatMessage, ActivityRecord } from '../types';
+
 
 const getClient = () => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -67,7 +68,7 @@ Keep responses concise, encouraging, and actionable. Do not format with markdown
   return "I'm currently unable to connect to the coaching server. Please check your API key and connection.";
 };
 
-export const generateWeeklySummary = async (user: User, activities: any[]): Promise<string> => {
+export const generateWeeklySummary = async (user: User, activities: ActivityRecord[]): Promise<string> => {
   const client = getClient();
   if (!client) return "Keep up the great work! Your actions are making a difference.";
 

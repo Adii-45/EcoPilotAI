@@ -59,8 +59,9 @@ export default function SignupPage() {
         achievementsEarned: 0,
         history: [],
       });
-    } catch (err: any) {
-      setError(err.message || 'Failed to create account.');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to create account.';
+      setError(errorMsg);
       setLoading(false);
     }
   };
@@ -70,8 +71,9 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign up with Google.');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to sign up with Google.';
+      setError(errorMsg);
       setLoading(false);
     }
   };

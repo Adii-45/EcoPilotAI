@@ -7,7 +7,7 @@ import { evaluateAchievements } from '../services/achievementEngine';
 
 const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
-interface AppState {
+export interface AppState {
   user: User | null;
   settings: UserSettings;
   habits: Habit[];

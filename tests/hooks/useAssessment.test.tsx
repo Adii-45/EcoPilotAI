@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useAssessment } from '../../src/hooks/useAssessment';
+import type { AssessmentAnswers, AssessmentResult } from '../../src/types/assessment';
 
 describe('useAssessment hook', () => {
   beforeEach(() => {
@@ -16,7 +17,7 @@ describe('useAssessment hook', () => {
   it('should save and retrieve assessment data', () => {
     const { result } = renderHook(() => useAssessment());
 
-    const mockAnswers = {
+    const mockAnswers: AssessmentAnswers = {
       transportation: 'car',
       food: 'mixed',
       shopping: 'rare',
@@ -24,7 +25,7 @@ describe('useAssessment hook', () => {
       goals: []
     };
 
-    const mockResult = {
+    const mockResult: AssessmentResult = {
       recommendations: [],
       estimatedCarbonSavingsKg: 10,
       weeklyActionPlan: [],
@@ -35,7 +36,7 @@ describe('useAssessment hook', () => {
     };
 
     act(() => {
-      result.current.saveAssessment(mockAnswers, mockResult as any);
+      result.current.saveAssessment(mockAnswers, mockResult);
     });
 
     expect(result.current.answers).toEqual(mockAnswers);
@@ -49,7 +50,7 @@ describe('useAssessment hook', () => {
     const { result } = renderHook(() => useAssessment());
     
     act(() => {
-      result.current.saveAssessment({} as any, {} as any);
+      result.current.saveAssessment({} as AssessmentAnswers, {} as AssessmentResult);
       result.current.clearAssessment();
     });
 
