@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { cn } from "../utils/cn";
 import { useStore } from "../store/store";
 import { generateCoachResponse } from "../services/gemini";
+import { AssessmentEngine } from "../components/AssessmentEngine";
 
 const suggestions = [
   { icon: Zap, title: "Quick Impact", text: "How can I reduce my footprint this week?", color: "text-primary" },
@@ -14,6 +15,7 @@ const suggestions = [
 export default function AICoachPage() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [showAssessment, setShowAssessment] = useState(false);
   const user = useStore(state => state.user!);
   const habits = useStore(state => state.habits);
   const messages = useStore(state => state.aiMessages);
@@ -75,9 +77,22 @@ export default function AICoachPage() {
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold text-on-surface tracking-tight">EcoPilot AI Coach</h1>
             <p className="text-sm lg:text-base text-on-surface-variant font-medium mt-1 lg:mt-2">Your personal sustainability mentor</p>
+            <Button 
+              onClick={() => setShowAssessment(!showAssessment)} 
+              variant="outline" 
+              className="mt-4 rounded-full text-xs lg:text-sm font-semibold hover:border-primary transition-all"
+            >
+              {showAssessment ? "Return to Chat" : "Take Sustainability Assessment"}
+            </Button>
           </div>
 
-          {messages.length === 0 ? (
+          {showAssessment ? (
+            <div className="flex-1 overflow-y-auto px-4 lg:px-8 pb-[100px] scroll-smooth">
+              <AssessmentEngine />
+            </div>
+          ) : (
+            <>
+              {messages.length === 0 ? (
              <div className="flex justify-start w-full">
                <div className="flex gap-4 max-w-[90%] md:max-w-[85%] items-start">
                  <div className="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-sm mt-1" aria-hidden="true">
@@ -154,10 +169,13 @@ export default function AICoachPage() {
               ))}
             </div>
           </div>
+            </>
+          )}
         </div>
 
-        {/* Input Area */}
-        <div className="absolute bottom-0 left-0 right-0 pt-4 lg:pt-6 pb-4 lg:pb-6 px-4 lg:px-8 glass-overlay border-t border-outline-variant/30">
+        {/* Input Area (Only visible when chat is active) */}
+        {!showAssessment && (
+          <div className="absolute bottom-0 left-0 right-0 pt-4 lg:pt-6 pb-4 lg:pb-6 px-4 lg:px-8 glass-overlay border-t border-outline-variant/30">
           <div className="flex flex-wrap items-center gap-2 lg:gap-3 mb-4 justify-center">
              <Button variant="outline" onClick={() => window.location.href='/impact'} className="rounded-full bg-surface-container-lowest text-xs lg:text-sm h-8 lg:h-9 shadow-sm hover:border-[#10B981] transition-colors"><BarChart3 size={14} className="mr-1.5 lg:mr-2" aria-hidden="true"/> View Impact</Button>
              <Button variant="outline" onClick={() => window.location.href='/habits'} className="rounded-full bg-surface-container-lowest text-xs lg:text-sm h-8 lg:h-9 shadow-sm hover:border-[#10B981] transition-colors"><CheckCircle2 size={14} className="mr-1.5 lg:mr-2" aria-hidden="true"/> Track Habit</Button>
@@ -190,6 +208,7 @@ export default function AICoachPage() {
           </div>
           <p className="text-center text-xs text-on-surface-variant mt-4 font-mono">Empowering you to make greener choices. AI suggestions should be verified.</p>
         </div>
+        )}
       </main>
     </div>
   );

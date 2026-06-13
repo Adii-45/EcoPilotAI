@@ -36,6 +36,7 @@ Translating environmental awareness into consistent action is a profound challen
 - 🔐 **Secure Authentication**: Robust email/password flow and session management via Firebase.
 - 📊 **Dynamic Dashboard**: Visualize your sustainability score, daily eco missions, and progress charts.
 - 🤖 **AI Coach (Gemini API)**: Chat with an intelligent, context-aware assistant for personalized sustainability guidance.
+- 🧠 **AI-Powered Sustainability Recommendation Engine**: Take a personalized lifestyle assessment and receive an actionable, offline-capable sustainability report with estimated CO₂ savings, difficulty scores, and a weekly action plan.
 - 🌿 **Gamified Habit Tracker**: Log daily eco-friendly choices, maintain streaks, and build lasting habits.
 - 📈 **Impact Reports**: Detailed visual breakdowns of your carbon, water, and waste savings.
 - 🏆 **Achievements & XP**: Earn experience points, level up, and unlock distinct visual badges.
@@ -62,6 +63,9 @@ src/
 ├── types/        # TypeScript type definitions and interfaces
 └── utils/        # Helper functions, formatting, and constants
 ```
+
+### Recommendation Engine Architecture
+The AI-Powered Sustainability Recommendation Engine operates entirely client-side using a rule-based intelligence system (`src/utils/recommendationEngine.ts`). It assesses user lifestyle data (transportation, food, shopping, energy) to dynamically calculate carbon savings, difficulty scores, and personalized action plans without requiring backend or external API calls. Assessment state is persistently managed via `localStorage` with a custom React hook (`src/hooks/useAssessment.ts`).
 
 ---
 
@@ -103,6 +107,19 @@ src/
    ```bash
    npm run dev
    ```
+
+### 🧠 Using the Recommendation Engine
+1. Navigate to the **AI Coach** page.
+2. Click **"Take Sustainability Assessment"** below the header.
+3. Complete the form regarding your daily habits and goals.
+4. Review your personalized action plan, estimated CO₂ savings, and sustainability score.
+5. Your results are automatically saved and will be available next time you visit.
+
+---
+
+## 📸 Screenshots
+
+*(Placeholder for UI screenshots: Dashboard, AI Coach, and the new Sustainability Recommendation Assessment)*
 
 ---
 
