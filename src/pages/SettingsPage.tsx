@@ -143,7 +143,7 @@ export default function SettingsPage() {
                   )}
                   <img 
                     src={user.photoURL || `https://ui-avatars.com/api/?name=${user.name.replace(' ', '+')}&background=006c49&color=fff&size=200`} 
-                    alt="" 
+                    alt={`${user.name}'s profile picture`} 
                     className="w-full h-full object-cover" 
                   />
                 </div>

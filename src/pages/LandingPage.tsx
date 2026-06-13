@@ -11,6 +11,9 @@ import { ProgressRing } from "../components/ui/ProgressRing";
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-surface flex flex-col font-sans overflow-x-hidden">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-surface-container-lowest focus:text-primary focus:font-bold">
+        Skip to main content
+      </a>
       {/* Navigation */}
       <nav className="h-20 px-6 md:px-8 flex items-center justify-between max-w-7xl mx-auto w-full relative z-20">
         <div className="flex items-center gap-2">
@@ -30,8 +33,9 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center text-center px-4 pt-12 pb-16 md:pt-20 md:pb-24 max-w-5xl mx-auto w-full z-10">
+      <main id="main-content" className="flex-1 flex flex-col items-center w-full">
+        {/* Hero Section */}
+        <section className="relative flex flex-col items-center justify-center text-center px-4 pt-12 pb-16 md:pt-20 md:pb-24 max-w-5xl mx-auto w-full z-10">
         <Badge variant="outline" className="mb-6 rounded-full py-1.5 px-4 bg-surface/80 backdrop-blur-md text-primary border-primary/20 shadow-sm gap-2">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span> EcoPilot AI 2.0 is now live
         </Badge>
@@ -352,6 +356,7 @@ export default function LandingPage() {
           </Link>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="py-10 px-6 md:px-8 max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-between text-sm text-on-surface-variant border-t border-outline-variant/30 mt-auto">

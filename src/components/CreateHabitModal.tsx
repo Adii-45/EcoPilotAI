@@ -51,6 +51,7 @@ export function CreateHabitModal({ onClose }: CreateHabitModalProps) {
                   className="w-full p-2 border rounded-lg bg-surface focus:ring-2 focus:ring-primary outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   placeholder="e.g. Walk to work"
                   required
+                  autoFocus
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

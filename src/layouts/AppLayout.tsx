@@ -62,6 +62,9 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen bg-surface flex text-on-surface supports-[min-height:100dvh]:min-h-[100dvh]">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-surface-container-lowest focus:text-primary focus:font-bold">
+        Skip to main content
+      </a>
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -148,7 +151,7 @@ export default function AppLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-[280px] flex flex-col min-h-screen max-w-full w-full overflow-x-hidden">
+      <main id="main-content" className="flex-1 lg:ml-[280px] flex flex-col min-h-screen max-w-full w-full overflow-x-hidden">
         <header className="h-16 border-b border-outline-variant bg-surface/70 backdrop-blur-[20px] sticky top-0 z-10 flex items-center justify-between px-4 lg:px-8">
           <div className="flex items-center lg:hidden mr-3 shrink-0">
             <button 
